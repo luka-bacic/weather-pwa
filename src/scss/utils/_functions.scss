@@ -1,0 +1,4 @@
+// function to get color like c(white) will return #ffffff
+@function c($name) {
+  @return map-get($colors, $name);
+}

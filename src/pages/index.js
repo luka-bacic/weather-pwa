@@ -1,5 +1,18 @@
-import React from "react";
+import React from 'react';
+import GoogleMap from 'components/GoogleMap';
+import 'scss/style.scss';
+import { Link } from 'gatsby';
+import Layout from 'components/Layout';
 
-export default function index() {
-  return <div>index</div>;
-}
+const IndexPage = () => {
+  return (
+    <Layout>
+      <GoogleMap />
+      <Link to="/now/" className={'btn mx-auto'}>
+        See weather
+      </Link>
+    </Layout>
+  );
+};
+
+export default IndexPage;
