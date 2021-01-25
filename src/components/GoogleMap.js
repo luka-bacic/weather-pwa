@@ -5,6 +5,10 @@ import PlacesAutocomplete, {
   getLatLng,
 } from 'react-places-autocomplete';
 
+const defaultCenter = {
+  lat: 44,
+  lng: 44,
+};
 export class GoogleMap extends Component {
   constructor(props) {
     super(props);
@@ -12,14 +16,16 @@ export class GoogleMap extends Component {
       // for google map places autocomplete
       address: '',
 
-      // showingInfoWindow: false,
-      activeMarker: {},
-      selectedPlace: {},
+      // // showingInfoWindow: false,
+      // activeMarker: {},
+      // selectedPlace: {},
 
-      mapCenter: {
-        lat: 49.2827291,
-        lng: -123.1207375,
-      },
+      mapCenter: defaultCenter,
+      selectedLatLng: defaultCenter,
+      // mapLatLng: {
+      //   lat: 42,
+      //   lng: 42,
+      // },
     };
   }
 
@@ -37,6 +43,18 @@ export class GoogleMap extends Component {
         this.setState({ mapCenter: latLng });
       })
       .catch(error => console.error('Woops: ', error));
+  };
+
+  onClick = (t, map, coord) => {
+    const { latLng } = coord;
+
+    this.setState({
+      selectedLatLng: {
+        lat: latLng.lat(),
+        lng: latLng.lng(),
+      },
+    });
+    console.log(latLng.lat(), latLng.lng());
   };
 
   render() {
@@ -92,6 +110,7 @@ export class GoogleMap extends Component {
 
         <Map
           google={this.props.google}
+          onClick={this.onClick}
           initialCenter={{
             lat: this.state.mapCenter.lat,
             lng: this.state.mapCenter.lng,
@@ -105,12 +124,7 @@ export class GoogleMap extends Component {
             position: 'relative',
           }}
         >
-          <Marker
-            position={{
-              lat: this.state.mapCenter.lat,
-              lng: this.state.mapCenter.lng,
-            }}
-          />
+          <Marker position={this.state.selectedLatLng} />
         </Map>
       </div>
     );
