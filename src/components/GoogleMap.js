@@ -5,6 +5,7 @@ import PlacesAutocomplete, {
   getLatLng,
 } from 'react-places-autocomplete';
 import { GlobalDispatchContext } from 'context/GlobalContextProvider';
+import { Link } from 'gatsby';
 
 const defaultCenter = {
   lat: 44,
@@ -162,13 +163,9 @@ export class GoogleMap extends Component {
           <Marker position={this.state.mapLatLng} />
         </Map>
 
-        <button
-          type="button"
-          className={'btn mx-auto'}
-          onClick={this.fetchWeather}
-        >
+        <Link to="/now/" className={'btn mx-auto'} onClick={this.fetchWeather}>
           fetch
-        </button>
+        </Link>
       </div>
     );
   }
