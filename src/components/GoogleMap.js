@@ -4,29 +4,54 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import { GlobalDispatchContext } from 'context/GlobalContextProvider';
 
 const defaultCenter = {
   lat: 44,
   lng: 44,
 };
+
 export class GoogleMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // for google map places autocomplete
       address: '',
-
-      // // showingInfoWindow: false,
-      // activeMarker: {},
-      // selectedPlace: {},
-
-      mapCenter: defaultCenter,
-      selectedLatLng: defaultCenter,
-      // mapLatLng: {
-      //   lat: 42,
-      //   lng: 42,
-      // },
+      approximateLatLng: {
+        lat: undefined,
+        lng: undefined,
+      },
+      mapLatLng: defaultCenter,
     };
+  }
+
+  async componentDidMount() {
+    // Get users aproximate location to center the map around their area
+    await fetch('https://ipapi.co/json')
+      .then(result => result.json())
+      .then(data => {
+        this.setState({
+          approximateLatLng: {
+            lat: data?.latitude,
+            lng: data?.longitude,
+          },
+        });
+      })
+      .catch(error => {
+        // Error might happen if uBlock origin is used, among other reasons
+        console.error(
+          `Unable to get approximate location. Try disabling your adblock.\n${error}`
+        );
+      });
+
+    if (typeof this.state.approximateLatLng.lat !== 'undefined') {
+      this.setState({
+        mapLatLng: {
+          lat: this.state.approximateLatLng.lat,
+          lng: this.state.approximateLatLng.lng,
+        },
+      });
+    }
   }
 
   handleChange = address => {
@@ -40,21 +65,31 @@ export class GoogleMap extends Component {
       .then(results => getLatLng(results[0]))
       .then(latLng => {
         // update center state
-        this.setState({ mapCenter: latLng });
+        this.setState({ mapLatLng: latLng });
       })
       .catch(error => console.error('Woops: ', error));
   };
 
-  onClick = (t, map, coord) => {
+  handleMapClick = (t, map, coord) => {
     const { latLng } = coord;
+    const lat = latLng.lat();
+    const lng = latLng.lng();
 
     this.setState({
-      selectedLatLng: {
-        lat: latLng.lat(),
-        lng: latLng.lng(),
+      mapLatLng: {
+        lat: lat,
+        lng: lng,
       },
     });
-    console.log(latLng.lat(), latLng.lng());
+  };
+
+  fetchWeather = () => {
+    const dispatch = this.context;
+
+    dispatch({
+      type: 'FETCH_WEATHER',
+      payload: this.state.mapLatLng,
+    });
   };
 
   render() {
@@ -110,26 +145,36 @@ export class GoogleMap extends Component {
 
         <Map
           google={this.props.google}
-          onClick={this.onClick}
+          onClick={this.handleMapClick}
           initialCenter={{
-            lat: this.state.mapCenter.lat,
-            lng: this.state.mapCenter.lng,
+            lat: this.state.mapLatLng.lat,
+            lng: this.state.mapLatLng.lng,
           }}
           center={{
-            lat: this.state.mapCenter.lat,
-            lng: this.state.mapCenter.lng,
+            lat: this.state.mapLatLng.lat,
+            lng: this.state.mapLatLng.lng,
           }}
           containerStyle={{
             height: '85vh',
             position: 'relative',
           }}
         >
-          <Marker position={this.state.selectedLatLng} />
+          <Marker position={this.state.mapLatLng} />
         </Map>
+
+        <button
+          type="button"
+          className={'btn mx-auto'}
+          onClick={this.fetchWeather}
+        >
+          fetch
+        </button>
       </div>
     );
   }
 }
+
+GoogleMap.contextType = GlobalDispatchContext;
 
 export default GoogleApiWrapper({
   apiKey: process.env.GOOGLE_MAP_API_V3_KEY,
