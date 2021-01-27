@@ -1,8 +1,8 @@
 import React from 'react';
 import GoogleMap from 'components/GoogleMap';
 
-const index = () => {
+const Index = () => {
   return <GoogleMap />;
 };
 
-export default index;
+export default Index;

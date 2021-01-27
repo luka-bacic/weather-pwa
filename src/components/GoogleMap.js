@@ -163,7 +163,11 @@ export class GoogleMap extends Component {
           <Marker position={this.state.mapLatLng} />
         </Map>
 
-        <Link to="/now/" className={'btn mx-auto'} onClick={this.fetchWeather}>
+        <Link
+          to="/weather/"
+          className={'btn mx-auto'}
+          onClick={this.fetchWeather}
+        >
           fetch
         </Link>
       </div>

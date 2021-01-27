@@ -1,0 +1,15 @@
+nav {
+  display: flex;
+  background: c('blue');
+  height: 75px;
+  padding: $padding;
+
+  a {
+    display: flex;
+    align-items: center;
+    color: c('white');
+    text-transform: uppercase;
+    margin-right: $padding;
+    text-decoration: none;
+  }
+}

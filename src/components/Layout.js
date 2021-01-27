@@ -1,12 +1,14 @@
 import React from 'react';
+import Nav from 'components/Nav';
 import 'scss/style.scss';
 
-export default function Layout({ children }) {
+const Layout = ({ children }) => {
   return (
     <>
-      <header>Header</header>
+      <Nav />
       <main>{children}</main>
-      <aside>Sidebar</aside>
     </>
   );
-}
+};
+
+export default Layout;
