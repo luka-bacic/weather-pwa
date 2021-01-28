@@ -6,11 +6,8 @@ export const GlobalStateContext = createContext();
 export const GlobalDispatchContext = createContext();
 
 const initialState = {
-  currently: undefined,
-  minutely: undefined,
-  hourly: undefined,
-  daily: undefined,
-  alerts: undefined,
+  tempLocation: undefined,
+  savedLocations: [],
 };
 
 const GlobalContextProvider = ({ children }) => {

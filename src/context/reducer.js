@@ -1,5 +1,5 @@
 export default function reducer(state, action) {
-  return new Promise(resolve => {
+  return new Promise(async resolve => {
     switch (action.type) {
       case 'FETCH_WEATHER':
         // Check if lat and lng are valid
@@ -12,18 +12,56 @@ export default function reducer(state, action) {
           )
             .then(response => response.json())
             .then(data => {
+              data = {
+                ...data,
+                isTemp: true,
+                lastUpdated: Date.now(),
+              };
+
+              if (localStorage.getItem('weather')) {
+                let oldLat, oldLng, oldWeather;
+
+                try {
+                  oldWeather = JSON.parse(localStorage.getItem('weather'));
+                  oldLat = oldWeather.latitude;
+                  oldLng = oldWeather.longitude;
+
+                  // Check if the location is the same
+                  if (oldLat === data.latitude && oldLng === data.longitude) {
+                    console.log('balls');
+                  } else {
+                    console.log('not same');
+                  }
+                  console.log(data);
+                } catch (e) {
+                  if (e instanceof SyntaxError) {
+                    console.log('Incorrect JSON format.\n', e);
+                  } else {
+                    throw e;
+                  }
+                }
+              }
+
+              // Save data for offline usage
+              setLocalStorage('weather', data);
+
               resolve({
                 ...state,
-                currently: data?.currently,
-                minutely: data?.minutely,
-                hourly: data?.hourly,
-                daily: data?.daily,
-                alerts: data?.alerts,
+                tempLocation: data,
               });
             });
         } else {
           console.error('Latitude and longitude seem to be incorrect.');
         }
+
+        // console.log('fetched');
+        break;
+
+      case 'SAVE_LOCATION':
+        resolve({
+          ...state,
+          savedLocations: [action.payload],
+        });
 
         break;
       default:
@@ -47,4 +85,8 @@ const validateArgs = args => {
   }
 
   return true;
+};
+
+const setLocalStorage = (key, value) => {
+  localStorage.setItem(key, JSON.stringify(value));
 };
