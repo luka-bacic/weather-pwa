@@ -1,11 +1,12 @@
-import React from 'react';
-import GlobalContextProvider from './src/context/GlobalContextProvider';
-import Layout from 'components/Layout';
+const React = require('react');
+const GlobalContextProvider = require('./src/context/GlobalContextProvider')
+  .default;
+const Layout = require('./src/components/Layout').default;
 
-export const wrapRootElement = ({ element }) => {
+exports.wrapRootElement = ({ element }) => {
   return <GlobalContextProvider>{element}</GlobalContextProvider>;
 };
 
-export const wrapPageElement = ({ element, props }) => {
+exports.wrapPageElement = ({ element, props }) => {
   return <Layout {...props}>{element}</Layout>;
 };
