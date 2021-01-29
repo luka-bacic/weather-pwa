@@ -6,6 +6,7 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import { GlobalDispatchContext } from 'context/GlobalContextProvider';
 import { Link } from 'gatsby';
+import Geocode from 'react-geocode';
 
 const defaultCenter = {
   lat: 44,
@@ -53,6 +54,9 @@ export class GoogleMap extends Component {
         },
       });
     }
+
+    Geocode.setApiKey(process.env.GOOGLE_MAP_API_V3_KEY);
+    Geocode.enableDebug();
   }
 
   handleChange = address => {
@@ -82,6 +86,16 @@ export class GoogleMap extends Component {
         lng: lng,
       },
     });
+
+    Geocode.fromLatLng(lat, lng).then(
+      response => {
+        const address = response.results[0].formatted_address;
+        console.log(address);
+      },
+      error => {
+        console.error(error);
+      }
+    );
   };
 
   fetchWeather = () => {
