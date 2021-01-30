@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import GoogleMap from 'components/GoogleMap';
+import Map from 'components/Map';
 import WeatherInfo from 'components/WeatherInfo';
 import { GlobalStateContext } from '../context/GlobalContextProvider';
 
@@ -33,8 +33,8 @@ const Index = () => {
 
   return (
     <div>
-      {renderMap && <GoogleMap />}
-      {/* <GoogleMap /> */}
+      {/* {renderMap && <Map />} */}
+      <Map />
       <WeatherInfo weather={weatherData} />
     </div>
   );
