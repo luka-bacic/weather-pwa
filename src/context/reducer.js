@@ -3,9 +3,10 @@ export default function reducer(state, action) {
     switch (action.type) {
       case 'FETCH_WEATHER':
         // Check if lat and lng are valid
-        if (validateArgs(action.payload)) {
+        console.log(action.payload);
+        if (validateArgs(action.payload.latLng)) {
           // build basic query string
-          let urlParams = `lat=${action.payload.lat}&lng=${action.payload.lng}`;
+          let urlParams = `lat=${action.payload.latLng.lat}&lng=${action.payload.latLng.lng}`;
 
           fetch(
             `https://weather.luka-bacic.com/scripts/fetchWeather.php?${urlParams}`
@@ -14,6 +15,8 @@ export default function reducer(state, action) {
             .then(data => {
               data = {
                 ...data,
+                address: action.payload.address,
+                nameSuggestions: action.payload.nameSuggestions,
                 isTemp: true,
                 lastUpdated: Date.now(),
               };
