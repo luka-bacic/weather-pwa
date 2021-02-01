@@ -1,20 +1,15 @@
 import React, { useEffect, useContext } from 'react';
 import WeatherInfo from 'components/WeatherInfo';
 import { GlobalDispatchContext } from '../context/GlobalContextProvider';
-import Layout from '../components/Layout';
 
 const Index = () => {
   const dispatch = useContext(GlobalDispatchContext);
 
   useEffect(() => {
-    dispatch({ type: 'GET_LAST_ACTIVE_LOCATION' });
+    dispatch({ type: 'GET_LOCAL_DATA' });
   }, []);
 
-  return (
-    <Layout>
-      <WeatherInfo />
-    </Layout>
-  );
+  return <WeatherInfo />;
 };
 
 export default Index;

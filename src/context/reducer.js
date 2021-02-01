@@ -1,3 +1,5 @@
+import round from 'functions/round';
+
 export default function reducer(state, action) {
   return new Promise(async resolve => {
     switch (action.type) {
@@ -38,25 +40,59 @@ export default function reducer(state, action) {
         break;
 
       case 'SAVE_LOCATION':
+        let savedLocations = [];
+
+        let oldCoords = {
+          lat: [],
+          lng: [],
+        };
+
+        const oldData = state.savedLocations;
+
+        if (oldData) {
+          // Add old saved data
+          savedLocations = savedLocations.concat(oldData);
+
+          // Save previous coordinates
+          oldData.forEach(location => {
+            oldCoords.lat.push(round(location.latitude, 6));
+            oldCoords.lng.push(round(location.longitude, 6));
+          });
+
+          console.log(oldCoords);
+
+          if (oldCoords.lat.includes(action.payload.latitude)) {
+            console.log('same place');
+          }
+        }
+
+        // Add new data
+        savedLocations.push(action.payload);
+
+        // Save old + new data to disk
+        setLocalStorage('savedLocations', savedLocations);
+
         resolve({
           ...state,
-          savedLocations: [action.payload],
+          savedLocations: savedLocations,
         });
-
         break;
-      case 'GET_LAST_ACTIVE_LOCATION':
-        let weatherData;
+      case 'GET_LOCAL_DATA':
+        let oldActiveWeather, savedData;
+
         try {
-          weatherData = JSON.parse(localStorage.getItem('activeWeather'));
+          oldActiveWeather = JSON.parse(localStorage.getItem('activeWeather'));
+          savedData = JSON.parse(localStorage.getItem('savedLocations'));
         } catch (e) {
           console.log(e);
         }
 
         // Put old data to state
-        if (weatherData) {
+        if (oldActiveWeather) {
           resolve({
             ...state,
-            activeLocation: weatherData,
+            activeLocation: oldActiveWeather,
+            savedLocations: savedData,
           });
         }
 

@@ -1,11 +1,11 @@
 import React from 'react';
-// import Nav from 'components/Nav';
+import Nav from 'components/Nav';
 import 'scss/style.scss';
 
 const Layout = ({ children }) => {
   return (
     <>
-      {/* <Nav /> */}
+      <Nav />
       <main>{children}</main>
     </>
   );
