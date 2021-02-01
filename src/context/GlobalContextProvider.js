@@ -6,6 +6,7 @@ export const GlobalStateContext = createContext();
 export const GlobalDispatchContext = createContext();
 
 const initialState = {
+  activeLocation: undefined,
   tempLocation: undefined,
   savedLocations: [],
 };

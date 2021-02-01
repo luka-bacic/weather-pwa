@@ -1,42 +1,19 @@
-import React, { useEffect, useState, useContext } from 'react';
-import Map from 'components/Map';
+import React, { useEffect, useContext } from 'react';
 import WeatherInfo from 'components/WeatherInfo';
-import { GlobalStateContext } from '../context/GlobalContextProvider';
+import { GlobalDispatchContext } from '../context/GlobalContextProvider';
+import Layout from '../components/Layout';
 
 const Index = () => {
-  const [renderMap, setRenderMap] = useState(true);
-  const [weatherData, setWeatherData] = useState({});
-  const state = useContext(GlobalStateContext);
+  const dispatch = useContext(GlobalDispatchContext);
 
   useEffect(() => {
-    let oldData = {};
-
-    try {
-      oldData = JSON.parse(localStorage.getItem('weather'));
-    } catch (e) {
-      if (e instanceof SyntaxError) {
-        console.error('Incorrect JSON format.\n', e);
-      } else {
-        throw e;
-      }
-    }
-
-    // Should render map
-    if (oldData) {
-      setRenderMap(false);
-      setWeatherData(oldData);
-    } else {
-      setWeatherData(state);
-    }
-    // console.log(oldData);
+    dispatch({ type: 'GET_LAST_ACTIVE_LOCATION' });
   }, []);
 
   return (
-    <div>
-      {/* {renderMap && <Map />} */}
-      <Map />
-      <WeatherInfo weather={weatherData} />
-    </div>
+    <Layout>
+      <WeatherInfo />
+    </Layout>
   );
 };
 

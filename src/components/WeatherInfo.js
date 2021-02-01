@@ -1,8 +1,13 @@
+import { Link } from 'gatsby';
 import React, { useContext, useState } from 'react';
-import { GlobalDispatchContext } from '../context/GlobalContextProvider';
+import {
+  GlobalDispatchContext,
+  GlobalStateContext,
+} from '../context/GlobalContextProvider';
 
-const WeatherInfo = ({ weather }) => {
+const WeatherInfo = () => {
   const dispatch = useContext(GlobalDispatchContext);
+  const { activeLocation: weather } = useContext(GlobalStateContext);
   const [locationName, setLocationName] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   // console.log(weather);
@@ -29,14 +34,25 @@ const WeatherInfo = ({ weather }) => {
 
   return (
     <div>
-      <h1>
-        Lat {weather.latitude} <br /> Lng {weather.longitude}
-      </h1>
-      <button onClick={saveLocation}>Save Location</button>
-      <input type="text" onChange={handleInputChange} />
-      <strong>{locationName}</strong>
-      <br />
-      <strong>{errorMsg}</strong>
+      {typeof weather !== 'undefined' ? (
+        <div>
+          <h1>
+            Lat {weather.latitude} <br /> Lng {weather.longitude}
+          </h1>
+          <button onClick={saveLocation}>Save Location</button>
+          <input type="text" onChange={handleInputChange} />
+          <strong>{locationName}</strong>
+          <br />
+          <strong>{errorMsg}</strong>
+        </div>
+      ) : (
+        <div>
+          Please select a location before you can see the weather
+          <Link to="/map/" className="btn">
+            Pick a location
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

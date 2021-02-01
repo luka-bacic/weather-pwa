@@ -7,6 +7,7 @@ import {
 } from '@react-google-maps/api';
 import { GlobalDispatchContext } from '../context/GlobalContextProvider';
 import Geocode from 'react-geocode';
+import { Link } from 'gatsby';
 
 const containerStyle = {
   width: '400px',
@@ -20,7 +21,7 @@ const defaultCenter = {
 
 const libraries = ['places'];
 
-const Map = () => {
+const WorldMap = () => {
   // Set up state
   const [mapLatLng, setMapLatLng] = useState(defaultCenter);
   const [address, setAddress] = useState('');
@@ -200,12 +201,12 @@ const Map = () => {
           <input type="text" name="" id="" />
         </Autocomplete>
 
-        <button className={'btn mx-auto'} onClick={displayWeather}>
-          fetch
-        </button>
+        <Link to="/" className="btn" onClick={displayWeather}>
+          See weather
+        </Link>
       </GoogleMap>
     </LoadScript>
   );
 };
 
-export default React.memo(Map);
+export default React.memo(WorldMap);

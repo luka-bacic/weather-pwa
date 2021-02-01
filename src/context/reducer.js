@@ -3,11 +3,11 @@ export default function reducer(state, action) {
     switch (action.type) {
       case 'FETCH_WEATHER':
         // Check if lat and lng are valid
-        console.log(action.payload);
         if (validateArgs(action.payload.latLng)) {
           // build basic query string
           let urlParams = `lat=${action.payload.latLng.lat}&lng=${action.payload.latLng.lng}`;
 
+          // Send request to external script to fetch weather data
           fetch(
             `https://weather.luka-bacic.com/scripts/fetchWeather.php?${urlParams}`
           )
@@ -21,35 +21,12 @@ export default function reducer(state, action) {
                 lastUpdated: Date.now(),
               };
 
-              if (localStorage.getItem('weather')) {
-                let oldLat, oldLng, oldWeather;
-
-                try {
-                  oldWeather = JSON.parse(localStorage.getItem('weather'));
-                  oldLat = oldWeather.latitude;
-                  oldLng = oldWeather.longitude;
-
-                  // Check if the location is the same
-                  if (oldLat === data.latitude && oldLng === data.longitude) {
-                    console.log('balls');
-                  } else {
-                    console.log('not same');
-                  }
-                  console.log(data);
-                } catch (e) {
-                  if (e instanceof SyntaxError) {
-                    console.log('Incorrect JSON format.\n', e);
-                  } else {
-                    throw e;
-                  }
-                }
-              }
-
               // Save data for offline usage
-              setLocalStorage('weather', data);
+              setLocalStorage('activeWeather', data);
 
               resolve({
                 ...state,
+                activeLocation: data,
                 tempLocation: data,
               });
             });
@@ -65,6 +42,23 @@ export default function reducer(state, action) {
           ...state,
           savedLocations: [action.payload],
         });
+
+        break;
+      case 'GET_LAST_ACTIVE_LOCATION':
+        let weatherData;
+        try {
+          weatherData = JSON.parse(localStorage.getItem('activeWeather'));
+        } catch (e) {
+          console.log(e);
+        }
+
+        // Put old data to state
+        if (weatherData) {
+          resolve({
+            ...state,
+            activeLocation: weatherData,
+          });
+        }
 
         break;
       default:
