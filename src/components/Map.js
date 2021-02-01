@@ -48,17 +48,15 @@ const Map = () => {
           });
 
           // 3.
-          Geocode.fromLatLng(data?.latitude, data?.longitude)
-            .then(response => handleGeocodeResponse(response))
-            .error(error =>
+          Geocode.fromLatLng(data?.latitude, data?.longitude).then(
+            response => handleGeocodeResponse(response),
+            error =>
               handleGeocodeResponseError(error, data?.latitude, data?.longitude)
-            );
+          );
         })
         .catch(error => {
           // Error might happen if uBlock origin is used, among other reasons
-          console.info(
-            `Unable to get approximate location. Try disabling your adblock.\n${error}`
-          );
+          console.info(`Unable to get approximate location.\n${error}`);
         });
     }
     getApproximateLocation();
