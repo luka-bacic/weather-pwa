@@ -1,4 +1,4 @@
-import round from 'functions/round';
+import LatLng from 'geodesy/latlon-spherical';
 
 export default function reducer(state, action) {
   return new Promise(async resolve => {
@@ -41,41 +41,53 @@ export default function reducer(state, action) {
 
       case 'SAVE_LOCATION':
         let savedLocations = [];
+        let isInProximity = false;
+        let errorMsg = '';
 
-        let oldCoords = {
-          lat: [],
-          lng: [],
-        };
-
+        // Get previous saved locations, if any
         const oldData = state.savedLocations;
 
         if (oldData) {
           // Add old saved data
           savedLocations = savedLocations.concat(oldData);
 
-          // Save previous coordinates
+          // Get coords of the current location being saved
+          const { latitude: lat, longitude: lng } = action.payload;
+          // LatLng of the location in action.payload
+          const currentPoint = new LatLng(lat, lng);
+
+          // Compare distance from the current location to previous saved locations
           oldData.forEach(location => {
-            oldCoords.lat.push(round(location.latitude, 6));
-            oldCoords.lng.push(round(location.longitude, 6));
+            const oldPoint = new LatLng(location.latitude, location.longitude);
+
+            const distance = oldPoint.distanceTo(currentPoint);
+
+            // If the distance is less than 1000 meters, raise a
+            // flag to not save it
+            if (distance < 1000) {
+              isInProximity = true;
+            }
           });
-
-          console.log(oldCoords);
-
-          if (oldCoords.lat.includes(action.payload.latitude)) {
-            console.log('same place');
-          }
         }
 
-        // Add new data
-        savedLocations.push(action.payload);
+        // Add new location only if it is more than 1000 meters
+        // away from any previously saved location
+        if (!isInProximity) {
+          savedLocations.push(action.payload);
 
-        // Save old + new data to disk
-        setLocalStorage('savedLocations', savedLocations);
+          // Update saved locations
+          setLocalStorage('savedLocations', savedLocations);
+        } else {
+          errorMsg =
+            'The location was not saved because it is within 1km of another saved location';
+        }
 
         resolve({
           ...state,
           savedLocations: savedLocations,
+          errorMsg: errorMsg,
         });
+
         break;
       case 'GET_LOCAL_DATA':
         let oldActiveWeather, savedData;

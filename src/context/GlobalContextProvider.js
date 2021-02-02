@@ -9,6 +9,7 @@ const initialState = {
   activeLocation: undefined,
   tempLocation: undefined,
   savedLocations: [],
+  errorMsg: '',
 };
 
 const GlobalContextProvider = ({ children }) => {
