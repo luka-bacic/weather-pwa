@@ -3,7 +3,7 @@ import LatLng from 'geodesy/latlon-spherical';
 export default function reducer(state, action) {
   return new Promise(async resolve => {
     switch (action.type) {
-      case 'FETCH_WEATHER':
+      case 'FETCH_WEATHER': {
         // Check if lat and lng are valid
         if (validateArgs(action.payload.latLng)) {
           // build basic query string
@@ -38,8 +38,9 @@ export default function reducer(state, action) {
 
         // console.log('fetched');
         break;
+      }
 
-      case 'SAVE_LOCATION':
+      case 'SAVE_LOCATION': {
         let savedLocations = [];
         let isInProximity = false;
         let errorMsg = '';
@@ -89,12 +90,14 @@ export default function reducer(state, action) {
         });
 
         break;
-      case 'GET_LOCAL_DATA':
-        let oldActiveWeather, savedData;
+      }
+      case 'GET_LOCAL_DATA': {
+        let oldActiveWeather, savedData, lastMapCoords;
 
         try {
           oldActiveWeather = JSON.parse(localStorage.getItem('activeWeather'));
           savedData = JSON.parse(localStorage.getItem('savedLocations'));
+          lastMapCoords = JSON.parse(localStorage.getItem('lastMapCoords'));
         } catch (e) {
           console.log(e);
         }
@@ -105,13 +108,27 @@ export default function reducer(state, action) {
             ...state,
             activeLocation: oldActiveWeather,
             savedLocations: savedData,
+            lastMapCoords: lastMapCoords,
           });
         }
 
         break;
-      default:
+      }
+      case 'UPDATE_MAP_COORDINATES': {
+        setLocalStorage('lastMapCoords', action.payload);
+
+        resolve({
+          ...state,
+          lastMapCoords: {
+            lat: action?.payload?.lat,
+            lng: action?.payload?.lng,
+          },
+        });
+      }
+      default: {
         resolve(state);
         break;
+      }
     }
   });
 }

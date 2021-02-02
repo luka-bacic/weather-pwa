@@ -15,8 +15,8 @@ const containerStyle = {
 };
 
 const defaultCenter = {
-  lat: 37.2430548,
-  lng: -115.7930198,
+  lat: 44,
+  lng: 44,
 };
 
 const libraries = ['places'];
@@ -37,6 +37,17 @@ const WorldMap = () => {
   useEffect(() => {
     // 1. Set up Geocode
     Geocode.setApiKey(process.env.GOOGLE_MAP_API_V3_KEY);
+
+    if (localStorage.getItem('lastMapCoords')) {
+      const lastCoords = JSON.parse(localStorage.getItem('lastMapCoords'));
+
+      setMapLatLng({
+        lat: lastCoords.lat,
+        lng: lastCoords.lng,
+      });
+    } else {
+      getApproximateLocation();
+    }
 
     // 2. Try to get users aproximate location to center the map around their area
     async function getApproximateLocation() {
@@ -60,7 +71,6 @@ const WorldMap = () => {
           console.info(`Unable to get approximate location.\n${error}`);
         });
     }
-    getApproximateLocation();
 
     // No cleanup
     return undefined;
@@ -86,6 +96,15 @@ const WorldMap = () => {
       response => handleGeocodeResponse(response),
       error => handleGeocodeResponseError(error, lat, lng)
     );
+
+    // Save map coordinates in global state
+    dispatch({
+      type: 'UPDATE_MAP_COORDINATES',
+      payload: {
+        lat: lat,
+        lng: lng,
+      },
+    });
   };
 
   // Takes a response from Geocode.fromLatLng and handles
@@ -164,6 +183,15 @@ const WorldMap = () => {
 
     // 3. Clear suggested names in state
     setNameSuggestions([]);
+
+    // Save map coordinates in global state
+    dispatch({
+      type: 'UPDATE_MAP_COORDINATES',
+      payload: {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      },
+    });
   };
 
   // Fetch weather for the given coordinates, and save

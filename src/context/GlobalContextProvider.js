@@ -9,6 +9,7 @@ const initialState = {
   activeLocation: undefined,
   tempLocation: undefined,
   savedLocations: [],
+  lastMapCoords: undefined,
   errorMsg: '',
 };
 
