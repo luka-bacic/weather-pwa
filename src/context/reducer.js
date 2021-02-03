@@ -124,6 +124,8 @@ export default function reducer(state, action) {
             lng: action?.payload?.lng,
           },
         });
+
+        break;
       }
       default: {
         resolve(state);
