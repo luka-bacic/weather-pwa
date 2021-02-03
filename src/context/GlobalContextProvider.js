@@ -9,7 +9,7 @@ const initialState = {
   activeLocation: undefined,
   tempLocation: undefined,
   savedLocations: [],
-  lastMapCoords: undefined,
+  lastMapData: undefined,
   message: undefined,
 };
 

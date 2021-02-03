@@ -100,12 +100,12 @@ export default function reducer(state, action) {
         break;
       }
       case 'GET_LOCAL_DATA': {
-        let oldActiveWeather, savedLocations, lastMapCoords;
+        let oldActiveWeather, savedLocations, lastMapData;
 
         try {
           oldActiveWeather = JSON.parse(localStorage.getItem('activeWeather'));
           savedLocations = JSON.parse(localStorage.getItem('savedLocations'));
-          lastMapCoords = JSON.parse(localStorage.getItem('lastMapCoords'));
+          lastMapData = JSON.parse(localStorage.getItem('lastMapData'));
         } catch (e) {
           console.log(e);
         }
@@ -116,20 +116,21 @@ export default function reducer(state, action) {
             ...state,
             activeLocation: oldActiveWeather,
             savedLocations: savedLocations,
-            lastMapCoords: lastMapCoords,
+            lastMapData: lastMapData,
           });
         }
 
         break;
       }
-      case 'UPDATE_MAP_COORDINATES': {
-        setLocalStorage('lastMapCoords', action.payload);
+      case 'UPDATE_OFFLINE_MAP_DATA': {
+        setLocalStorage('lastMapData', action.payload);
 
         resolve({
           ...state,
-          lastMapCoords: {
+          lastMapData: {
             lat: action?.payload?.lat,
             lng: action?.payload?.lng,
+            address: action?.payload?.address,
           },
         });
 
