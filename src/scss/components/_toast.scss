@@ -1,6 +1,6 @@
 .toast {
   position: fixed;
-  top: calc($nav-height + $padding);
+  top: calc(#{$nav-height} + #{$padding});
   left: $padding;
   right: $padding;
   padding: $padding 0;
