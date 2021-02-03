@@ -117,7 +117,7 @@ const WorldMap = () => {
   const handleGeocodeResponse = response => {
     if (response.status === 'OK') {
       if (response.results.length) {
-        const allAddresses = response.results
+        let allAddresses = response.results
           // 1. Filter out google plus code result
           .filter(address => {
             if (address.types.includes('plus_code')) {
@@ -128,6 +128,9 @@ const WorldMap = () => {
           })
           // 2. Extract only formatted address
           .map(address => address.formatted_address);
+
+        // Remove duplicates from array
+        allAddresses = [...new Set(allAddresses)];
 
         // 3. Save first address result in state
         setAddress(allAddresses[0]);
@@ -171,7 +174,7 @@ const WorldMap = () => {
   // 3. Clear suggested names in state
   const onAutocompleteChange = () => {
     const place = placeResult.getPlace();
-    console.log(place);
+
     // 1. Save selected location's coordinates to state
     setMapLatLng({
       lat: place.geometry.location.lat(),
