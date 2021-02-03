@@ -92,11 +92,11 @@ export default function reducer(state, action) {
         break;
       }
       case 'GET_LOCAL_DATA': {
-        let oldActiveWeather, savedData, lastMapCoords;
+        let oldActiveWeather, savedLocations, lastMapCoords;
 
         try {
           oldActiveWeather = JSON.parse(localStorage.getItem('activeWeather'));
-          savedData = JSON.parse(localStorage.getItem('savedLocations'));
+          savedLocations = JSON.parse(localStorage.getItem('savedLocations'));
           lastMapCoords = JSON.parse(localStorage.getItem('lastMapCoords'));
         } catch (e) {
           console.log(e);
@@ -107,7 +107,7 @@ export default function reducer(state, action) {
           resolve({
             ...state,
             activeLocation: oldActiveWeather,
-            savedLocations: savedData,
+            savedLocations: savedLocations,
             lastMapCoords: lastMapCoords,
           });
         }
