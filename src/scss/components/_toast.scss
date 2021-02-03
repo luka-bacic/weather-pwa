@@ -1,0 +1,21 @@
+.toast {
+  position: fixed;
+  top: calc($nav-height + $padding);
+  left: $padding;
+  right: $padding;
+  padding: $padding 0;
+  border-width: 1px;
+  border-style: solid;
+
+  &.closed {
+    display: none;
+  }
+
+  &.error {
+    border-color: red;
+  }
+
+  &.info {
+    border-color: teal;
+  }
+}

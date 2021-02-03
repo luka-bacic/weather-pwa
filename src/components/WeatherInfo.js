@@ -1,5 +1,5 @@
 import { Link } from 'gatsby';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   GlobalDispatchContext,
   GlobalStateContext,
@@ -9,16 +9,28 @@ const WeatherInfo = () => {
   const dispatch = useContext(GlobalDispatchContext);
   const { activeLocation: weather } = useContext(GlobalStateContext);
   const [locationName, setLocationName] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
-  // console.log(weather);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {}, [weather]);
 
   const handleInputChange = e => {
     setLocationName(e.target.value.trim());
+    setInputValue(e.target.value.trim());
+  };
+
+  const handleInputFocus = () => {
+    setShowSuggestions(!showSuggestions);
+  };
+
+  const handleNameSuggestionClick = e => {
+    setShowSuggestions(!showSuggestions);
+    setLocationName(e.target.innerText);
+    setInputValue(e.target.innerText);
   };
 
   const saveLocation = () => {
     if (locationName.trim().length) {
-      setErrorMsg('');
       dispatch({
         type: 'SAVE_LOCATION',
         payload: {
@@ -28,7 +40,13 @@ const WeatherInfo = () => {
         },
       });
     } else {
-      setErrorMsg('Please type in a name to save the location');
+      dispatch({
+        type: 'SET_MESSAGE',
+        payload: {
+          type: 'error',
+          text: 'Please type in a name to save the location',
+        },
+      });
     }
   };
 
@@ -36,14 +54,27 @@ const WeatherInfo = () => {
     <div>
       {typeof weather !== 'undefined' ? (
         <div>
-          <h1>
-            Lat {weather.latitude} <br /> Lng {weather.longitude}
-          </h1>
-          <button onClick={saveLocation}>Save Location</button>
-          <input type="text" onChange={handleInputChange} />
-          <strong>{locationName}</strong>
-          <br />
-          <strong>{errorMsg}</strong>
+          <h1>{weather.address}</h1>
+
+          <div style={{ border: '1px solid green', padding: '1rem' }}>
+            <button onClick={saveLocation}>Save Location</button>
+            <input
+              type="text"
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              value={inputValue}
+            />
+            {showSuggestions && (
+              <div>
+                Name suggestions:{' '}
+                {weather.nameSuggestions.map((suggestion, i) => (
+                  <div key={i} onClick={handleNameSuggestionClick}>
+                    {suggestion}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       ) : (
         <div>

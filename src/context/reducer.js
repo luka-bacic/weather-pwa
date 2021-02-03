@@ -43,7 +43,7 @@ export default function reducer(state, action) {
       case 'SAVE_LOCATION': {
         let savedLocations = [];
         let isInProximity = false;
-        let errorMsg = '';
+        let message;
 
         // Get previous saved locations, if any
         const oldData = state.savedLocations;
@@ -78,15 +78,23 @@ export default function reducer(state, action) {
 
           // Update saved locations
           setLocalStorage('savedLocations', savedLocations);
+
+          message = {
+            type: 'info',
+            text: 'The location was successfully saved.',
+          };
         } else {
-          errorMsg =
-            'The location was not saved because it is within 1km of another saved location';
+          message = {
+            type: 'error',
+            text:
+              'The location was not saved because it is within 1km of another saved location',
+          };
         }
 
         resolve({
           ...state,
           savedLocations: savedLocations,
-          errorMsg: errorMsg,
+          message: message,
         });
 
         break;
@@ -122,6 +130,17 @@ export default function reducer(state, action) {
           lastMapCoords: {
             lat: action?.payload?.lat,
             lng: action?.payload?.lng,
+          },
+        });
+
+        break;
+      }
+      case 'SET_MESSAGE': {
+        resolve({
+          ...state,
+          message: {
+            type: action.payload.type,
+            text: action.payload.text,
           },
         });
 

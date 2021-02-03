@@ -1,7 +1,7 @@
 nav {
   display: flex;
   background: c('blue');
-  height: 75px;
+  height: $nav-height;
   padding: $padding;
 
   a {
