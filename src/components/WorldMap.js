@@ -38,10 +38,13 @@ const WorldMap = () => {
     defaultData.lng,
   ]);
 
+  const [leaflet, setLeaflet] = useState(null);
+
   // Dispatch to update global state
   const dispatch = useContext(GlobalDispatchContext);
 
   const handleMapClick = e => {
+    console.log('e', e);
     // Get coordinates
     const latLng = [e.latlng.lat, e.latlng.lng];
 
@@ -73,7 +76,37 @@ const WorldMap = () => {
     map.addControl(searchControl);
     map.on('click', handleMapClick);
     map.on('geosearch/showlocation', handleAutocompleteSelect);
+
+    setLeaflet(map);
   };
+
+  useEffect(() => {
+    // If there is no previous map data, get approximate location
+    if (!localStorage.getItem('lastMapData')) {
+      getApproximateLocation();
+    }
+
+    function getApproximateLocation() {
+      fetch('https://ipapi.co/json')
+        .then(result => result.json())
+        .then(data => {
+          // Save to state
+          setMapLatLng({
+            lat: data?.latitude,
+            lng: data?.longitude,
+          });
+
+          // Move center of map to the location
+          if (leaflet) {
+            leaflet.panTo([data?.latitude, data?.longitude]);
+          }
+        })
+        .catch(error => {
+          // Error might happen if uBlock origin is used, among other reasons
+          console.info(`Unable to get approximate location.\n${error}`);
+        });
+    }
+  }, [leaflet]);
 
   // react-leaflet is not compatible with SSR - render only in browser
   if (typeof window !== 'undefined') {
