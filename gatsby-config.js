@@ -31,5 +31,11 @@ module.exports = {
       __key: 'images',
     },
     'gatsby-plugin-resolve-src',
+    {
+      resolve: 'gatsby-plugin-react-leaflet',
+      options: {
+        linkStyles: true,
+      },
+    },
   ],
 };

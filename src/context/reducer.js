@@ -122,7 +122,7 @@ export default function reducer(state, action) {
 
         break;
       }
-      case 'UPDATE_OFFLINE_MAP_DATA': {
+      case 'UPDATE_MAP_DATA': {
         setLocalStorage('lastMapData', action.payload);
 
         resolve({
@@ -130,6 +130,7 @@ export default function reducer(state, action) {
           lastMapData: {
             lat: action?.payload?.lat,
             lng: action?.payload?.lng,
+            zoom: action?.payload?.zoom,
             address: action?.payload?.address,
           },
         });
