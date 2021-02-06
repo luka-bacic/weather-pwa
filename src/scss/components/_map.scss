@@ -1,14 +1,18 @@
 #map {
-  input[type='text'] {
-    position: absolute;
-    top: $padding * 4;
-    left: $padding;
-    right: $padding;
-  }
+  // input[type='text'] {
+  //   position: absolute;
+  //   top: $padding * 4;
+  //   left: $padding;
+  //   right: $padding;
+  // }
 
-  .btn {
-    position: absolute;
-    bottom: $padding;
-    left: $padding;
+  a {
+    &.btn {
+      position: absolute;
+      bottom: $padding;
+      left: $padding;
+      z-index: 1000;
+      color: c('white');
+    }
   }
 }

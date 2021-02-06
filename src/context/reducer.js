@@ -4,10 +4,11 @@ export default function reducer(state, action) {
   return new Promise(async resolve => {
     switch (action.type) {
       case 'FETCH_WEATHER': {
+        console.log(action.payload);
         // Check if lat and lng are valid
-        if (validateArgs(action.payload.latLng)) {
+        if (validateArgs(action.payload)) {
           // build basic query string
-          let urlParams = `lat=${action.payload.latLng.lat}&lng=${action.payload.latLng.lng}`;
+          let urlParams = `lat=${action.payload.lat}&lng=${action.payload.lng}`;
 
           // Send request to external script to fetch weather data
           fetch(
@@ -18,7 +19,6 @@ export default function reducer(state, action) {
               data = {
                 ...data,
                 address: action.payload.address,
-                nameSuggestions: action.payload.nameSuggestions,
                 isTemp: true,
                 lastUpdated: Date.now(),
               };

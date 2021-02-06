@@ -4,11 +4,13 @@ import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 // import AutoComplete from 'components/AutoComplete';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { GlobalDispatchContext } from 'context/GlobalContextProvider';
+import { Link } from 'gatsby';
 
 const defaultData = {
-  lat: 34,
+  lat: 32,
   lng: 2,
   zoom: 2,
+  address: '',
 };
 
 if (localStorage.getItem('lastMapData')) {
@@ -33,10 +35,12 @@ const WorldMap = () => {
   });
 
   // Local state
-  const [mapLatLng, setMapLatLng] = useState([
-    defaultData.lat,
-    defaultData.lng,
-  ]);
+  const [mapData, setMapData] = useState({
+    lat: defaultData.lat,
+    lng: defaultData.lng,
+    zoom: defaultData.zoom,
+    address: defaultData.address,
+  });
 
   const [leaflet, setLeaflet] = useState(null);
 
@@ -44,31 +48,29 @@ const WorldMap = () => {
   const dispatch = useContext(GlobalDispatchContext);
 
   const handleMapClick = e => {
-    console.log('e', e);
-    // Get coordinates
-    const latLng = [e.latlng.lat, e.latlng.lng];
-
     // Update local state
-    setMapLatLng(latLng);
+    setMapData({
+      ...mapData,
+      lat: e.latlng.lat,
+      lng: e.latlng.lng,
+    });
 
     // Center map to clicked area
-    e.target.panTo(latLng);
+    e.target.panTo([e.latlng.lat, e.latlng.lng]);
   };
 
   const handleAutocompleteSelect = e => {
-    setMapLatLng({
+    const mapData = {
       lat: e.location.y,
       lng: e.location.x,
-    });
+      zoom: e.target.getZoom(),
+      address: e.location.label,
+    };
+    setMapData(mapData);
 
     dispatch({
       type: 'UPDATE_MAP_DATA',
-      payload: {
-        lat: e.location.y,
-        lng: e.location.x,
-        zoom: e.target.getZoom(),
-        address: e.location.label,
-      },
+      payload: mapData,
     });
   };
 
@@ -78,6 +80,13 @@ const WorldMap = () => {
     map.on('geosearch/showlocation', handleAutocompleteSelect);
 
     setLeaflet(map);
+  };
+
+  const displayWeather = () => {
+    dispatch({
+      type: 'FETCH_WEATHER',
+      payload: mapData,
+    });
   };
 
   useEffect(() => {
@@ -91,7 +100,8 @@ const WorldMap = () => {
         .then(result => result.json())
         .then(data => {
           // Save to state
-          setMapLatLng({
+          setMapData({
+            ...mapData,
             lat: data?.latitude,
             lng: data?.longitude,
           });
@@ -116,13 +126,18 @@ const WorldMap = () => {
         zoom={defaultData.zoom}
         style={{ height: '50vh' }}
         whenCreated={mapReady}
+        id="map"
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <Marker position={mapLatLng}></Marker>
+        <Marker position={[mapData.lat, mapData.lng]}></Marker>
+
+        <Link to="/" className="btn" onClick={displayWeather}>
+          See weather
+        </Link>
       </MapContainer>
     );
   }
