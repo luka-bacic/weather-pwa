@@ -9,7 +9,6 @@ const WeatherInfo = () => {
   const dispatch = useContext(GlobalDispatchContext);
   const { activeLocation: weather } = useContext(GlobalStateContext);
   const [locationName, setLocationName] = useState('');
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {}, [weather]);
@@ -19,24 +18,13 @@ const WeatherInfo = () => {
     setInputValue(e.target.value.trim());
   };
 
-  const handleInputFocus = () => {
-    setShowSuggestions(!showSuggestions);
-  };
-
-  const handleNameSuggestionClick = e => {
-    setShowSuggestions(!showSuggestions);
-    setLocationName(e.target.innerText);
-    setInputValue(e.target.innerText);
-  };
-
   const saveLocation = () => {
     if (locationName.trim().length) {
       dispatch({
         type: 'SAVE_LOCATION',
         payload: {
           ...weather,
-          isTemp: false,
-          nickname: locationName,
+          address: locationName,
         },
       });
     } else {
@@ -61,19 +49,8 @@ const WeatherInfo = () => {
             <input
               type="text"
               onChange={handleInputChange}
-              onFocus={handleInputFocus}
               value={inputValue}
             />
-            {showSuggestions && (
-              <div>
-                Name suggestions:{' '}
-                {weather.nameSuggestions.map((suggestion, i) => (
-                  <div key={i} onClick={handleNameSuggestionClick}>
-                    {suggestion}
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       ) : (

@@ -4,7 +4,6 @@ export default function reducer(state, action) {
   return new Promise(async resolve => {
     switch (action.type) {
       case 'FETCH_WEATHER': {
-        console.log(action.payload);
         // Check if lat and lng are valid
         if (validateArgs(action.payload)) {
           // build basic query string
@@ -16,6 +15,7 @@ export default function reducer(state, action) {
           )
             .then(response => response.json())
             .then(data => {
+              console.log('in reducer, data is', data.lat, data.lng);
               data = {
                 ...data,
                 address: action.payload.address,
@@ -44,6 +44,7 @@ export default function reducer(state, action) {
         let savedLocations = [];
         let isInProximity = false;
         let message;
+        let currentWeatherData = {};
 
         // Get previous saved locations, if any
         const oldData = state.savedLocations;
@@ -74,10 +75,17 @@ export default function reducer(state, action) {
         // Add new location only if it is more than 1000 meters
         // away from any previously saved location
         if (!isInProximity) {
-          savedLocations.push(action.payload);
+          currentWeatherData = {
+            ...action.payload,
+            isTemp: false,
+            lastUpdated: Date.now(),
+          };
+
+          savedLocations.push(currentWeatherData);
 
           // Update saved locations
           setLocalStorage('savedLocations', savedLocations);
+          setLocalStorage('activeLocation', currentWeatherData);
 
           message = {
             type: 'info',
@@ -94,6 +102,7 @@ export default function reducer(state, action) {
         resolve({
           ...state,
           savedLocations: savedLocations,
+          activeLocation: currentWeatherData,
           message: message,
         });
 

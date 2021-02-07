@@ -1,7 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-// import { GlobalStateContext } from 'context/GlobalContextProvider';
-// import AutoComplete from 'components/AutoComplete';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { GlobalDispatchContext } from 'context/GlobalContextProvider';
 import { Link } from 'gatsby';
@@ -9,22 +7,26 @@ import { Link } from 'gatsby';
 const defaultData = {
   lat: 32,
   lng: 2,
-  zoom: 2,
+  zoom: 4,
   address: '',
 };
 
-if (localStorage.getItem('lastMapData')) {
-  const { lat, lng, zoom, address } = JSON.parse(
-    localStorage.getItem('lastMapData')
-  );
-
-  defaultData.lat = lat || 34;
-  defaultData.lng = lng || 2;
-  defaultData.zoom = zoom || 2;
-  defaultData.address = address || '';
-}
-
 const WorldMap = () => {
+  // Update default data with localstorage data, if present
+  // This is outside of useEffect() as it is:
+  //   1. Required before the first render
+  //   2. Doesn't cause an instant pan to the location when map is remounted
+  if (localStorage.getItem('lastMapData')) {
+    const { lat, lng, zoom, address } = JSON.parse(
+      localStorage.getItem('lastMapData')
+    );
+
+    defaultData.lat = lat && lat;
+    defaultData.lng = lng && lng;
+    defaultData.zoom = zoom && zoom;
+    defaultData.address = address && address;
+  }
+
   // Setup geosearch autocomplete provider
   const placesProvider = new OpenStreetMapProvider();
   // Configure settings for the autocomplete
@@ -48,41 +50,40 @@ const WorldMap = () => {
   const dispatch = useContext(GlobalDispatchContext);
 
   const handleMapClick = e => {
-    // Update local state
-    setMapData({
-      ...mapData,
+    const newData = {
       lat: e.latlng.lat,
       lng: e.latlng.lng,
       address: `Location at ${e.latlng.lat.toFixed(
         3
       )} lat, ${e.latlng.lng.toFixed(3)} lng`,
+      zoom: e.target.getZoom(),
+    };
+
+    // Update local state
+    setMapData(newData);
+
+    dispatch({
+      type: 'UPDATE_MAP_DATA',
+      payload: newData,
     });
 
     // Center map to clicked area
-    e.target.panTo([e.latlng.lat, e.latlng.lng]);
+    e.target.panTo([newData.lat, newData.lng]);
   };
 
   const handleAutocompleteSelect = e => {
-    const mapData = {
+    const newData = {
       lat: e.location.y,
       lng: e.location.x,
       zoom: e.target.getZoom(),
       address: e.location.label,
     };
-    setMapData(mapData);
+    setMapData(newData);
 
     dispatch({
       type: 'UPDATE_MAP_DATA',
-      payload: mapData,
+      payload: newData,
     });
-  };
-
-  const mapReady = map => {
-    map.addControl(searchControl);
-    map.on('click', handleMapClick);
-    map.on('geosearch/showlocation', handleAutocompleteSelect);
-
-    setLeaflet(map);
   };
 
   const displayWeather = () => {
@@ -90,10 +91,14 @@ const WorldMap = () => {
       type: 'FETCH_WEATHER',
       payload: mapData,
     });
+
+    dispatch({
+      type: 'UPDATE_MAP_DATA',
+      payload: mapData,
+    });
   };
 
   useEffect(() => {
-    // If there is no previous map data, get approximate location
     if (!localStorage.getItem('lastMapData')) {
       getApproximateLocation();
     }
@@ -103,10 +108,12 @@ const WorldMap = () => {
         .then(result => result.json())
         .then(data => {
           // Save to state
-          setMapData({
-            ...mapData,
-            lat: data?.latitude,
-            lng: data?.longitude,
+          setMapData(prevState => {
+            return {
+              ...prevState,
+              lat: data?.latitude,
+              lng: data?.longitude,
+            };
           });
 
           // Move center of map to the location
@@ -121,6 +128,13 @@ const WorldMap = () => {
     }
   }, [leaflet]);
 
+  const mapCreated = map => {
+    map.addControl(searchControl);
+    map.on('click', handleMapClick);
+    map.on('geosearch/showlocation', handleAutocompleteSelect);
+    setLeaflet(map);
+  };
+
   // react-leaflet is not compatible with SSR - render only in browser
   if (typeof window !== 'undefined') {
     return (
@@ -128,7 +142,7 @@ const WorldMap = () => {
         center={[defaultData.lat, defaultData.lng]}
         zoom={defaultData.zoom}
         style={{ height: '50vh' }}
-        whenCreated={mapReady}
+        whenCreated={mapCreated}
         id="map"
       >
         <TileLayer
