@@ -53,6 +53,7 @@ const WorldMap = () => {
       ...mapData,
       lat: e.latlng.lat,
       lng: e.latlng.lng,
+      address: '',
     });
 
     // Center map to clicked area
