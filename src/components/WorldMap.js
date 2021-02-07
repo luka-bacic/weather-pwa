@@ -53,7 +53,9 @@ const WorldMap = () => {
       ...mapData,
       lat: e.latlng.lat,
       lng: e.latlng.lng,
-      address: '',
+      address: `Location at ${e.latlng.lat.toFixed(
+        3
+      )} lat, ${e.latlng.lng.toFixed(3)} lng`,
     });
 
     // Center map to clicked area
