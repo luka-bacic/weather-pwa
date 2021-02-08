@@ -5,18 +5,18 @@ const CurrentWeather = ({ data }) => {
   console.log(data);
   return (
     <section className="currently">
-      {hasProp(data, 'temperature') && (
-        <p className="currently__temperature">{data.temperature}&deg;</p>
+      {hasProp(data, 'temp') && (
+        <p className="currently__temperature">{data.temp}&deg;</p>
       )}
 
-      {hasProp(data, 'apparentTemperature') && (
-        <p className="currently__apparent-temperature">
-          Feels like {data.apparentTemperature}&deg;
+      {hasProp(data, 'feels_like') && (
+        <p className="currently__feels-like">
+          Feels like {data.feels_like}&deg;
         </p>
       )}
 
-      {hasProp(data, 'summary') && (
-        <p className="currently__summary">{data.summary}</p>
+      {hasProp(data.weather, 'description') && (
+        <p className="currently__description">{data.weather.description}</p>
       )}
     </section>
   );

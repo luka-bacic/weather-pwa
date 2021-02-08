@@ -7,15 +7,17 @@ export default function reducer(state, action) {
         // Check if lat and lng are valid
         if (validateArgs(action.payload)) {
           // build basic query string
-          let urlParams = `lat=${action.payload.lat}&lng=${action.payload.lng}`;
+          let latLng = `lat=${action.payload.lat}&lon=${action.payload.lng}`;
 
           // Send request to external script to fetch weather data
+          // fetch(
+          //   `https://weather.luka-bacic.com/scripts/fetchWeather.php?${urlParams}`
+          // )
           fetch(
-            `https://weather.luka-bacic.com/scripts/fetchWeather.php?${urlParams}`
+            `https://api.openweathermap.org/data/2.5/onecall?${latLng}&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}&units=metric`
           )
             .then(response => response.json())
             .then(data => {
-              console.log('in reducer, data is', data.lat, data.lng);
               data = {
                 ...data,
                 address: action.payload.address,
@@ -120,7 +122,7 @@ export default function reducer(state, action) {
         }
 
         // Put old data to state
-        if (oldActiveWeather) {
+        if (oldActiveWeather || savedLocations || lastMapData) {
           resolve({
             ...state,
             activeLocation: oldActiveWeather,

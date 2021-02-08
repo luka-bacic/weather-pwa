@@ -54,7 +54,7 @@ const WeatherInfo = () => {
             />
           </div>
 
-          <CurrentWeather data={weather.currently} />
+          <CurrentWeather data={weather.current} />
         </div>
       ) : (
         <div>
