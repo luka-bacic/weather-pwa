@@ -4,6 +4,7 @@ import {
   GlobalDispatchContext,
   GlobalStateContext,
 } from '../context/GlobalContextProvider';
+import CurrentWeather from 'components/weather/CurrentWeather';
 
 const WeatherInfo = () => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -52,6 +53,8 @@ const WeatherInfo = () => {
               value={inputValue}
             />
           </div>
+
+          <CurrentWeather data={weather.currently} />
         </div>
       ) : (
         <div>
