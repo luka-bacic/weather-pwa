@@ -7,6 +7,7 @@ import { Link } from 'gatsby';
 const defaultData = {
   lat: 32,
   lng: 2,
+  actualLng: 2, // Longitude on the map can be outside the [-180, 180] range. This represents lng inside this range
   zoom: 4,
   address: '',
 };
@@ -17,14 +18,23 @@ const WorldMap = () => {
   //   1. Required before the first render
   //   2. Doesn't cause an instant pan to the location when map is remounted
   if (localStorage.getItem('lastMapData')) {
-    const { lat, lng, zoom, address } = JSON.parse(
-      localStorage.getItem('lastMapData')
-    );
+    const oldData = JSON.parse(localStorage.getItem('lastMapData'));
 
-    defaultData.lat = lat && lat;
-    defaultData.lng = lng && lng;
-    defaultData.zoom = zoom && zoom;
-    defaultData.address = address && address;
+    if (typeof oldData.lat !== 'undefined') {
+      defaultData.lat = oldData.lat;
+    }
+    if (typeof oldData.lng !== 'undefined') {
+      defaultData.lng = oldData.lng;
+    }
+    if (typeof oldData.actualLng !== 'undefined') {
+      defaultData.actualLng = oldData.actualLng;
+    }
+    if (typeof oldData.zoom !== 'undefined') {
+      defaultData.zoom = oldData.zoom;
+    }
+    if (typeof oldData.address !== 'undefined') {
+      defaultData.address = oldData.address;
+    }
   }
 
   // Setup geosearch autocomplete provider
@@ -40,27 +50,34 @@ const WorldMap = () => {
   const [mapData, setMapData] = useState({
     lat: defaultData.lat,
     lng: defaultData.lng,
+    actualLng: defaultData.actualLng,
     zoom: defaultData.zoom,
     address: defaultData.address,
   });
 
+  // Leaflet map instance
   const [leaflet, setLeaflet] = useState(null);
 
   // Dispatch to update global state
   const dispatch = useContext(GlobalDispatchContext);
 
   const handleMapClick = e => {
+    const { lat, lng } = e.target.wrapLatLng([e.latlng.lat, e.latlng.lng]);
+
     const newData = {
-      lat: e.latlng.lat,
+      lat: lat,
       lng: e.latlng.lng,
-      address: `Location at ${e.latlng.lat.toFixed(
-        3
-      )} lat, ${e.latlng.lng.toFixed(3)} lng`,
-      zoom: e.target.getZoom(),
+      actualLng: lng,
+      address: `Location at ${lat.toFixed(3)} lat, ${lng.toFixed(3)} lng`,
     };
 
     // Update local state
-    setMapData(newData);
+    setMapData(prevState => {
+      return {
+        ...prevState,
+        ...newData,
+      };
+    });
 
     dispatch({
       type: 'UPDATE_MAP_DATA',
@@ -68,7 +85,7 @@ const WorldMap = () => {
     });
 
     // Center map to clicked area
-    e.target.panTo([newData.lat, newData.lng]);
+    e.target.panTo([e.latlng.lat, e.latlng.lng]);
   };
 
   const handleAutocompleteSelect = e => {
@@ -83,6 +100,21 @@ const WorldMap = () => {
     dispatch({
       type: 'UPDATE_MAP_DATA',
       payload: newData,
+    });
+  };
+
+  const handleZoomEnd = e => {
+    const zoomLevel = { zoom: e.target.getZoom() };
+    setMapData(prevState => {
+      return {
+        ...prevState,
+        ...zoomLevel,
+      };
+    });
+
+    dispatch({
+      type: 'UPDATE_MAP_DATA',
+      payload: zoomLevel,
     });
   };
 
@@ -131,6 +163,7 @@ const WorldMap = () => {
   const mapCreated = map => {
     map.addControl(searchControl);
     map.on('click', handleMapClick);
+    map.on('zoomend', handleZoomEnd);
     map.on('geosearch/showlocation', handleAutocompleteSelect);
     setLeaflet(map);
   };
@@ -138,24 +171,25 @@ const WorldMap = () => {
   // react-leaflet is not compatible with SSR - render only in browser
   if (typeof window !== 'undefined') {
     return (
-      <MapContainer
-        center={[defaultData.lat, defaultData.lng]}
-        zoom={defaultData.zoom}
-        style={{ height: '50vh' }}
-        whenCreated={mapCreated}
-        id="map"
-      >
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+      <div>
+        <MapContainer
+          center={[defaultData.lat, defaultData.lng]}
+          zoom={defaultData.zoom}
+          style={{ height: '50vh' }}
+          whenCreated={mapCreated}
+          id="map"
+        >
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-        <Marker position={[mapData.lat, mapData.lng]}></Marker>
-
+          <Marker position={[mapData.lat, mapData.lng]}></Marker>
+        </MapContainer>
         <Link to="/" className="btn" onClick={displayWeather}>
           See weather
         </Link>
-      </MapContainer>
+      </div>
     );
   }
 };

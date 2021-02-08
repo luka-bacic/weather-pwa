@@ -7,7 +7,7 @@ export default function reducer(state, action) {
         // Check if lat and lng are valid
         if (validateArgs(action.payload)) {
           // build basic query string
-          let latLng = `lat=${action.payload.lat}&lon=${action.payload.lng}`;
+          let latLng = `lat=${action.payload.lat}&lon=${action.payload.actualLng}`;
 
           // Send request to external script to fetch weather data
           // fetch(
