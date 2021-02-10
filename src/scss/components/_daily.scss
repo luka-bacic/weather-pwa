@@ -1,4 +1,15 @@
 .daily {
+  &__temperature {
+    // > div {
+    //   display: flex;
+
+    //   p {
+    //     &:first-of-type {
+    //       margin-right: $padding;
+    //     }
+    //   }
+    // }
+  }
   &__uv-index {
     .circle {
       display: inline-block;
@@ -6,7 +17,22 @@
       width: $size;
       height: $size;
       border-radius: $size;
-      background: red;
+
+      &.low {
+        background-color: c('uv-low');
+      }
+      &.moderate {
+        background-color: c('uv-moderate');
+      }
+      &.high {
+        background-color: c('uv-high');
+      }
+      &.very-high {
+        background-color: c('uv-very-high');
+      }
+      &.extreme {
+        background-color: c('uv-extreme');
+      }
     }
   }
 }
