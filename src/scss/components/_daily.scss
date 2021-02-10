@@ -1,0 +1,12 @@
+.daily {
+  &__uv-index {
+    .circle {
+      display: inline-block;
+      $size: 20px;
+      width: $size;
+      height: $size;
+      border-radius: $size;
+      background: red;
+    }
+  }
+}
