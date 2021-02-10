@@ -14,26 +14,32 @@ function uvScale(uv: number): UvInfo {
     value: roundedUv,
     description: '',
     longDescription: '',
+    cssClass: '',
   };
 
   if (roundedUv <= 2) {
-    result.description = 'low';
+    result.description = 'Low';
+    result.cssClass = 'low';
     result.longDescription =
       'No protection needed. You can safely stay outside using minimal sun protection.';
   } else if (roundedUv <= 5) {
-    result.description = 'moderate';
+    result.description = 'Moderate';
+    result.cssClass = 'moderate';
     result.longDescription =
       'Protection needed. Seek shade during late morning through mid-afternoon. When outside, generously apply broad-spectrum SPF-15 or higher sunscreen on exposed skin, and wear protective clothing, a wide-brimmed hat, and sunglasses.';
   } else if (roundedUv <= 7) {
-    result.description = 'high';
+    result.description = 'High';
+    result.cssClass = 'high';
     result.longDescription =
       'Protection needed. Seek shade during late morning through mid-afternoon. When outside, generously apply broad-spectrum SPF-15 or higher sunscreen on exposed skin, and wear protective clothing, a wide-brimmed hat, and sunglasses.';
   } else if (roundedUv <= 10) {
-    result.description = 'very high';
+    result.description = 'Very high';
+    result.cssClass = 'very-high';
     result.longDescription =
       'Extra protection needed. Be careful outside, especially during late morning through mid-afternoon. If your shadow is shorter than you, seek shade and wear protective clothing, a wide-brimmed hat, and sunglasses, and generously apply a minimum of  SPF-15, broad-spectrum sunscreen on exposed skin.';
   } else {
-    result.description = 'extreme';
+    result.description = 'Extreme';
+    result.cssClass = 'extreme';
     result.longDescription =
       'Extra protection needed. Be careful outside, especially during late morning through mid-afternoon. If your shadow is shorter than you, seek shade and wear protective clothing, a wide-brimmed hat, and sunglasses, and generously apply a minimum of  SPF-15, broad-spectrum sunscreen on exposed skin.';
   }
