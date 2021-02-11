@@ -1,0 +1,42 @@
+.tooltip {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  padding: $padding / 4;
+
+  &:active,
+  &:focus,
+  &:hover {
+    border: none;
+    padding: $padding / 4;
+  }
+
+  &__icon {
+    $size: 20px;
+    width: $size;
+    height: $size;
+  }
+
+  &__content {
+    padding: $padding / 2;
+    text-align: left;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 300px;
+    border: 1px solid red;
+    user-select: none;
+    // pointer-events: none;
+    cursor: default;
+  }
+
+  &.open,
+  &:hover {
+    .tooltip__content {
+      display: block;
+    }
+  }
+}
