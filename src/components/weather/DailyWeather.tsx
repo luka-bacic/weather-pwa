@@ -6,14 +6,13 @@ import utc from 'dayjs/plugin/utc';
 import uvScale from 'functions/uvScale';
 import { UvInfo, DailyResponse } from 'types';
 import { BsArrowUp } from 'react-icons/bs';
-
+import Tooltip from 'components/Tooltip';
 type Props = {
   data: DailyResponse;
   timezoneOffset: number;
 };
 
 const TodaysWeather = ({ data, timezoneOffset }: Props) => {
-  console.log('today:', data);
   dayjs.extend(utc);
 
   const [sunrise, setSunrise] = useState('');
@@ -141,9 +140,11 @@ const TodaysWeather = ({ data, timezoneOffset }: Props) => {
 
             {uvIndexInfo && (
               <p className="daily__uv-index">
-                <span className={`circle ${uvIndexInfo.cssClass}`}></span>{' '}
-                &nbsp;
+                <span className={`circle ${uvIndexInfo.cssClass}`}>
+                  <span className="sr-only">uv index</span>
+                </span>
                 {uvIndexInfo.value}&nbsp;({uvIndexInfo.description})
+                <Tooltip text={uvIndexInfo.longDescription} />
               </p>
             )}
           </div>
@@ -158,7 +159,9 @@ const TodaysWeather = ({ data, timezoneOffset }: Props) => {
                   <>
                     <BsArrowUp
                       style={{ transform: `rotate(${data.wind_deg}deg)` }}
-                      title={degreesToDirection(data.wind_deg)}
+                      title={`${degreesToDirection(
+                        data.wind_deg
+                      )} wind direction`}
                     />
                     &nbsp;
                   </>
