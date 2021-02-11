@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { hasProp } from 'functions/hasProp';
+import degreesToDirection from 'functions/degreesToDirection';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import uvScale from 'functions/uvScale';
 import { UvInfo, DailyResponse } from 'types';
+import { BsArrowUp } from 'react-icons/bs';
 
 type Props = {
   data: DailyResponse;
@@ -152,17 +154,21 @@ const TodaysWeather = ({ data, timezoneOffset }: Props) => {
             <h4>Wind</h4>
             {hasProp(data, 'wind_speed') && (
               <p className="daily__wind-speed">
-                {data.wind_speed} m/s wind speed
+                {hasProp(data, 'wind_deg') && (
+                  <>
+                    <BsArrowUp
+                      style={{ transform: `rotate(${data.wind_deg}deg)` }}
+                      title={degreesToDirection(data.wind_deg)}
+                    />
+                    &nbsp;
+                  </>
+                )}
+                {data.wind_speed} m/s
               </p>
             )}
             {hasProp(data, 'wind_gust') && (
               <p className="daily__wind-speed">
                 {data.wind_gust} m/s wind gust
-              </p>
-            )}
-            {hasProp(data, 'wind_deg') && (
-              <p className="daily__wind-speed">
-                {data.wind_deg} CONVERT DEGREES TO COMPASS{' '}
               </p>
             )}
           </div>
