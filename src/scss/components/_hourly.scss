@@ -1,0 +1,42 @@
+.hourly {
+  &__wrap {
+    display: flex;
+    overflow-x: scroll;
+  }
+
+  &__day {
+    flex: 1 0 auto;
+    border-right: 1px solid c('black');
+
+    h4 {
+      margin-right: $padding / 2;
+      display: inline-block;
+      position: sticky;
+      left: 0;
+    }
+
+    &:nth-child(n + 2) {
+      h4 {
+        margin-left: $padding / 2;
+      }
+    }
+  }
+
+  &__hour-wrap {
+    display: flex;
+  }
+
+  &__single {
+    flex: 1 0 auto;
+    border-right: 1px solid c('blue');
+
+    &:last-of-type {
+      border-right: none;
+    }
+  }
+
+  &__single {
+    flex: 1 0 auto;
+    padding: $padding / 2;
+  }
+}
