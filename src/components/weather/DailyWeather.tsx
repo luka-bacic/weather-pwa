@@ -3,9 +3,8 @@ import { hasProp } from 'functions/hasProp';
 import WindInfo from 'components/weather/reusable/WindInfo';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import uvScale from 'functions/uvScale';
-import { UvInfo, DailyResponse } from 'types';
-import Tooltip from 'components/Tooltip';
+import { DailyResponse } from 'types';
+import UvIndex from './reusable/UvIndex';
 type Props = {
   data: DailyResponse;
   timezoneOffset: number;
@@ -16,7 +15,6 @@ const TodaysWeather = ({ data, timezoneOffset }: Props) => {
 
   const [sunrise, setSunrise] = useState('');
   const [sunset, setSunset] = useState('');
-  const [uvIndexInfo, setUvIndexInfo] = useState<UvInfo | null>(null);
   const [renderPrecip, setRenderPrecip] = useState(false);
   const [renderOther, setRenderOther] = useState(false);
   const [renderWind, setRenderWind] = useState(false);
@@ -82,11 +80,6 @@ const TodaysWeather = ({ data, timezoneOffset }: Props) => {
             .format('H:mma')
         );
       }
-
-      // Get UV danger rating and info
-      if (hasProp(data, 'uvi')) {
-        setUvIndexInfo(uvScale(data.uvi));
-      }
     }
   }, [data]);
 
@@ -139,13 +132,9 @@ const TodaysWeather = ({ data, timezoneOffset }: Props) => {
               </p>
             )}
 
-            {uvIndexInfo && (
+            {hasProp(data, 'uvi') && (
               <p className="daily__uv-index">
-                <span className={`circle ${uvIndexInfo.cssClass}`}>
-                  <span className="sr-only">uv index</span>
-                </span>
-                {uvIndexInfo.value}&nbsp;({uvIndexInfo.description})
-                <Tooltip text={uvIndexInfo.longDescription} />
+                <UvIndex uv={data.uvi} />
               </p>
             )}
           </div>

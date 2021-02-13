@@ -1,37 +1,4 @@
 .daily {
   &__temperature {
   }
-  &__uv-index {
-    .circle {
-      display: inline-block;
-      $size: 20px;
-      width: $size;
-      height: $size;
-      border-radius: $size;
-
-      &.low {
-        background-color: c('uv-low');
-      }
-      &.moderate {
-        background-color: c('uv-moderate');
-      }
-      &.high {
-        background-color: c('uv-high');
-      }
-      &.very-high {
-        background-color: c('uv-very-high');
-      }
-      &.extreme {
-        background-color: c('uv-extreme');
-      }
-    }
-  }
-
-  &__wind-speed {
-    svg {
-      $size: 35px;
-      width: $size;
-      height: $size;
-    }
-  }
 }

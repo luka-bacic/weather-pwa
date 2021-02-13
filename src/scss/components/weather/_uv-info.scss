@@ -1,0 +1,29 @@
+.uv-info {
+  display: flex;
+  align-items: center;
+
+  &__circle {
+    display: inline-block;
+    $size: 20px;
+    width: $size;
+    height: $size;
+    border-radius: $size;
+    margin-right: $padding / 2;
+
+    &.low {
+      background-color: c('uv-low');
+    }
+    &.moderate {
+      background-color: c('uv-moderate');
+    }
+    &.high {
+      background-color: c('uv-high');
+    }
+    &.very-high {
+      background-color: c('uv-very-high');
+    }
+    &.extreme {
+      background-color: c('uv-extreme');
+    }
+  }
+}
