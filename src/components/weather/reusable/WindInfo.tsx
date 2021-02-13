@@ -9,23 +9,15 @@ type Props = {
 };
 
 const WindInfo = ({ degrees, speed }: Props) => {
-  let renderDirection = false;
-  let renderspeed = false;
-  if (typeof degrees !== 'undefined') {
-    renderDirection = true;
-  }
-  if (typeof speed !== 'undefined') {
-    renderspeed = true;
-  }
   return (
     <span className="wind-info">
       <BiWind />
-      {renderspeed && (
+      {typeof speed !== 'undefined' && (
         <span>
           <strong>{speed.toFixed(0)} m/s</strong>
         </span>
       )}
-      {renderDirection && (
+      {typeof degrees !== 'undefined' && (
         <span>
           <BsArrowUp
             style={{ transform: `rotate(${degrees}deg)` }}
@@ -38,4 +30,4 @@ const WindInfo = ({ degrees, speed }: Props) => {
   );
 };
 
-export default WindInfo;
+export default React.memo(WindInfo);
