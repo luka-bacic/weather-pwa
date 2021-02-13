@@ -25,69 +25,71 @@ const TodaysWeather = ({ data, timezoneOffset }: Props) => {
   const [renderTemp, setRenderTemp] = useState(false);
 
   useEffect(() => {
-    // Should the temperature section be rendered
-    if (hasProp(data.temp, 'max') || hasProp(data.temp, 'min')) {
-      setRenderTemp(true);
-    }
-    // Should the precipitation section be rendered
-    if (
-      hasProp(data, 'pop') ||
-      hasProp(data, 'rain') ||
-      hasProp(data, 'snow')
-    ) {
-      setRenderPrecip(true);
-    }
-    // Should the sun and UV section be rendered
-    if (
-      hasProp(data, 'sunrise') ||
-      hasProp(data, 'sunset') ||
-      hasProp(data, 'uvi')
-    ) {
-      setRenderSunUv(true);
-    }
-    // Should the wind section be rendered
-    if (
-      hasProp(data, 'wind_speed') ||
-      hasProp(data, 'wind_gust') ||
-      hasProp(data, 'wind_deg')
-    ) {
-      setRenderWind(true);
-    }
-    // Should the `other` section be rendered
-    if (
-      hasProp(data, 'clouds') ||
-      hasProp(data, 'dew_point') ||
-      hasProp(data, 'humidity') ||
-      hasProp(data, 'pressure')
-    ) {
-      setRenderOther(true);
-    }
+    if (typeof data !== 'undefined') {
+      // Should the temperature section be rendered
+      if (hasProp(data.temp, 'max') || hasProp(data.temp, 'min')) {
+        setRenderTemp(true);
+      }
+      // Should the precipitation section be rendered
+      if (
+        hasProp(data, 'pop') ||
+        hasProp(data, 'rain') ||
+        hasProp(data, 'snow')
+      ) {
+        setRenderPrecip(true);
+      }
+      // Should the sun and UV section be rendered
+      if (
+        hasProp(data, 'sunrise') ||
+        hasProp(data, 'sunset') ||
+        hasProp(data, 'uvi')
+      ) {
+        setRenderSunUv(true);
+      }
+      // Should the wind section be rendered
+      if (
+        hasProp(data, 'wind_speed') ||
+        hasProp(data, 'wind_gust') ||
+        hasProp(data, 'wind_deg')
+      ) {
+        setRenderWind(true);
+      }
+      // Should the `other` section be rendered
+      if (
+        hasProp(data, 'clouds') ||
+        hasProp(data, 'dew_point') ||
+        hasProp(data, 'humidity') ||
+        hasProp(data, 'pressure')
+      ) {
+        setRenderOther(true);
+      }
 
-    // Format sunrise time
-    if (hasProp(data, 'sunrise')) {
-      setSunrise(
-        dayjs
-          .utc(data.sunrise * 1000)
-          .add(timezoneOffset, 'second')
-          .format('H:mma')
-      );
-    }
+      // Format sunrise time
+      if (hasProp(data, 'sunrise')) {
+        setSunrise(
+          dayjs
+            .utc(data.sunrise * 1000)
+            .add(timezoneOffset, 'second')
+            .format('H:mma')
+        );
+      }
 
-    // Format sunset time
-    if (hasProp(data, 'sunset')) {
-      setSunset(
-        dayjs
-          .utc(data.sunset * 1000)
-          .add(timezoneOffset, 'second')
-          .format('H:mma')
-      );
-    }
+      // Format sunset time
+      if (hasProp(data, 'sunset')) {
+        setSunset(
+          dayjs
+            .utc(data.sunset * 1000)
+            .add(timezoneOffset, 'second')
+            .format('H:mma')
+        );
+      }
 
-    // Get UV danger rating and info
-    if (hasProp(data, 'uvi')) {
-      setUvIndexInfo(uvScale(data.uvi));
+      // Get UV danger rating and info
+      if (hasProp(data, 'uvi')) {
+        setUvIndexInfo(uvScale(data.uvi));
+      }
     }
-  }, []);
+  }, [data]);
 
   return (
     <section className="daily">
