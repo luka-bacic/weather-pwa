@@ -54,10 +54,10 @@ const WeatherInfo = () => {
             />
           </div> */}
 
-          <CurrentWeather
+          {/* <CurrentWeather
             data={weather.current}
             timezoneOffset={weather.timezone_offset}
-          />
+          /> */}
           <DailyWeather
             data={weather.daily[0]}
             timezoneOffset={weather.timezone_offset}
