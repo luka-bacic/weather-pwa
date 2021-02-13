@@ -92,6 +92,7 @@ const WorldMap = () => {
     const newData = {
       lat: e.location.y,
       lng: e.location.x,
+      actualLng: e.location.x,
       zoom: e.target.getZoom(),
       address: e.location.label,
     };
