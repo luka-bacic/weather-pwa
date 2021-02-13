@@ -1,6 +1,12 @@
 .hourly {
   &__filters {
     display: flex;
+
+    label {
+      + label {
+        margin-left: $padding;
+      }
+    }
   }
 
   &__wrap {

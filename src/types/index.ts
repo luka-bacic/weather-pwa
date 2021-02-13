@@ -4,6 +4,10 @@ export interface UvInfo {
   longDescription: string;
   cssClass: string;
 }
+export interface IconData {
+  url: string;
+  description: string;
+}
 
 export interface Weather {
   description: string;
@@ -31,9 +35,12 @@ export interface HourlyResponse {
   wind_gust: number;
   wind_deg: number;
   pop: number;
-  rain1h: number;
-  snow: number;
-  '1h': number;
+  rain: {
+    '1h': number;
+  };
+  snow: {
+    '1h': number;
+  };
   weather: Weather[];
 }
 
