@@ -1,5 +1,6 @@
 import React from 'react';
 import { BsArrowUp } from 'react-icons/bs';
+import { BiWind } from 'react-icons/bi';
 import degreesToDirection from 'functions/degreesToDirection';
 
 type Props = {
@@ -17,7 +18,13 @@ const WindInfo = ({ degrees, speed }: Props) => {
     renderspeed = true;
   }
   return (
-    <div className="wind-info">
+    <span className="wind-info">
+      <BiWind />
+      {renderspeed && (
+        <span>
+          <strong>{speed.toFixed(0)} m/s</strong>
+        </span>
+      )}
       {renderDirection && (
         <span>
           <BsArrowUp
@@ -27,12 +34,7 @@ const WindInfo = ({ degrees, speed }: Props) => {
           &nbsp;
         </span>
       )}
-      {renderspeed && (
-        <span>
-          <strong>{speed.toFixed(0)} m/s</strong> wind speed
-        </span>
-      )}
-    </div>
+    </span>
   );
 };
 
