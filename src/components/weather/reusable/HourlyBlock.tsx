@@ -14,6 +14,8 @@ type Props = {
   showTemperature: boolean;
   showWind: boolean;
   showUvIndex: boolean;
+  showClouds: boolean;
+  showPressure: boolean;
 };
 
 const HourlyBlock = ({
@@ -23,6 +25,8 @@ const HourlyBlock = ({
   showTemperature,
   showWind,
   showUvIndex,
+  showClouds,
+  showPressure,
 }: Props) => {
   dayjs.extend(utc);
 
@@ -120,6 +124,10 @@ const HourlyBlock = ({
       )}
 
       {showUvIndex && <UvIndex uv={data.uvi} />}
+
+      {showClouds && <p className="hourly__clouds">{data.clouds}%</p>}
+
+      {showPressure && <p className="hourly__pressure">{data.pressure} hPa</p>}
     </div>
   );
 };

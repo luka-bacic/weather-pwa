@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  JSXElementConstructor,
+  ReactElement,
+  useEffect,
+  useState,
+} from 'react';
 import HourlyBlock from 'components/weather/reusable/HourlyBlock';
 import { HourlyResponse, Day } from 'types';
 import dayjs from 'dayjs';
@@ -8,22 +13,25 @@ type Props = {
   data: HourlyResponse[];
   timezoneOffset: number;
 };
+
 const HourlyWeather = ({ data, timezoneOffset }: Props) => {
   dayjs.extend(utc);
-  console.log('hourly', data);
 
   const weekDays: Day[] = [];
   const today = dayjs().format('d');
-  const [renderHours, setRenderHours] = useState<any[]>([]);
+
+  const [renderHours, setRenderHours] = useState<ReactElement[]>([]);
   // State for filters
   const [showTemperature, toggleShowTemperature] = useState(true);
   const [showRain, toggleShowRain] = useState(true);
   const [showWind, toggleShowWind] = useState(false);
   const [showUvIndex, toggleShowUvIndex] = useState(false);
+  const [showClouds, toggleShowClouds] = useState(false);
+  const [showPressure, toggleShowPressure] = useState(false);
 
   useEffect(() => {
     if (typeof data !== 'undefined') {
-      // Group hours by weekday and add labels for days
+      // Group hours by the day and add labels for days
       data.forEach(hour => {
         let dayToAdd: Day = {
           dayNumber: '',
@@ -67,7 +75,7 @@ const HourlyWeather = ({ data, timezoneOffset }: Props) => {
         weekDays[dayIndex].weather.push(hour);
       });
 
-      // Create components to render hourly data
+      // Create Hour components to render hourly data
       setRenderHours(
         weekDays.map((day, i) => {
           const hours = day.weather.map((hour, j) => (
@@ -78,6 +86,8 @@ const HourlyWeather = ({ data, timezoneOffset }: Props) => {
               showTemperature={showTemperature}
               showWind={showWind}
               showUvIndex={showUvIndex}
+              showClouds={showClouds}
+              showPressure={showPressure}
               key={j}
             />
           ));
@@ -91,32 +101,40 @@ const HourlyWeather = ({ data, timezoneOffset }: Props) => {
         })
       );
     }
-  }, [data, showRain, showTemperature, showWind, showUvIndex]);
+  }, [
+    data,
+    showRain,
+    showTemperature,
+    showWind,
+    showUvIndex,
+    showClouds,
+    showPressure,
+  ]);
 
   return (
     <section className="hourly">
       <h3>Hourly forecast</h3>
 
       <div className="hourly__filters">
-        <label htmlFor="rain">
-          Show rain
-          <input
-            type="checkbox"
-            name="rain"
-            id="rain"
-            onChange={() => toggleShowRain(prevState => !prevState)}
-            checked={showRain}
-          />
-        </label>
-
         <label htmlFor="temperature">
           Show temperature
           <input
             type="checkbox"
-            name="temperature"
+            name="filters"
             id="temperature"
             onChange={() => toggleShowTemperature(prevState => !prevState)}
             checked={showTemperature}
+          />
+        </label>
+
+        <label htmlFor="rain">
+          Show rain
+          <input
+            type="checkbox"
+            name="filters"
+            id="rain"
+            onChange={() => toggleShowRain(prevState => !prevState)}
+            checked={showRain}
           />
         </label>
 
@@ -124,7 +142,7 @@ const HourlyWeather = ({ data, timezoneOffset }: Props) => {
           Show wind
           <input
             type="checkbox"
-            name="wind"
+            name="filters"
             id="wind"
             onChange={() => toggleShowWind(prevState => !prevState)}
             checked={showWind}
@@ -135,10 +153,32 @@ const HourlyWeather = ({ data, timezoneOffset }: Props) => {
           Show UV
           <input
             type="checkbox"
-            name="uv"
+            name="filters"
             id="uv"
             onChange={() => toggleShowUvIndex(prevState => !prevState)}
             checked={showUvIndex}
+          />
+        </label>
+
+        <label htmlFor="clouds">
+          Show clouds
+          <input
+            type="checkbox"
+            name="filters"
+            id="clouds"
+            onChange={() => toggleShowClouds(prevState => !prevState)}
+            checked={showClouds}
+          />
+        </label>
+
+        <label htmlFor="pressure">
+          Show pressure
+          <input
+            type="checkbox"
+            name="filters"
+            id="pressure"
+            onChange={() => toggleShowPressure(prevState => !prevState)}
+            checked={showPressure}
           />
         </label>
       </div>
