@@ -1,5 +1,5 @@
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'gatsby';
-import React, { useContext } from 'react';
 import {
   // GlobalDispatchContext,
   GlobalStateContext,
@@ -7,6 +7,7 @@ import {
 import CurrentWeather from 'components/weather/CurrentWeather';
 import DailyWeather from 'components/weather/DailyWeather';
 import HourlyWeather from 'components/weather/HourlyWeather';
+import Alert from 'components/weather/Alert';
 
 const WeatherInfo = () => {
   // const dispatch = useContext(GlobalDispatchContext);
@@ -39,6 +40,13 @@ const WeatherInfo = () => {
   //   }
   // };
 
+  useEffect(() => {
+    if (typeof weather !== 'undefined') {
+      if (typeof weather.alerts !== 'undefined') {
+        console.log('ALERTS:', weather.alerts);
+      }
+    }
+  }, [weather]);
   return (
     <div>
       {typeof weather !== 'undefined' ? (
@@ -58,10 +66,14 @@ const WeatherInfo = () => {
             data={weather.current}
             timezoneOffset={weather.timezone_offset}
           /> */}
-          <DailyWeather
-            data={weather.daily[0]}
-            timezoneOffset={weather.timezone_offset}
-          />
+
+          <Alert alerts={weather.alerts} />
+          {typeof weather.daily[0] !== 'undefined' && (
+            <DailyWeather
+              data={weather.daily[0]}
+              timezoneOffset={weather.timezone_offset}
+            />
+          )}
           <HourlyWeather
             data={weather.hourly}
             timezoneOffset={weather.timezone_offset}

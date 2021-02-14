@@ -1,0 +1,49 @@
+.alert {
+  &__button {
+    background: c('white');
+    padding: $padding / 2 $padding;
+    border: 1px solid c('black');
+    font-size: 35px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    transition: width $medium;
+    // width: 0;
+    // min-width: max-content;
+
+    // Remove button push effect
+    &:active,
+    &:focus,
+    &:hover {
+      padding: $padding / 2 $padding;
+      border: 1px solid c('black');
+    }
+  }
+
+  &__icon {
+    $size: 35px;
+    width: $size;
+    height: $size;
+    min-width: $size;
+    margin-right: $padding / 2;
+  }
+
+  &__preview-text {
+    transition: opacity $medium;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  &--has-warning {
+    background: c('warning');
+  }
+
+  &--expanded {
+    width: 100% !important;
+
+    // &__icon,
+    // &__preview-text {
+    //   opacity: 0;
+    // }
+  }
+}

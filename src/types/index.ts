@@ -1,9 +1,18 @@
+export interface WeatherAlert {
+  description: string;
+  event: string;
+  sender_name: string;
+  start: number;
+  end: number;
+}
+
 export interface UvInfo {
   value: number;
   description: string;
   longDescription: string;
   cssClass: string;
 }
+
 export interface IconData {
   url: string;
   description: string;
