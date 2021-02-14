@@ -4,3 +4,7 @@
     outline-offset: 4px;
   }
 }
+
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}

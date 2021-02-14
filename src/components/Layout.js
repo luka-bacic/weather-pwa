@@ -6,6 +6,7 @@ import {
   GlobalStateContext,
 } from '../context/GlobalContextProvider';
 import 'scss/style.scss';
+import 'focus-visible';
 
 const Layout = ({ children }) => {
   const dispatch = useContext(GlobalDispatchContext);
