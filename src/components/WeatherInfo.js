@@ -7,7 +7,7 @@ import {
 import CurrentWeather from 'components/weather/CurrentWeather';
 import DailyWeather from 'components/weather/DailyWeather';
 import HourlyWeather from 'components/weather/HourlyWeather';
-import Alert from 'components/weather/Alert';
+import WeatherAlerts from 'components/weather/WeatherAlerts';
 
 const WeatherInfo = () => {
   // const dispatch = useContext(GlobalDispatchContext);
@@ -41,11 +41,11 @@ const WeatherInfo = () => {
   // };
 
   useEffect(() => {
-    if (typeof weather !== 'undefined') {
-      if (typeof weather.alerts !== 'undefined') {
-        console.log('ALERTS:', weather.alerts);
-      }
-    }
+    // if (typeof weather !== 'undefined') {
+    //   if (typeof weather.alerts !== 'undefined') {
+    //     console.log('ALERTS:', weather.alerts);
+    //   }
+    // }
   }, [weather]);
   return (
     <div>
@@ -67,7 +67,7 @@ const WeatherInfo = () => {
             timezoneOffset={weather.timezone_offset}
           /> */}
 
-          <Alert alerts={weather.alerts} />
+          <WeatherAlerts alerts={weather.alerts} />
           {typeof weather.daily[0] !== 'undefined' && (
             <DailyWeather
               data={weather.daily[0]}

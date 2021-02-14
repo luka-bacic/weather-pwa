@@ -1,4 +1,4 @@
-export interface WeatherAlert {
+export interface AlertResponse {
   description: string;
   event: string;
   sender_name: string;
