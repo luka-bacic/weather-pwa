@@ -34,6 +34,18 @@
     white-space: nowrap;
   }
 
+  &__all-warning {
+  }
+
+  &__single {
+    border: 10px solid rebeccapurple;
+  }
+
+  &__open-alert {
+  }
+  &__content {
+  }
+
   &--has-warning {
     background: c('warning');
   }

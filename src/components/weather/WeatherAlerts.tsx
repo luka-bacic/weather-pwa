@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, ReactElement } from 'react';
 import { AlertResponse } from 'types';
 import { FiAlertTriangle } from 'react-icons/fi';
 import classNames from 'classnames';
-import { hasProp } from 'functions/hasProp';
+import SingleAlert from 'components/weather/reusable/SingleAlert';
 
 type Props = {
   alerts: AlertResponse[] | undefined;
@@ -25,23 +25,15 @@ const WeatherAlerts = ({ alerts }: Props) => {
       setNumOfAlerts(alerts.length);
 
       setRenderedAlerts(
-        alerts.map((alert, i) => {
-          console.log(alert.description);
-          return (
-            <div className="alert__single" key={i}>
-              <button className="alert__open-alert">
-                {hasProp(alert, 'event') ? alert.event : 'See alert'}
-              </button>
-              <article className="alert__content">
-                <h2>
-                  {hasProp(alert, 'event') ? alert.event : 'Weather alert'}
-                </h2>
-
-                {hasProp(alert, 'description') && alert.description}
-              </article>
-            </div>
-          );
-        })
+        alerts.map((alert, i) => (
+          <SingleAlert
+            start={alert.start}
+            end={alert.end}
+            title={alert.event}
+            content={alert.description}
+            key={i}
+          />
+        ))
       );
 
       // Set preview message
@@ -52,6 +44,7 @@ const WeatherAlerts = ({ alerts }: Props) => {
       }
     } else {
       setNumOfAlerts(0);
+      setRenderedAlerts([]);
     }
   }, [alerts]);
 
@@ -63,14 +56,14 @@ const WeatherAlerts = ({ alerts }: Props) => {
   };
 
   const getComputedWidth = () => {
-    if (previewRef.current !== null) {
-      if (typeof window !== 'undefined') {
+    setTimeout(() => {
+      if (previewRef.current !== null) {
         // Get computed width
-        const { width } = window.getComputedStyle(previewRef.current);
+        const width = previewRef.current.offsetWidth;
         // Set inline style to transition the width properly
-        previewRef.current.style.width = width;
+        previewRef.current.style.width = `${width}px`;
       }
-    }
+    }, 0);
   };
 
   const buttonClasses = classNames({
@@ -93,7 +86,7 @@ const WeatherAlerts = ({ alerts }: Props) => {
       </button>
 
       <div className="alert__all-warnings">
-        {renderedAlerts.length && renderedAlerts}
+        {renderedAlerts.length > 0 && renderedAlerts}
       </div>
     </section>
   );
