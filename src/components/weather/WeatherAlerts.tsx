@@ -52,7 +52,7 @@ const WeatherAlerts = ({ alerts, timezoneOffset }: Props) => {
 
   const toggleExpandButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (previewRef.current !== null) {
-      previewRef.current.classList.toggle('alert--expanded');
+      previewRef.current.classList.toggle('alert--preview-expanded');
       toggleShowPreview(prevState => !prevState);
     }
   };
@@ -71,7 +71,7 @@ const WeatherAlerts = ({ alerts, timezoneOffset }: Props) => {
   const buttonClasses = classNames({
     alert__button: true,
     'alert--has-warning': numOfAlerts,
-    'alert--expanded': showPreview,
+    'alert--preview-expanded': showPreview,
   });
 
   return (

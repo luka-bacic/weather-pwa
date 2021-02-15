@@ -1,7 +1,8 @@
-import React, { useEffect, useState, ReactElement } from 'react';
+import React, { useRef, ReactElement } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import { GrClose } from 'react-icons/gr';
 
 type Props = {
   start: number;
@@ -14,6 +15,8 @@ type Props = {
 const SingleAlert = ({ start, end, title, content, timezoneOffset }: Props) => {
   dayjs.extend(utc);
   dayjs.extend(advancedFormat);
+
+  const alertRef = useRef<HTMLElement | null>(null);
 
   const dateFormat = 'Do MMMM [at] h:mma';
   const machineDateFormat = 'YYYY-DD-MM kk:mm:ss.SSS';
@@ -86,12 +89,18 @@ const SingleAlert = ({ start, end, title, content, timezoneOffset }: Props) => {
       .format(machineDateFormat);
   }
 
+  const toggleShowAlert = () => {
+    if (alertRef.current !== null) {
+      alertRef.current.classList.toggle('alert--warning-expanded');
+    }
+  };
+
   return (
     <div className="alert__single">
-      <button className="alert__open-alert">
+      <button className="alert__open-alert" onClick={toggleShowAlert}>
         {title ? title : 'See warning'}
       </button>
-      <article className="alert__content">
+      <article className="alert__content" ref={alertRef}>
         {startTime && (
           <h5>
             Warning start: <time dateTime={machineStartTime}>{startTime}</time>
@@ -105,6 +114,11 @@ const SingleAlert = ({ start, end, title, content, timezoneOffset }: Props) => {
         <h2>{title ? title : 'Weather alert'}</h2>
 
         {formattedLines.length > 0 && formattedLines}
+
+        <button className="alert__close-alert" onClick={toggleShowAlert}>
+          <GrClose />
+          <span className="sr-only">Close weather warning</span>
+        </button>
       </article>
     </div>
   );

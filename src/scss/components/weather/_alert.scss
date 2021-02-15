@@ -1,5 +1,6 @@
 .alert {
-  &__button {
+  &__button,
+  &__open-alert {
     background: c('white');
     padding: $padding / 2 $padding;
     border: 1px solid c('black');
@@ -8,8 +9,6 @@
     display: flex;
     align-items: center;
     transition: width $medium;
-    // width: 0;
-    // min-width: max-content;
 
     // Remove button push effect
     &:active,
@@ -38,24 +37,43 @@
   }
 
   &__single {
-    border: 10px solid rebeccapurple;
+    // border: 10px solid rebeccapurple;
   }
 
   &__open-alert {
-  }
-  &__content {
+    width: 100%;
   }
 
-  &--has-warning {
+  &__close-alert {
+  }
+
+  &__content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    @include t3d(100%);
+    transition: transform $medium;
     background: c('warning');
   }
 
-  &--expanded {
+  &--has-warning,
+  &__open-alert {
+    background: c('warning');
+  }
+
+  &--preview-expanded {
     width: 100% !important;
 
     // &__icon,
     // &__preview-text {
     //   opacity: 0;
     // }
+  }
+
+  &--warning-expanded {
+    @include t3d(0);
   }
 }
