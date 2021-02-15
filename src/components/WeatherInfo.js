@@ -67,7 +67,10 @@ const WeatherInfo = () => {
             timezoneOffset={weather.timezone_offset}
           /> */}
 
-          <WeatherAlerts alerts={weather.alerts} />
+          <WeatherAlerts
+            alerts={weather.alerts}
+            timezoneOffset={weather.timezone_offset}
+          />
           {typeof weather.daily[0] !== 'undefined' && (
             <DailyWeather
               data={weather.daily[0]}

@@ -6,9 +6,10 @@ import SingleAlert from 'components/weather/reusable/SingleAlert';
 
 type Props = {
   alerts: AlertResponse[] | undefined;
+  timezoneOffset: number;
 };
 
-const WeatherAlerts = ({ alerts }: Props) => {
+const WeatherAlerts = ({ alerts, timezoneOffset }: Props) => {
   // Ref to calculate button width
   const previewRef = useRef<HTMLButtonElement | null>(null);
   // State
@@ -31,6 +32,7 @@ const WeatherAlerts = ({ alerts }: Props) => {
             end={alert.end}
             title={alert.event}
             content={alert.description}
+            timezoneOffset={timezoneOffset}
             key={i}
           />
         ))
