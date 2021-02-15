@@ -24,11 +24,11 @@ const SingleAlert = ({ start, end, title, content, timezoneOffset }: Props) => {
   let endTime = '';
   let machineEndTime = '';
 
-  // const [renderedContent, setRenderedContent] = useState<ReactElement[]>([]);
   if (typeof content !== 'undefined') {
     // Split content into lines
     const lines = content.split('\n');
 
+    // TODO: fix regex to cover all cases
     formattedLines = lines.flatMap((line, i) => {
       let editedLine = line;
 
