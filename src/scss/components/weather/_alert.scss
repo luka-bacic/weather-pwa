@@ -1,6 +1,6 @@
 .alert {
-  &__button,
-  &__open-alert {
+  &__preview-button,
+  &__single-open-button {
     background: c('white');
     padding: $padding / 2 $padding;
     border: 1px solid c('black');
@@ -19,7 +19,7 @@
     }
   }
 
-  &__icon {
+  &__preview-icon {
     $size: 35px;
     width: $size;
     height: $size;
@@ -33,21 +33,18 @@
     white-space: nowrap;
   }
 
-  &__all-warning {
-  }
-
   &__single {
     // border: 10px solid rebeccapurple;
   }
 
-  &__open-alert {
-    width: 100%;
+  &__single-open-button {
+    background: c('warning');
   }
 
-  &__close-alert {
+  &__single-close-button {
   }
 
-  &__content {
+  &__single-content {
     position: fixed;
     top: 0;
     left: 0;
@@ -59,21 +56,20 @@
     background: c('warning');
   }
 
-  &--has-warning,
-  &__open-alert {
+  &--has-warning {
     background: c('warning');
   }
 
   &--preview-expanded {
     width: 100% !important;
 
-    // &__icon,
-    // &__preview-text {
-    //   opacity: 0;
-    // }
+    .alert__open-alert,
+    .alert__button {
+      width: 100%;
+    }
   }
 
-  &--warning-expanded {
+  &--warning-shown {
     @include t3d(0);
   }
 }

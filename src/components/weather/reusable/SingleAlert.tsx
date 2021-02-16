@@ -91,16 +91,16 @@ const SingleAlert = ({ start, end, title, content, timezoneOffset }: Props) => {
 
   const toggleShowAlert = () => {
     if (alertRef.current !== null) {
-      alertRef.current.classList.toggle('alert--warning-expanded');
+      alertRef.current.classList.toggle('alert--warning-shown');
     }
   };
 
   return (
     <div className="alert__single">
-      <button className="alert__open-alert" onClick={toggleShowAlert}>
+      <button className="alert__single-open-button" onClick={toggleShowAlert}>
         {title ? title : 'See warning'}
       </button>
-      <article className="alert__content" ref={alertRef}>
+      <article className="alert__single-content" ref={alertRef}>
         {startTime && (
           <h5>
             Warning start: <time dateTime={machineStartTime}>{startTime}</time>
@@ -115,7 +115,10 @@ const SingleAlert = ({ start, end, title, content, timezoneOffset }: Props) => {
 
         {formattedLines.length > 0 && formattedLines}
 
-        <button className="alert__close-alert" onClick={toggleShowAlert}>
+        <button
+          className="alert__single-close-button"
+          onClick={toggleShowAlert}
+        >
           <GrClose />
           <span className="sr-only">Close weather warning</span>
         </button>

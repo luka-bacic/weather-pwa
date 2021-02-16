@@ -11,11 +11,11 @@ type Props = {
 
 const WeatherAlerts = ({ alerts, timezoneOffset }: Props) => {
   // Ref to calculate button width
-  const previewRef = useRef<HTMLButtonElement | null>(null);
+  const previewRef = useRef<HTMLElement | null>(null);
   // State
   const [numOfAlerts, setNumOfAlerts] = useState(0);
   const [peekMsg, setPeekMsg] = useState('No warning for this location');
-  const [showPreview, toggleShowPreview] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
   const [renderedAlerts, setRenderedAlerts] = useState<ReactElement[]>([]);
 
   useEffect(() => {
@@ -23,8 +23,10 @@ const WeatherAlerts = ({ alerts, timezoneOffset }: Props) => {
     getComputedWidth();
 
     if (typeof alerts !== 'undefined') {
+      // Count number of alerts
       setNumOfAlerts(alerts.length);
 
+      // Render alerts into components
       setRenderedAlerts(
         alerts.map((alert, i) => (
           <SingleAlert
@@ -44,52 +46,57 @@ const WeatherAlerts = ({ alerts, timezoneOffset }: Props) => {
       } else {
         setPeekMsg(`${alerts.length} warnings for this location`);
       }
+
+      // Expand preview
+      setShowPreview(prevState => !prevState);
     } else {
       setNumOfAlerts(0);
       setRenderedAlerts([]);
     }
   }, [alerts]);
 
-  const toggleExpandButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const toggleExpandButton = () => {
     if (previewRef.current !== null) {
       previewRef.current.classList.toggle('alert--preview-expanded');
-      toggleShowPreview(prevState => !prevState);
+      setShowPreview(prevState => !prevState);
     }
   };
 
   const getComputedWidth = () => {
     setTimeout(() => {
+      // if (showPreview) {
       if (previewRef.current !== null) {
         // Get computed width
         const width = previewRef.current.offsetWidth;
         // Set inline style to transition the width properly
         previewRef.current.style.width = `${width}px`;
       }
+      // }
     }, 0);
   };
 
-  const buttonClasses = classNames({
-    alert__button: true,
-    'alert--has-warning': numOfAlerts,
+  const alertClasses = classNames({
+    alert: true,
     'alert--preview-expanded': showPreview,
   });
 
+  const buttonClasses = classNames({
+    'alert__preview-button': true,
+    'alert--has-warning': numOfAlerts,
+  });
+
   return (
-    <section className="alert">
-      <button
-        className={buttonClasses}
-        onClick={toggleExpandButton}
-        ref={previewRef}
-      >
-        <FiAlertTriangle className="alert__icon" />
+    <section className={alertClasses} ref={previewRef}>
+      <button className={buttonClasses} onClick={toggleExpandButton}>
+        <FiAlertTriangle className="alert__preview-icon" />
         <span className="alert__preview-text">
           {!showPreview ? numOfAlerts : peekMsg}
         </span>
       </button>
 
-      <div className="alert__all-warnings">
-        {renderedAlerts.length > 0 && renderedAlerts}
-      </div>
+      {/* <div className="alert__all-warnings"> */}
+      {renderedAlerts.length > 0 && renderedAlerts}
+      {/* </div> */}
     </section>
   );
 };
