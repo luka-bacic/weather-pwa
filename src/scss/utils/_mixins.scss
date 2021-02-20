@@ -1,3 +1,97 @@
 @mixin t3d($x: 0, $y: 0, $z: 0) {
   transform: translate3d($x, $y, $z);
 }
+
+// (min-width: $breakpoint)
+@mixin from($breakpoint) {
+  // If the breakpoint exists in the map.
+  @if map-has-key($breakpoints, $breakpoint) {
+    // Get the breakpoint value.
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    // Write the media query.
+    @media screen and (min-width: $breakpoint-value) {
+      @content;
+    }
+
+    // If the breakpoint doesn't exist in the map.
+  } @else {
+    // Log a warning.
+    @warn 'Invalid breakpoint: #{$breakpoint}. Please ensure this breakpoint is defined in the `$breakpoints` map variable.';
+  }
+}
+
+// (max-width: $breakpoint)
+@mixin to($breakpoint) {
+  // If the breakpoint exists in the map.
+  @if map-has-key($breakpoints, $breakpoint) {
+    // Get the breakpoint value.
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    // Write the media query.
+    @media screen and (max-width: ($breakpoint-value - 1)) {
+      @content;
+    }
+
+    // If the breakpoint doesn't exist in the map.
+  } @else {
+    // Log a warning.
+    @warn 'Invalid breakpoint: #{$breakpoint}. Please ensure this breakpoint is defined in the `$breakpoints` map variable.';
+  }
+}
+
+// (min-width: $lower) and (max-width: $upper)
+@mixin between($lower, $upper) {
+  // If both the lower and upper breakpoints exist in the map.
+  @if map-has-key($breakpoints, $lower) and map-has-key($breakpoints, $upper) {
+    // Get the lower and upper breakpoints.
+    $lower-breakpoint: map-get($breakpoints, $lower);
+    $upper-breakpoint: map-get($breakpoints, $upper);
+
+    // Write the media query.
+    @media screen and (min-width: $lower-breakpoint) and (max-width: ($upper-breakpoint - 1)) {
+      @content;
+    }
+
+    // If one or both of the breakpoints don't exist.
+  } @else {
+    // If lower breakpoint is invalid.
+    @if (map-has-key($breakpoints, $lower) == false) {
+      // Log a warning.
+      @warn 'Your lower breakpoint was invalid: #{$lower}. Please ensure this breakpoint is defined in the `$breakpoints` map variable.';
+    }
+
+    // If upper breakpoint is invalid.
+    @if (map-has-key($breakpoints, $upper) == false) {
+      // Log a warning.
+      @warn 'Your upper breakpoint was invalid: #{$upper}. Please ensure this breakpoint is defined in the `$breakpoints` map variable.';
+    }
+  }
+}
+
+@mixin fluid-type(
+  $min-font-size: 16px,
+  $max-font-size: 24px,
+  $min-vw: 320px,
+  $max-vw: 1920px
+) {
+  $u1: unit($min-vw);
+  $u2: unit($max-vw);
+  $u3: unit($min-font-size);
+  $u4: unit($max-font-size);
+
+  @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+    & {
+      font-size: $min-font-size;
+      @media screen and (min-width: $min-vw) {
+        font-size: calc(
+          #{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} *
+            ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})
+        );
+      }
+      @media screen and (min-width: $max-vw) {
+        font-size: $max-font-size;
+      }
+    }
+  }
+}

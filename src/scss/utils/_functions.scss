@@ -2,3 +2,7 @@
 @function c($name) {
   @return map-get($colors, $name);
 }
+
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
