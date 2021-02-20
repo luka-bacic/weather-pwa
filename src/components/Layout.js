@@ -11,6 +11,7 @@ import 'focus-visible';
 // Fonts
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 const Layout = ({ children }) => {
   const dispatch = useContext(GlobalDispatchContext);
