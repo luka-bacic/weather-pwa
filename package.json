@@ -15,6 +15,7 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@fontsource/roboto": "^4.2.1",
     "@types/classnames": "^2.2.11",
     "classnames": "^2.2.6",
     "dayjs": "^1.10.4",
