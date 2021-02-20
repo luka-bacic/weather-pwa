@@ -1,3 +1,34 @@
+export interface DataStore {
+  activeLocation: LocationInfo | undefined;
+  tempLocation: LocationInfo | undefined;
+  savedLocations: LocationInfo[];
+  lastMapData: MapData | undefined;
+  message: string;
+}
+
+export interface MapData {
+  actualLng: number;
+  address: string;
+  lat: number;
+  lng: number;
+  zoom: number;
+}
+
+export interface LocationInfo {
+  address: string;
+  alerts?: AlertResponse[];
+  current: CurrentResponse;
+  daily: DailyResponse[];
+  hourly: HourlyResponse[];
+  isTemp: boolean;
+  lastUpdated: number;
+  lat: number;
+  lon: number;
+  minutely?: MinutelyResponse[];
+  timezone: string;
+  timezone_offset: number;
+}
+
 export interface AlertResponse {
   description: string;
   event: string;
@@ -24,10 +55,40 @@ export interface Weather {
   id: number;
   main: string;
 }
+
 export interface Day {
   dayNumber: string;
   label: string;
   weather: HourlyResponse[];
+}
+
+export interface CurrentResponse {
+  dt: number;
+  sunrise: number;
+  sunset: number;
+  temp: number;
+  feels_like: number;
+  pressure: number;
+  humidity: number;
+  dew_point: number;
+  clouds: number;
+  uvi: number;
+  visibility: number;
+  wind_speed: number;
+  wind_gust?: number;
+  wind_deg: number;
+  rain?: {
+    '1h': number;
+  };
+  snow?: {
+    '1h': number;
+  };
+  current: Weather[];
+}
+
+export interface MinutelyResponse {
+  dt: number;
+  precipitation: number;
 }
 
 export interface HourlyResponse {
@@ -41,13 +102,13 @@ export interface HourlyResponse {
   clouds: number;
   visibility: number;
   wind_speed: number;
-  wind_gust: number;
+  wind_gust?: number;
   wind_deg: number;
   pop: number;
-  rain: {
+  rain?: {
     '1h': number;
   };
-  snow: {
+  snow?: {
     '1h': number;
   };
   weather: Weather[];
@@ -75,12 +136,12 @@ export interface DailyResponse {
   humidity: number;
   dew_point: number;
   wind_speed: number;
-  wind_gust: number;
+  wind_gust?: number;
   wind_deg: number;
   clouds: number;
   uvi: number;
   pop: number;
-  rain: number;
-  snow: number;
+  rain?: number;
+  snow?: number;
   weather: Weather[];
 }

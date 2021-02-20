@@ -1,19 +1,24 @@
-import React, { createContext } from 'react';
+import React, { createContext, ReactElement } from 'react';
 import reducer from './reducer';
 import useAsyncReducer from 'hooks/useAsyncReducer';
+import { DataStore } from 'types';
 
-export const GlobalStateContext = createContext();
-export const GlobalDispatchContext = createContext();
-
-const initialState = {
+const initialState: DataStore = {
   activeLocation: undefined,
   tempLocation: undefined,
   savedLocations: [],
   lastMapData: undefined,
-  message: undefined,
+  message: '',
 };
 
-const GlobalContextProvider = ({ children }) => {
+export const GlobalStateContext = createContext(initialState);
+export const GlobalDispatchContext = createContext(null);
+
+type Props = {
+  children: ReactElement;
+};
+
+const GlobalContextProvider = ({ children }: Props) => {
   const [state, dispatch] = useAsyncReducer(reducer, initialState);
 
   return (
