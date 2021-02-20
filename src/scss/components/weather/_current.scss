@@ -6,12 +6,4 @@
   &__feels-like {
     @include fluid-type();
   }
-
-  &__description {
-    @include fluid-type(24px, 36px);
-
-    &::first-letter {
-      text-transform: uppercase;
-    }
-  }
 }
