@@ -1,4 +1,8 @@
 .current {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: $padding;
+
   &__temperature {
     @include fluid-type(48px, 64px);
     margin-bottom: $padding / 2;
@@ -7,5 +11,9 @@
   &__feels-like {
     @include fluid-type();
     margin-bottom: $padding;
+  }
+
+  &__icon {
+    // margin-top: -20px;
   }
 }
