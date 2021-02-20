@@ -6,8 +6,6 @@ type Props = {
 };
 
 const QuickInfo = ({ data }: Props) => {
-  console.log('xa', data);
-
   const [renderTemp, setRenderTemp] = useState(false);
   const [renderPrecip, setRenderPrecip] = useState(false);
 
