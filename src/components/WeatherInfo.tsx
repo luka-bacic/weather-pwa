@@ -85,6 +85,7 @@ const WeatherInfo = () => {
             <DailyWeather
               data={weather.daily[0]}
               timezoneOffset={weather.timezone_offset}
+              hideTempAndPrecip
             />
           )}
           <HourlyWeather

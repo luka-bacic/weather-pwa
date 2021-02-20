@@ -1,0 +1,11 @@
+.daily {
+  background: rgba(seagreen, 0.2);
+
+  &__temperature,
+  &__precip,
+  &__sun-uv,
+  &__wind,
+  &__other {
+    border-bottom: 1px solid rgba(c('blue'), 0.7);
+  }
+}

@@ -8,9 +8,10 @@ import UvIndex from './reusable/UvIndex';
 type Props = {
   data: DailyResponse;
   timezoneOffset: number;
+  hideTempAndPrecip?: boolean;
 };
 
-const TodaysWeather = ({ data, timezoneOffset }: Props) => {
+const TodaysWeather = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
   dayjs.extend(utc);
 
   const [sunrise, setSunrise] = useState('');
@@ -85,37 +86,47 @@ const TodaysWeather = ({ data, timezoneOffset }: Props) => {
 
   return (
     <section className="daily">
-      {/* {renderTemp && (
-        <div className="daily__temperature">
-          <h4>Temperature</h4>
-          <div>
-            {hasProp(data.temp, 'max') && (
-              <p className="daily__max">{data.temp.max.toFixed(1)}&deg; max</p>
-            )}
-            {hasProp(data.temp, 'min') && (
-              <p className="daily__min">{data.temp.min.toFixed(1)}&deg; min</p>
-            )}
-          </div>
-        </div>
-      )}
-
-      {renderPrecip && (
-        <div className="daily__precip">
-          <h4>Precipitation</h4>
-          {hasProp(data, 'pop') && (
-            <p className="daily__precip">{data.pop * 100}% of any rain</p>
-          )}
-          {hasProp(data, 'rain') && (
-            <p className="daily__rain">{data.pop}mm of rain</p>
-          )}
-          {hasProp(data, 'snow') && (
-            <p className="daily__rain">{data.snow}mm of snow</p>
-          )}
-        </div>
-      )} */}
-
       <details>
         <summary>Show more about today</summary>
+
+        {!hideTempAndPrecip && (
+          <>
+            {renderTemp && (
+              <div className="daily__temperature">
+                <h4>Temperature</h4>
+                <div>
+                  {hasProp(data.temp, 'max') && (
+                    <p className="daily__max">
+                      {data.temp.max.toFixed(1)}&deg; max
+                    </p>
+                  )}
+                  {hasProp(data.temp, 'min') && (
+                    <p className="daily__min">
+                      {data.temp.min.toFixed(1)}&deg; min
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {renderPrecip && (
+              <div className="daily__precip">
+                <h4>Precipitation</h4>
+                {hasProp(data, 'pop') && (
+                  <p className="daily__precip-chance">
+                    {data.pop * 100}% of any rain
+                  </p>
+                )}
+                {hasProp(data, 'rain') && (
+                  <p className="daily__rain">{data.rain}mm of rain</p>
+                )}
+                {hasProp(data, 'snow') && (
+                  <p className="daily__snow">{data.snow}mm of snow</p>
+                )}
+              </div>
+            )}
+          </>
+        )}
 
         {renderSunUv && (
           <div className="daily__sun-uv">
