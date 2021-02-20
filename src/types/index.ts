@@ -78,10 +78,10 @@ export interface CurrentResponse {
   wind_gust?: number;
   wind_deg: number;
   rain?: {
-    '1h': number;
+    '1h'?: number;
   };
   snow?: {
-    '1h': number;
+    '1h'?: number;
   };
   weather: Weather[];
 }
@@ -106,10 +106,10 @@ export interface HourlyResponse {
   wind_deg: number;
   pop: number;
   rain?: {
-    '1h': number;
+    '1h'?: number;
   };
   snow?: {
-    '1h': number;
+    '1h'?: number;
   };
   weather: Weather[];
 }
