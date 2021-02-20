@@ -59,8 +59,11 @@ const HourlyBlock = ({
       }
 
       if (showRain) {
-        if (hasProp(data, 'rain')) {
-          if (hasProp(data.rain, '1h')) {
+        if (hasProp(data, 'rain') && typeof data.rain !== 'undefined') {
+          if (
+            hasProp(data.rain, '1h') &&
+            typeof data.rain['1h'] !== 'undefined'
+          ) {
             if (data.rain['1h'] < 1) {
               setPrecip('< 1');
             } else {
