@@ -1,7 +1,7 @@
 import React from 'react';
 import { BsArrowUp } from 'react-icons/bs';
 import { BiWind } from 'react-icons/bi';
-import degreesToDirection from 'functions/degreesToDirection';
+import { degreesToDirection } from 'functions';
 
 type Props = {
   degrees: number;

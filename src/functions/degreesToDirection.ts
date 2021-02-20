@@ -2,7 +2,7 @@
 // Thanks to mguida22
 //
 // Returns cardinal direction from degrees (wind direction)
-function degreesToDirection(degrees: number): string {
+export function degreesToDirection(degrees: number): string {
   // keep within the range: 0 <= degrees < 360
   degrees %= 360;
 
@@ -40,5 +40,3 @@ function degreesToDirection(degrees: number): string {
     return 'N';
   }
 }
-
-export default degreesToDirection;

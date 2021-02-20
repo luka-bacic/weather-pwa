@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Tooltip from 'components/Tooltip';
 import { UvInfo } from 'types';
-import uvScale from 'functions/uvScale';
+import { uvScale } from 'functions';
 
 type Props = {
   uv: number;

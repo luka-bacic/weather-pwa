@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { hasProp } from 'functions/hasProp';
+import { hasProp } from 'functions';
 import WindInfo from 'components/weather/reusable/WindInfo';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';

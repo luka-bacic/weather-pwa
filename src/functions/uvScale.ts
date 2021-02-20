@@ -7,7 +7,7 @@ import { UvInfo } from 'types';
 //
 // @returns object - interface UvInfo
 //
-function uvScale(uv: number): UvInfo {
+export function uvScale(uv: number): UvInfo {
   const roundedUv = Math.round(uv);
 
   let result: UvInfo = {
@@ -46,5 +46,3 @@ function uvScale(uv: number): UvInfo {
 
   return result;
 }
-
-export default uvScale;

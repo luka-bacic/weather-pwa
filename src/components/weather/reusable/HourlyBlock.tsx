@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { HourlyResponse, IconData } from 'types';
-import { hasProp } from 'functions/hasProp';
+import { hasProp } from 'functions';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import classNames from 'classnames';
