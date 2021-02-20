@@ -11,17 +11,19 @@ const CurrentWeather = ({ data }: Props) => {
   return (
     <section className="current">
       {hasProp(data, 'temp') && (
-        <p className="currently__temperature">{round(data.temp, 1)}&deg;</p>
+        <div className="current__temperature">{round(data.temp, 1)}&deg;</div>
       )}
 
       {hasProp(data, 'feels_like') && (
-        <p className="current__feels-like">
-          Feels like {round(data.feels_like, 1)}&deg;
-        </p>
+        <div className="current__feels-like">
+          Feels like <strong>{round(data.feels_like, 1)}&deg;</strong>
+        </div>
       )}
 
       {hasProp(data.weather[0], 'description') && (
-        <p className="current__description">{data.weather[0].description}</p>
+        <div className="current__description">
+          {data.weather[0].description}
+        </div>
       )}
     </section>
   );
