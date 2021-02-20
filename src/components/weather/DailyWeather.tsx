@@ -85,7 +85,7 @@ const TodaysWeather = ({ data, timezoneOffset }: Props) => {
 
   return (
     <section className="daily">
-      {renderTemp && (
+      {/* {renderTemp && (
         <div className="daily__temperature">
           <h4>Temperature</h4>
           <div>
@@ -112,7 +112,7 @@ const TodaysWeather = ({ data, timezoneOffset }: Props) => {
             <p className="daily__rain">{data.snow}mm of snow</p>
           )}
         </div>
-      )}
+      )} */}
 
       <details>
         <summary>Show more about today</summary>

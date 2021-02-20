@@ -8,10 +8,16 @@ import CurrentWeather from 'components/weather/CurrentWeather';
 import DailyWeather from 'components/weather/DailyWeather';
 import HourlyWeather from 'components/weather/HourlyWeather';
 import WeatherAlerts from 'components/weather/WeatherAlerts';
+import QuickInfo from 'components/weather/QuickInfo';
+import { LocationInfo } from '../types';
 
 const WeatherInfo = () => {
   // const dispatch = useContext(GlobalDispatchContext);
-  const { activeLocation: weather } = useContext(GlobalStateContext);
+  type types = {
+    activeLocation: LocationInfo;
+    weather: object;
+  };
+  const { activeLocation: weather }: types = useContext(GlobalStateContext);
   // const [locationName, setLocationName] = useState('');
   // const [inputValue, setInputValue] = useState('');
 
@@ -62,15 +68,19 @@ const WeatherInfo = () => {
             />
           </div> */}
 
-          <CurrentWeather
-            data={weather.current}
-            // timezoneOffset={weather.timezone_offset}
-          />
-
           <WeatherAlerts
             alerts={weather.alerts}
             timezoneOffset={weather.timezone_offset}
           />
+
+          <CurrentWeather
+            data={weather.current}
+            // timezoneOffset={weather.timezone_offset}
+          />
+          {typeof weather.daily[0] !== 'undefined' && (
+            <QuickInfo data={weather.daily[0]} />
+          )}
+
           {typeof weather.daily[0] !== 'undefined' && (
             <DailyWeather
               data={weather.daily[0]}

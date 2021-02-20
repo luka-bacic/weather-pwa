@@ -1,0 +1,37 @@
+.quick-info {
+  &__temperature,
+  &__description,
+  &__precip {
+    margin-bottom: $padding;
+  }
+
+  &__temperature-wrap {
+    display: flex;
+  }
+
+  &__temperature-column {
+    display: flex;
+    flex-direction: column;
+    margin-right: $padding / 2;
+
+    span {
+      &:last-of-type {
+        margin-top: $padding / 2;
+      }
+    }
+  }
+
+  &__description {
+    @include fluid-type(28px, 38px);
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+
+  &__precip-chance,
+  &__rain,
+  &__snow {
+    margin-bottom: $padding / 2;
+  }
+}
