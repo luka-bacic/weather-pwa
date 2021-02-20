@@ -1,9 +1,11 @@
 .current {
   &__temperature {
     @include fluid-type(48px, 64px);
+    margin-bottom: $padding / 2;
   }
 
   &__feels-like {
     @include fluid-type();
+    margin-bottom: $padding;
   }
 }
