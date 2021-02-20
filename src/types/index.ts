@@ -83,7 +83,7 @@ export interface CurrentResponse {
   snow?: {
     '1h': number;
   };
-  current: Weather[];
+  weather: Weather[];
 }
 
 export interface MinutelyResponse {
