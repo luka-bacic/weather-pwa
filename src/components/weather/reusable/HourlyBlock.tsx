@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { HourlyResponse, IconData } from 'types';
-import { hasProp } from 'functions';
+import { hasProp, getIconInfo } from 'functions';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import classNames from 'classnames';
@@ -48,10 +48,7 @@ const HourlyBlock = ({
 
       if (hasProp(data.weather[0], 'icon')) {
         // Get required icon data
-        const icon: IconData = {
-          url: `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`,
-          description: data.weather[0].description,
-        };
+        const icon = getIconInfo(data.weather[0]);
 
         setIconData(icon);
 
