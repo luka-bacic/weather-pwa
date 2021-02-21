@@ -1,4 +1,4 @@
-import React, { createContext, ReactElement } from 'react';
+import React, { createContext, ReactElement, Dispatch } from 'react';
 import reducer from './reducer';
 import useAsyncReducer from 'hooks/useAsyncReducer';
 import { DataStore } from 'types';
@@ -11,8 +11,12 @@ const initialState: DataStore = {
   message: '',
 };
 
+const initialDispatch = () => {};
+
 export const GlobalStateContext = createContext(initialState);
-export const GlobalDispatchContext = createContext(null);
+export const GlobalDispatchContext = createContext<Dispatch<any>>(
+  initialDispatch
+);
 
 type Props = {
   children: ReactElement;
