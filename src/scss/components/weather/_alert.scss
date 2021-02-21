@@ -1,14 +1,18 @@
 .alert {
+  margin-bottom: $padding;
+
   &__preview-button,
   &__single-open-button {
-    background: c('white');
     padding: $padding / 2 $padding;
     border: 1px solid c('black');
+    border-top: 0;
     font-size: 35px;
     line-height: 1;
     display: flex;
     align-items: center;
     transition: width $medium;
+    width: 100%;
+    cursor: pointer;
 
     // Remove button push effect
     &:active,
@@ -16,6 +20,17 @@
     &:hover {
       padding: $padding / 2 $padding;
       border: 1px solid c('black');
+      border-top: 0;
+    }
+  }
+
+  &__preview-button {
+    border-top: 1px solid c('black');
+
+    &:active,
+    &:focus,
+    &:hover {
+      border-top: 1px solid c('black');
     }
   }
 
@@ -38,7 +53,6 @@
   }
 
   &__single-open-button {
-    background: c('warning');
   }
 
   &__single-close-button {
@@ -56,8 +70,14 @@
     background: c('warning');
   }
 
+  &__single-open-button,
   &--has-warning {
     background: c('warning');
+
+    &:hover,
+    &:focus {
+      background: scale-color(c('warning'), $lightness: 10%);
+    }
   }
 
   &--preview-expanded {
