@@ -4,14 +4,14 @@ import WindInfo from 'components/weather/reusable/WindInfo';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { DailyResponse } from 'types';
-import UvIndex from './reusable/UvIndex';
+import UvIndex from './UvIndex';
 type Props = {
   data: DailyResponse;
   timezoneOffset: number;
   hideTempAndPrecip?: boolean;
 };
 
-const TodaysWeather = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
+const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
   dayjs.extend(utc);
 
   const [sunrise, setSunrise] = useState('');
@@ -189,4 +189,4 @@ const TodaysWeather = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
   );
 };
 
-export default TodaysWeather;
+export default DailyBlock;

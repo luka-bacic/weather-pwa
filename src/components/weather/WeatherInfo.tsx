@@ -3,10 +3,10 @@ import { Link } from 'gatsby';
 import {
   // GlobalDispatchContext,
   GlobalStateContext,
-} from '../context/GlobalContextProvider';
+} from '../../context/GlobalContextProvider';
 import CurrentWeather from 'components/weather/CurrentWeather';
-import DailyWeather from 'components/weather/DailyWeather';
-import HourlyWeather from 'components/weather/HourlyWeather';
+import DailyBlock from 'components/weather/reusable/DailyBlock';
+import HourlyForecast from 'components/weather/HourlyForecast';
 import WeatherAlerts from 'components/weather/WeatherAlerts';
 import QuickInfo from 'components/weather/QuickInfo';
 
@@ -82,13 +82,14 @@ const WeatherInfo = () => {
           )}
 
           {typeof weather.daily[0] !== 'undefined' && (
-            <DailyWeather
+            <DailyBlock
               data={weather.daily[0]}
               timezoneOffset={weather.timezone_offset}
               hideTempAndPrecip
             />
           )}
-          <HourlyWeather
+
+          <HourlyForecast
             data={weather.hourly}
             timezoneOffset={weather.timezone_offset}
           />

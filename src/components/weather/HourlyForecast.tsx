@@ -1,9 +1,4 @@
-import React, {
-  JSXElementConstructor,
-  ReactElement,
-  useEffect,
-  useState,
-} from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import HourlyBlock from 'components/weather/reusable/HourlyBlock';
 import { HourlyResponse, Day } from 'types';
 import dayjs from 'dayjs';
@@ -14,7 +9,7 @@ type Props = {
   timezoneOffset: number;
 };
 
-const HourlyWeather = ({ data, timezoneOffset }: Props) => {
+const HourlyForecast = ({ data, timezoneOffset }: Props) => {
   dayjs.extend(utc);
 
   const weekDays: Day[] = [];
@@ -187,4 +182,4 @@ const HourlyWeather = ({ data, timezoneOffset }: Props) => {
   );
 };
 
-export default HourlyWeather;
+export default HourlyForecast;
