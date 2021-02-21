@@ -85,23 +85,23 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
   }, [data]);
 
   return (
-    <section className="daily">
+    <section className="day">
       <details>
         <summary>Show more about today</summary>
 
         {!hideTempAndPrecip && (
           <>
             {renderTemp && (
-              <div className="daily__temperature">
+              <div className="day__temperature">
                 <h4>Temperature</h4>
                 <div>
                   {hasProp(data.temp, 'max') && (
-                    <p className="daily__max">
+                    <p className="day__max">
                       {data.temp.max.toFixed(1)}&deg; max
                     </p>
                   )}
                   {hasProp(data.temp, 'min') && (
-                    <p className="daily__min">
+                    <p className="day__min">
                       {data.temp.min.toFixed(1)}&deg; min
                     </p>
                   )}
@@ -110,18 +110,18 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
             )}
 
             {renderPrecip && (
-              <div className="daily__precip">
+              <div className="day__precip">
                 <h4>Precipitation</h4>
                 {hasProp(data, 'pop') && (
-                  <p className="daily__precip-chance">
+                  <p className="day__precip-chance">
                     {data.pop * 100}% of any rain
                   </p>
                 )}
                 {hasProp(data, 'rain') && (
-                  <p className="daily__rain">{data.rain}mm of rain</p>
+                  <p className="day__rain">{data.rain}mm of rain</p>
                 )}
                 {hasProp(data, 'snow') && (
-                  <p className="daily__snow">{data.snow}mm of snow</p>
+                  <p className="day__snow">{data.snow}mm of snow</p>
                 )}
               </div>
             )}
@@ -129,22 +129,22 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
         )}
 
         {renderSunUv && (
-          <div className="daily__sun-uv">
+          <div className="day__sun-uv">
             <h4>Sun and UV</h4>
             {sunrise && (
-              <p className="daily__sunrise">
+              <p className="day__sunrise">
                 <strong>{sunrise}</strong> sunrise
               </p>
             )}
 
             {sunset && (
-              <p className="daily__sunset">
+              <p className="day__sunset">
                 <strong>{sunset}</strong> sunset
               </p>
             )}
 
             {hasProp(data, 'uvi') && (
-              <p className="daily__uv-index">
+              <p className="day__uv-index">
                 <UvIndex uv={data.uvi} />
               </p>
             )}
@@ -152,35 +152,33 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
         )}
 
         {renderWind && (
-          <div className="daily__wind">
+          <div className="day__wind">
             <h4>Wind</h4>
             <WindInfo degrees={data.wind_deg} speed={data.wind_speed} />
 
             {hasProp(data, 'wind_gust') && (
-              <p className="daily__wind-speed">
-                {data.wind_gust} m/s wind gust
-              </p>
+              <p className="day__wind-speed">{data.wind_gust} m/s wind gust</p>
             )}
           </div>
         )}
 
         {renderOther && (
-          <div className="daily__other">
+          <div className="day__other">
             <h4>Other</h4>
             {hasProp(data, 'clouds') && (
-              <p className="daily__clouds">{data.clouds}% cloud cover</p>
+              <p className="day__clouds">{data.clouds}% cloud cover</p>
             )}
 
             {hasProp(data, 'dew_point') && (
-              <p className="daily__dew-point">
+              <p className="day__dew-point">
                 {data.dew_point.toFixed(1)}&deg; dew point
               </p>
             )}
             {hasProp(data, 'humidity') && (
-              <p className="daily__humidity">{data.humidity}% humidity</p>
+              <p className="day__humidity">{data.humidity}% humidity</p>
             )}
             {hasProp(data, 'pressure') && (
-              <p className="daily__pressure">{data.pressure} hPa</p>
+              <p className="day__pressure">{data.pressure} hPa</p>
             )}
           </div>
         )}
