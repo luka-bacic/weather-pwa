@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { hasProp } from 'functions';
+import { hasProp, round } from 'functions';
 import WindInfo from 'components/weather/reusable/WindInfo';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { DailyResponse } from 'types';
 import UvIndex from './UvIndex';
+
 type Props = {
   data: DailyResponse;
   timezoneOffset: number;
@@ -24,18 +25,22 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
 
   useEffect(() => {
     if (typeof data !== 'undefined') {
-      // Should the temperature section be rendered
-      if (hasProp(data.temp, 'max') || hasProp(data.temp, 'min')) {
-        setRenderTemp(true);
+      if (!hideTempAndPrecip) {
+        // Should the temperature section be rendered
+        if (hasProp(data.temp, 'max') || hasProp(data.temp, 'min')) {
+          setRenderTemp(true);
+        }
+
+        // Should the precipitation section be rendered
+        if (
+          hasProp(data, 'pop') ||
+          hasProp(data, 'rain') ||
+          hasProp(data, 'snow')
+        ) {
+          setRenderPrecip(true);
+        }
       }
-      // Should the precipitation section be rendered
-      if (
-        hasProp(data, 'pop') ||
-        hasProp(data, 'rain') ||
-        hasProp(data, 'snow')
-      ) {
-        setRenderPrecip(true);
-      }
+
       // Should the sun and UV section be rendered
       if (
         hasProp(data, 'sunrise') ||
@@ -44,6 +49,7 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
       ) {
         setRenderSunUv(true);
       }
+
       // Should the wind section be rendered
       if (
         hasProp(data, 'wind_speed') ||
@@ -52,6 +58,7 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
       ) {
         setRenderWind(true);
       }
+
       // Should the `other` section be rendered
       if (
         hasProp(data, 'clouds') ||
@@ -97,12 +104,12 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
                 <div>
                   {hasProp(data.temp, 'max') && (
                     <p className="day__max">
-                      {data.temp.max.toFixed(1)}&deg; max
+                      {round(data.temp.max, 1)}&deg; max
                     </p>
                   )}
                   {hasProp(data.temp, 'min') && (
                     <p className="day__min">
-                      {data.temp.min.toFixed(1)}&deg; min
+                      {round(data.temp.min, 1)}&deg; min
                     </p>
                   )}
                 </div>
@@ -114,7 +121,7 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
                 <h4>Precipitation</h4>
                 {hasProp(data, 'pop') && (
                   <p className="day__precip-chance">
-                    {data.pop * 100}% of any rain
+                    {data.pop * 100}% chance of any rain
                   </p>
                 )}
                 {hasProp(data, 'rain') && (
@@ -171,7 +178,7 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
 
             {hasProp(data, 'dew_point') && (
               <p className="day__dew-point">
-                {data.dew_point.toFixed(1)}&deg; dew point
+                {round(data.dew_point, 1)}&deg; dew point
               </p>
             )}
             {hasProp(data, 'humidity') && (
