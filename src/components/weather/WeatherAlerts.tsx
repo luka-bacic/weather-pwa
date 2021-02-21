@@ -20,7 +20,7 @@ const WeatherAlerts = ({ alerts, timezoneOffset }: Props) => {
 
   useEffect(() => {
     // Write inline style for button width
-    getComputedWidth();
+    // getComputedWidth();
 
     if (typeof alerts !== 'undefined') {
       // Count number of alerts
@@ -94,9 +94,7 @@ const WeatherAlerts = ({ alerts, timezoneOffset }: Props) => {
         </span>
       </button>
 
-      {/* <div className="alert__all-warnings"> */}
-      {renderedAlerts.length > 0 && renderedAlerts}
-      {/* </div> */}
+      {showPreview && renderedAlerts.length > 0 && renderedAlerts}
     </section>
   );
 };
