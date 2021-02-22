@@ -31,6 +31,7 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
   const [renderSunUv, setRenderSunUv] = useState(false);
   const [renderTemp, setRenderTemp] = useState(false);
   const [btnTitle, setBtnTitle] = useState('');
+  const [btnTitleDate, setBtnTitleDate] = useState('');
 
   useEffect(() => {
     if (typeof data !== 'undefined') {
@@ -72,6 +73,14 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
             setSnow(round(data.snow, 0));
           }
         }
+
+        // Set date to be appended when the details are opened
+        setBtnTitleDate(
+          dayjs
+            .utc(data.dt * 1000)
+            .add(timezoneOffset, 'second')
+            .format('D MMMM')
+        );
       }
 
       // Should the sun and UV section be rendered
@@ -162,35 +171,41 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
         <span className="day__title-text">{btnTitle}</span>
 
         {!single && (
-          <div className="day__title-info">
-            {iconData !== null && (
-              <img
-                className="day__title-icon"
-                src={iconData.url}
-                alt={iconData.description}
-              />
+          <>
+            {btnTitleDate && (
+              <span className="day__title-date">{btnTitleDate}</span>
             )}
 
-            {minTemp !== null && (
-              <span className="day__title-min">{minTemp}&deg;</span>
-            )}
+            <span className="day__title-info">
+              {iconData !== null && (
+                <img
+                  className="day__title-icon"
+                  src={iconData.url}
+                  alt={iconData.description}
+                />
+              )}
 
-            {maxTemp !== null && (
-              <span className="day__title-max">
-                <strong>{maxTemp}</strong>&deg;
-              </span>
-            )}
+              {minTemp !== null && (
+                <span className="day__title-min">{minTemp}&deg;</span>
+              )}
 
-            {precip !== null && (
-              <span className="day__title-precip">
-                <div
-                  className={precipBackgroundClasses}
-                  style={{ opacity: `${precip}%` }}
-                ></div>
-                <div className="day__title-precip-text">{precip}%</div>
-              </span>
-            )}
-          </div>
+              {maxTemp !== null && (
+                <span className="day__title-max">
+                  <strong>{maxTemp}</strong>&deg;
+                </span>
+              )}
+
+              {precip !== null && (
+                <span className="day__title-precip">
+                  <div
+                    className={precipBackgroundClasses}
+                    style={{ opacity: `${precip}%` }}
+                  ></div>
+                  <div className="day__title-precip-text">{precip}%</div>
+                </span>
+              )}
+            </span>
+          </>
         )}
 
         <MdKeyboardArrowDown className="day__title-marker" />

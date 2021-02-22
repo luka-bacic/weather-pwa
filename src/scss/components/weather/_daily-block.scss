@@ -8,10 +8,31 @@
   }
 
   &[open] {
+    .day__title-text {
+      min-width: unset;
+      margin-right: $padding / 2;
+    }
+
     .day__title-marker {
       transform: rotate(180deg);
     }
 
+    // &.transition-ended {
+    //   .day__title-date {
+    //     opacity: 1;
+    //     visibility: visible;
+    //   }
+    // }
+
+    .day__title-info {
+      display: none;
+    }
+
+    .day__title-date {
+      display: block;
+    }
+
+    // Slide in animation when opening
     summary ~ * {
       animation: sweep $fast ease-in-out;
     }
@@ -22,6 +43,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: calc(#{$padding} * 2 + 45px);
 
     &::marker,
     &::-wekit-details-marker {
@@ -31,6 +53,15 @@
 
   &__title-text {
     min-width: 9ch;
+  }
+
+  &__title-date {
+    flex-shrink: 0;
+    margin-right: auto;
+    // visibility: hidden;
+    // opacity: 0;
+    display: none;
+    // transition: opacity $fast;
   }
 
   &__title-info {
@@ -54,8 +85,9 @@
   &__title-min,
   &__title-max,
   &__title-precip {
-    margin-left: #{$padding / 4};
+    margin-left: $padding / 4;
   }
+
   &__title-max {
   }
 
