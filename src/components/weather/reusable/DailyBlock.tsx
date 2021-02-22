@@ -96,11 +96,16 @@ const DailyBlock = ({
         );
       }
 
+      // Set button title if it is passed in
       if (title) {
         setBtnTitle(title);
       } else {
+        // If no title was passed in, write either 'Tomorrow' or the day name
+
+        // Get today's day number (0-6)
         const today = dayjs().format('d');
 
+        // Get passed in day's day number (0-6)
         const passedInDay = dayjs
           .utc(data.dt * 1000)
           .add(timezoneOffset, 'second')
@@ -116,7 +121,6 @@ const DailyBlock = ({
               .format('dddd')
           );
         }
-        // console.log(today);
       }
     }
   }, [data]);
