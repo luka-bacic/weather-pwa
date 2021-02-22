@@ -10,9 +10,15 @@ type Props = {
   data: DailyResponse;
   timezoneOffset: number;
   hideTempAndPrecip?: boolean;
+  title?: string;
 };
 
-const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
+const DailyBlock = ({
+  data,
+  timezoneOffset,
+  hideTempAndPrecip,
+  title,
+}: Props) => {
   dayjs.extend(utc);
 
   const [sunrise, setSunrise] = useState('');
@@ -22,6 +28,7 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
   const [renderWind, setRenderWind] = useState(false);
   const [renderSunUv, setRenderSunUv] = useState(false);
   const [renderTemp, setRenderTemp] = useState(false);
+  const [btnTitle, setBtnTitle] = useState('');
 
   useEffect(() => {
     if (typeof data !== 'undefined') {
@@ -88,13 +95,36 @@ const DailyBlock = ({ data, timezoneOffset, hideTempAndPrecip }: Props) => {
             .format('H:mma')
         );
       }
+
+      if (title) {
+        setBtnTitle(title);
+      } else {
+        const today = dayjs().format('d');
+
+        const passedInDay = dayjs
+          .utc(data.dt * 1000)
+          .add(timezoneOffset, 'second')
+          .format('d');
+
+        if (parseInt(passedInDay) - parseInt(today) === 1) {
+          setBtnTitle('Tomorrow');
+        } else {
+          setBtnTitle(
+            dayjs
+              .utc(data.dt * 1000)
+              .add(timezoneOffset, 'second')
+              .format('dddd')
+          );
+        }
+        // console.log(today);
+      }
     }
   }, [data]);
 
   return (
     <section className="day">
       <details>
-        <summary>Show more about today</summary>
+        <summary>{btnTitle}</summary>
 
         {!hideTempAndPrecip && (
           <>
