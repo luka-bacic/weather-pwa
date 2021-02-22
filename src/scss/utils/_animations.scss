@@ -1,0 +1,10 @@
+@keyframes sweep {
+  from {
+    opacity: 0;
+    @include t3d(0, -10px);
+  }
+  to {
+    opacity: 1;
+    @include t3d(0);
+  }
+}

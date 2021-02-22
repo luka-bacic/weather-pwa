@@ -6,7 +6,7 @@ import utc from 'dayjs/plugin/utc';
 import { DailyResponse, IconData } from 'types';
 import UvIndex from './UvIndex';
 import classNames from 'classnames';
-
+import { MdKeyboardArrowDown } from 'react-icons/md';
 type Props = {
   data: DailyResponse;
   timezoneOffset: number;
@@ -160,6 +160,7 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
     <details className="day">
       <summary className="day__button">
         <span className="day__title-text">{btnTitle}</span>
+
         {!single && (
           <div className="day__title-info">
             {iconData !== null && (
@@ -191,6 +192,8 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
             )}
           </div>
         )}
+
+        <MdKeyboardArrowDown className="day__title-marker" />
       </summary>
 
       {!single && (

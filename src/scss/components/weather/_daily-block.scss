@@ -7,11 +7,26 @@
     border-bottom: $border;
   }
 
+  &[open] {
+    .day__title-marker {
+      transform: rotate(180deg);
+    }
+
+    summary ~ * {
+      animation: sweep $fast ease-in-out;
+    }
+  }
+
   &__button {
     padding: $padding 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    &::marker,
+    &::-wekit-details-marker {
+      display: none;
+    }
   }
 
   &__title-text {
@@ -27,11 +42,13 @@
   }
 
   &__title-icon {
+    width: 45px;
+    height: auto;
   }
 
   &__title-min,
   &__title-max {
-    min-width: 4ch;
+    min-width: 3ch;
   }
 
   &__title-min,
@@ -63,6 +80,16 @@
   &__title-precip-text {
     position: relative;
     z-index: 1;
+  }
+
+  &__title-marker {
+    flex-shrink: 0;
+    $size: 24px;
+    width: $size;
+    height: $size;
+    transform: rotate(0);
+    transition: transform $fast;
+    transform-origin: $size / 2 $size / 2;
   }
 
   &__temperature,
