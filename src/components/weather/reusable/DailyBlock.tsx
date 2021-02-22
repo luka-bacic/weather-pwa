@@ -213,19 +213,33 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
 
       {!single && (
         <>
+          {iconData !== null && (
+            <img
+              className="day__icon"
+              src={iconData.url}
+              alt={iconData.description}
+            />
+          )}
+
           {renderTemp && (
             <div className="day__temperature">
-              <h4>Temperature</h4>
-              <div>
-                {minTemp !== null && <div>{minTemp}&deg; min</div>}
-                {maxTemp !== null && <div>{maxTemp}&deg; max</div>}
-              </div>
+              <p>
+                {minTemp !== null && (
+                  <span>
+                    <strong>{minTemp}&deg;</strong> min
+                  </span>
+                )}
+                {maxTemp !== null && (
+                  <span>
+                    <strong>{maxTemp}&deg;</strong> max
+                  </span>
+                )}
+              </p>
             </div>
           )}
 
           {renderPrecip && (
             <div className="day__precip">
-              <h4>Precipitation</h4>
               {precip !== null && (
                 <p className="day__precip-chance">
                   {precip}% chance of any rain

@@ -11,6 +11,7 @@ body {
 
 p {
   line-height: 1.5;
+  margin: 0 0 $padding 0;
 }
 
 h1,
@@ -20,6 +21,7 @@ h4,
 h5,
 h6 {
   line-height: 1.2;
+  margin: $padding 0;
 }
 
 h1 {

@@ -53,6 +53,7 @@
 
   &__title-text {
     min-width: 9ch;
+    font-weight: 500;
   }
 
   &__title-date {
@@ -124,7 +125,6 @@
     transform-origin: $size / 2 $size / 2;
   }
 
-  &__temperature,
   &__precip,
   &__sun-uv,
   &__wind,
@@ -132,6 +132,21 @@
     border-bottom: 1px solid rgba(c('blue'), 0.7);
   }
 
+  &__temperature {
+    > div {
+      display: flex;
+
+      > span {
+        &:last-of-type {
+          margin-left: 1rem;
+        }
+      }
+    }
+  }
+
+  &__icon {
+    margin-bottom: $padding;
+  }
   &--no-rain {
     opacity: 0.1 !important;
   }
