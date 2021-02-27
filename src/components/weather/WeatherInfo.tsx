@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'gatsby';
 import {
   // GlobalDispatchContext,
@@ -6,6 +6,7 @@ import {
 } from '../../context/GlobalContextProvider';
 import CurrentWeather from 'components/weather/CurrentWeather';
 import DailyBlock from 'components/weather/reusable/DailyBlock';
+import DailyForecast from 'components/weather/DailyForecast';
 import HourlyForecast from 'components/weather/HourlyForecast';
 import WeatherAlerts from 'components/weather/WeatherAlerts';
 import QuickInfo from 'components/weather/QuickInfo';
@@ -14,6 +15,8 @@ const WeatherInfo = () => {
   // const dispatch = useContext(GlobalDispatchContext);
 
   const { activeLocation: weather } = useContext(GlobalStateContext);
+
+  useEffect(() => {}, [weather]);
 
   // const [locationName, setLocationName] = useState('');
   // const [inputValue, setInputValue] = useState('');
@@ -43,14 +46,6 @@ const WeatherInfo = () => {
   //   }
   // };
 
-  useEffect(() => {
-    // if (typeof weather !== 'undefined') {
-    //   if (typeof weather.alerts !== 'undefined') {
-    //     console.log('ALERTS:', weather.alerts);
-    //   }
-    // }
-  }, [weather]);
-
   return (
     <div className="weather-info">
       {typeof weather !== 'undefined' ? (
@@ -64,7 +59,7 @@ const WeatherInfo = () => {
               onChange={handleInputChange}
               value={inputValue}
             />
-          </div> */}
+      </div> */}
 
           <div className="flex">
             <WeatherAlerts
@@ -85,7 +80,8 @@ const WeatherInfo = () => {
             <DailyBlock
               data={weather.daily[0]}
               timezoneOffset={weather.timezone_offset}
-              hideTempAndPrecip
+              title="Show more about today"
+              single
             />
           )}
 
@@ -93,6 +89,15 @@ const WeatherInfo = () => {
             data={weather.hourly}
             timezoneOffset={weather.timezone_offset}
           />
+
+          {typeof weather.daily !== 'undefined' &&
+            Array.isArray(weather.daily) && (
+              <DailyForecast
+                data={weather.daily}
+                timezoneOffset={weather.timezone_offset}
+                withoutFirst
+              />
+            )}
         </div>
       ) : (
         <div>
