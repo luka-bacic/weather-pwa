@@ -1,4 +1,4 @@
-.hourly {
+.hourly-forecast {
   &__filters {
     display: flex;
 
@@ -35,33 +35,5 @@
 
   &__hour-wrap {
     display: flex;
-  }
-
-  &__single {
-    flex: 1 0 auto;
-    border-right: 1px solid c('blue');
-    padding: $padding / 2;
-
-    &.night {
-      background: rgba(c('black'), 0.08);
-    }
-
-    &:last-of-type {
-      border-right: none;
-    }
-  }
-
-  &__icon {
-    display: block;
-    min-height: 50px;
-  }
-
-  &__feels-like {
-    position: relative;
-    margin-top: $padding * 2;
-  }
-
-  &__rain {
-    margin-top: $padding * 2;
   }
 }

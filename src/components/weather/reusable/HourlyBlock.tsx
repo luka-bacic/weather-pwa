@@ -79,17 +79,17 @@ const HourlyBlock = ({
   // console.log('hour', data);
 
   const hourlyClasses = classNames({
-    hourly__single: true,
-    night: isNightTime,
+    'hourly-block': true,
+    'hourly--night': isNightTime,
   });
 
   return (
     <div className={hourlyClasses}>
-      <p className="hourly__time">{time}</p>
+      <p className="hourly-block__time">{time}</p>
       {iconData && (
         <img
           src={iconData.url}
-          className="hourly__icon"
+          className="hourly-block__icon"
           alt={iconData.description}
           loading="lazy"
         />
@@ -97,11 +97,11 @@ const HourlyBlock = ({
 
       {showTemperature && (
         <div>
-          <p className="hourly__temp">
+          <p className="hourly-block__temp">
             <strong>{data.temp.toFixed(1)}&deg;</strong>
           </p>
 
-          <p className="hourly__feels-like">
+          <p className="hourly-block__feels-like">
             {data.feels_like.toFixed(1)}&deg;
           </p>
         </div>
@@ -109,9 +109,9 @@ const HourlyBlock = ({
 
       {showRain && (
         <div>
-          <p className="hourly__rain">{(data.pop * 100).toFixed(0)}%</p>
+          <p className="hourly-block__rain">{(data.pop * 100).toFixed(0)}%</p>
 
-          <p className="hourly__precip">{precip} mm</p>
+          <p className="hourly-block__precip">{precip} mm</p>
         </div>
       )}
 

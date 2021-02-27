@@ -88,9 +88,9 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
           ));
 
           return (
-            <div className="hourly__day" key={i}>
+            <div className="hourly-forecast__day" key={i}>
               <h4>{day.label}</h4>
-              <div className="hourly__hour-wrap">{hours}</div>
+              <div className="hourly-forecast__hour-wrap">{hours}</div>
             </div>
           );
         })
@@ -107,10 +107,10 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
   ]);
 
   return (
-    <section className="hourly">
+    <section className="hourly-forecast">
       <h3>Hourly forecast</h3>
 
-      <div className="hourly__filters">
+      <div className="hourly-forecast__filters">
         <label htmlFor="temperature">
           Show temperature
           <input
@@ -177,7 +177,9 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
           />
         </label>
       </div>
-      <div className="hourly__wrap">{renderHours.length && renderHours}</div>
+      <div className="hourly-forecast__wrap">
+        {renderHours.length && renderHours}
+      </div>
     </section>
   );
 };
