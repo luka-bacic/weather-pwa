@@ -147,7 +147,13 @@
   &__icon {
     margin-bottom: $padding;
   }
+
   &--no-rain {
     opacity: 0.1 !important;
+  }
+
+  svg:not([class]) {
+    width: $icon-size;
+    height: $icon-size;
   }
 }

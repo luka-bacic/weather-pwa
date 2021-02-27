@@ -7,6 +7,9 @@ import { DailyResponse, IconData } from 'types';
 import UvIndex from './UvIndex';
 import classNames from 'classnames';
 import { MdKeyboardArrowDown } from 'react-icons/md';
+import { FiSunset, FiSunrise, FiCloud } from 'react-icons/fi';
+import { GiDew } from 'react-icons/gi';
+import { WiHumidity } from 'react-icons/wi';
 type Props = {
   data: DailyResponse;
   timezoneOffset: number;
@@ -257,12 +260,14 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
           <h4>Sun and UV</h4>
           {sunrise && (
             <p className="day__sunrise">
+              <FiSunrise />
               <strong>{sunrise}</strong> sunrise
             </p>
           )}
 
           {sunset && (
             <p className="day__sunset">
+              <FiSunset />
               <strong>{sunset}</strong> sunset
             </p>
           )}
@@ -290,16 +295,23 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
         <div className="day__other">
           <h4>Other</h4>
           {hasProp(data, 'clouds') && (
-            <p className="day__clouds">{data.clouds}% cloud cover</p>
+            <p className="day__clouds">
+              <FiCloud />
+              {data.clouds}% cloud cover
+            </p>
           )}
 
           {hasProp(data, 'dew_point') && (
             <p className="day__dew-point">
+              <GiDew />
               {round(data.dew_point, 1)}&deg; dew point
             </p>
           )}
           {hasProp(data, 'humidity') && (
-            <p className="day__humidity">{data.humidity}% humidity</p>
+            <p className="day__humidity">
+              <WiHumidity />
+              {data.humidity}% humidity
+            </p>
           )}
           {hasProp(data, 'pressure') && (
             <p className="day__pressure">{data.pressure} hPa</p>
