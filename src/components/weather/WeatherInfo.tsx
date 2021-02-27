@@ -10,6 +10,7 @@ import DailyForecast from 'components/weather/DailyForecast';
 import HourlyForecast from 'components/weather/HourlyForecast';
 import WeatherAlerts from 'components/weather/WeatherAlerts';
 import QuickInfo from 'components/weather/QuickInfo';
+import ForecastTime from 'components/weather/ForecastTime';
 
 const WeatherInfo = () => {
   // const dispatch = useContext(GlobalDispatchContext);
@@ -17,6 +18,10 @@ const WeatherInfo = () => {
   const { activeLocation: weather } = useContext(GlobalStateContext);
 
   useEffect(() => {}, [weather]);
+
+  if (weather) {
+    console.log(weather);
+  }
 
   // const [locationName, setLocationName] = useState('');
   // const [inputValue, setInputValue] = useState('');
@@ -73,16 +78,16 @@ const WeatherInfo = () => {
             />
           </div>
           {typeof weather.daily[0] !== 'undefined' && (
-            <QuickInfo data={weather.daily[0]} />
-          )}
+            <>
+              <QuickInfo data={weather.daily[0]} />
 
-          {typeof weather.daily[0] !== 'undefined' && (
-            <DailyBlock
-              data={weather.daily[0]}
-              timezoneOffset={weather.timezone_offset}
-              title="Show more about today"
-              single
-            />
+              <DailyBlock
+                data={weather.daily[0]}
+                timezoneOffset={weather.timezone_offset}
+                title="Show more about today"
+                single
+              />
+            </>
           )}
 
           <HourlyForecast
@@ -98,6 +103,11 @@ const WeatherInfo = () => {
                 withoutFirst
               />
             )}
+
+          <ForecastTime
+            timezoneOffset={weather.timezone_offset}
+            lastUpdated={weather.lastUpdated}
+          />
         </div>
       ) : (
         <div>

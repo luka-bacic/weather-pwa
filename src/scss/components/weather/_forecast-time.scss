@@ -1,0 +1,9 @@
+.forecast-time {
+  padding-top: $padding;
+
+  small {
+    display: block;
+    line-height: 1.4;
+    color: rgba(c('black'), 0.6);
+  }
+}
