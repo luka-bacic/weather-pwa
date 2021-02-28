@@ -127,7 +127,7 @@ const HourlyBlock = ({
 
   return (
     <div className={hourlyClasses}>
-      <p className="hourly-block__time">{time}</p>
+      <div className="hourly-block__time">{time}</div>
       {iconData && (
         <img
           src={iconData.url}
@@ -140,12 +140,12 @@ const HourlyBlock = ({
       {showTemperature && (
         <div>
           {temp !== null && (
-            <p className="hourly-block__temp">
+            <div className="hourly-block__temp">
               <strong>{temp}&deg;</strong>
-            </p>
+            </div>
           )}
           {feelsLike !== null && (
-            <p className="hourly-block__feels-like">{feelsLike}&deg;</p>
+            <div className="hourly-block__feels-like">{feelsLike}&deg;</div>
           )}
         </div>
       )}
@@ -153,32 +153,34 @@ const HourlyBlock = ({
       {showPrecipitation && (
         <div>
           {precipChance !== null && (
-            <p className="hourly-block__precip-chance">{precipChance}%</p>
+            <div className="hourly-block__precip-chance">{precipChance}%</div>
           )}
 
           {rainAmount !== null && (
-            <p className="hourly-block__rain">{rainAmount} mm</p>
+            <div className="hourly-block__rain">{rainAmount} mm</div>
           )}
 
           {snowAmount !== null && (
-            <p className="hourly-block__snow">{snowAmount} mm</p>
+            <div className="hourly-block__snow">{snowAmount} mm</div>
           )}
         </div>
       )}
 
       {showWind && (
         <div>
-          <p className="hourly__wind-speed">
+          <div className="hourly__wind-speed">
             <WindInfo speed={data.wind_speed} degrees={data.wind_deg} />
-          </p>
+          </div>
         </div>
       )}
 
       {showUvIndex && <UvIndex uv={data.uvi} />}
 
-      {showClouds && <p className="hourly__clouds">{data.clouds}%</p>}
+      {showClouds && <div className="hourly__clouds">{data.clouds}%</div>}
 
-      {showPressure && <p className="hourly__pressure">{data.pressure} hPa</p>}
+      {showPressure && (
+        <div className="hourly__pressure">{data.pressure} hPa</div>
+      )}
     </div>
   );
 };
