@@ -1,6 +1,6 @@
 .hourly-block {
   flex: 1 0 auto;
-  border-right: 1px solid c('blue');
+  border-right: 1px solid c('grey');
   padding: $padding / 2;
 
   &:last-of-type {
@@ -10,6 +10,7 @@
   &__icon {
     display: block;
     min-height: 50px;
+    margin-top: $padding;
   }
 
   &__feels-like {
@@ -20,11 +21,12 @@
   &__precip-chance {
   }
 
+  &__temp,
   &__feels-like,
   &__precip-chance,
   &__rain,
   &__snow {
-    margin-top: $padding * 2;
+    margin-top: $padding * 2.5;
   }
   &__snow {
   }

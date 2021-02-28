@@ -9,6 +9,10 @@
     }
   }
 
+  &__outer {
+    position: relative;
+  }
+
   &__wrap {
     display: flex;
     overflow-x: scroll;
@@ -26,6 +30,11 @@
       left: 0;
     }
 
+    &:first-of-type {
+      margin-left: -$padding / 2;
+    }
+
+    // All but first element
     &:nth-child(n + 2) {
       h4 {
         margin-left: $padding / 2;
@@ -35,5 +44,18 @@
 
   &__hour-wrap {
     display: flex;
+  }
+
+  &__labels {
+    div {
+      display: none;
+      line-height: 1.5;
+      position: absolute;
+      left: 0;
+      right: 0;
+      background: c('white');
+      border-top: 1px solid c('grey');
+      border-bottom: 1px solid c('grey');
+    }
   }
 }

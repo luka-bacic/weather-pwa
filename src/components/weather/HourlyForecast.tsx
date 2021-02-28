@@ -1,8 +1,9 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import HourlyBlock from 'components/weather/reusable/HourlyBlock';
 import { HourlyResponse, Day } from 'types';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { placeHourlyLabel } from 'functions';
 
 type Props = {
   data: HourlyResponse[];
@@ -12,10 +13,15 @@ type Props = {
 const HourlyForecast = ({ data, timezoneOffset }: Props) => {
   dayjs.extend(utc);
 
+  // Refs
+  const outerRef = useRef<HTMLDivElement>(null);
+  const feelsLikeLabelRef = useRef<HTMLDivElement>(null);
+  const tempLabelRef = useRef<HTMLDivElement>(null);
+
   const weekDays: Day[] = [];
   const today = dayjs().format('d');
 
-  const [renderHours, setRenderHours] = useState<ReactElement[]>([]);
+  const [renderedHours, setRenderedHours] = useState<ReactElement[]>([]);
   // State for filters
   const [showTemperature, toggleShowTemperature] = useState(true);
   const [showPrecipitation, toggleShowPrecipitation] = useState(true);
@@ -71,7 +77,7 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
       });
 
       // Create Hour components to render hourly data
-      setRenderHours(
+      setRenderedHours(
         weekDays.map((day, i) => {
           const hours = day.weather.map((hour, j) => (
             <HourlyBlock
@@ -105,6 +111,34 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
     showClouds,
     showPressure,
   ]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setTimeout(() => {
+        if (outerRef.current !== null) {
+          // Get top from the outer div
+          const { top } = outerRef.current.getBoundingClientRect();
+
+          // Set style for temperature label
+          placeHourlyLabel(
+            tempLabelRef,
+            showTemperature,
+            '.hourly-block__temp',
+            top
+          );
+
+          // Set style for feels like label
+          placeHourlyLabel(
+            feelsLikeLabelRef,
+            showTemperature,
+            '.hourly-block__feels-like',
+            top
+          );
+        }
+      }, 0);
+    }
+    // console.log(document.querySelectorAll('.hourly-block__feels-like'));
+  });
 
   return (
     <section className="hourly-forecast">
@@ -177,8 +211,16 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
           />
         </label>
       </div>
-      <div className="hourly-forecast__wrap">
-        {renderHours.length && renderHours}
+
+      <div className="hourly-forecast__outer" ref={outerRef}>
+        <div className="hourly-forecast__wrap">
+          {renderedHours.length && renderedHours}
+        </div>
+
+        <div className="hourly-forecast__labels">
+          <div ref={tempLabelRef}>Temperature</div>
+          <div ref={feelsLikeLabelRef}>Feels like</div>
+        </div>
       </div>
     </section>
   );
