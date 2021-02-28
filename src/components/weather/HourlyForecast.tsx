@@ -18,7 +18,7 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
   const [renderHours, setRenderHours] = useState<ReactElement[]>([]);
   // State for filters
   const [showTemperature, toggleShowTemperature] = useState(true);
-  const [showRain, toggleShowRain] = useState(true);
+  const [showPrecipitation, toggleShowPrecipitation] = useState(true);
   const [showWind, toggleShowWind] = useState(false);
   const [showUvIndex, toggleShowUvIndex] = useState(false);
   const [showClouds, toggleShowClouds] = useState(false);
@@ -77,7 +77,7 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
             <HourlyBlock
               data={hour}
               timezoneOffset={timezoneOffset}
-              showRain={showRain}
+              showPrecipitation={showPrecipitation}
               showTemperature={showTemperature}
               showWind={showWind}
               showUvIndex={showUvIndex}
@@ -98,7 +98,7 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
     }
   }, [
     data,
-    showRain,
+    showPrecipitation,
     showTemperature,
     showWind,
     showUvIndex,
@@ -123,13 +123,13 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
         </label>
 
         <label htmlFor="rain">
-          Show rain
+          Show precipitation
           <input
             type="checkbox"
             name="filters"
             id="rain"
-            onChange={() => toggleShowRain(prevState => !prevState)}
-            checked={showRain}
+            onChange={() => toggleShowPrecipitation(prevState => !prevState)}
+            checked={showPrecipitation}
           />
         </label>
 

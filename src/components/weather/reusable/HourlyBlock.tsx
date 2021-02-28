@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { HourlyResponse, IconData } from 'types';
-import { hasProp, getIconInfo } from 'functions';
+import { hasProp, getIconInfo, round } from 'functions';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import classNames from 'classnames';
@@ -10,7 +10,7 @@ import UvIndex from 'components/weather/reusable/UvIndex';
 type Props = {
   data: HourlyResponse;
   timezoneOffset: number;
-  showRain: boolean;
+  showPrecipitation: boolean;
   showTemperature: boolean;
   showWind: boolean;
   showUvIndex: boolean;
@@ -21,7 +21,7 @@ type Props = {
 const HourlyBlock = ({
   data,
   timezoneOffset,
-  showRain,
+  showPrecipitation,
   showTemperature,
   showWind,
   showUvIndex,
@@ -33,10 +33,15 @@ const HourlyBlock = ({
   const [time, setTime] = useState('');
   const [iconData, setIconData] = useState<IconData | null>(null);
   const [isNightTime, setIsNightTime] = useState(false);
-  const [precip, setPrecip] = useState('');
+  const [temp, setTemp] = useState<number | null>(null);
+  const [feelsLike, setFeelsLike] = useState<number | null>(null);
+  const [precipChance, setPrecipChance] = useState<number | null>(null);
+  const [rainAmount, setRainAmount] = useState<string | null>(null);
+  const [snowAmount, setSnowAmount] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof data !== 'undefined') {
+      // Set label for the hour
       if (hasProp(data, 'dt')) {
         setTime(
           dayjs
@@ -48,9 +53,7 @@ const HourlyBlock = ({
 
       if (hasProp(data.weather[0], 'icon')) {
         // Get required icon data
-        const icon = getIconInfo(data.weather[0]);
-
-        setIconData(icon);
+        setIconData(getIconInfo(data.weather[0]));
 
         // Check if the icon is a night icon
         if (data.weather[0].icon.indexOf('n') > -1) {
@@ -58,29 +61,68 @@ const HourlyBlock = ({
         }
       }
 
-      if (showRain) {
+      // Setup temperature data if its required to be shown
+      if (showTemperature) {
+        // Round and set temperature
+        if (hasProp(data, 'temp') && typeof data.temp !== 'undefined') {
+          setTemp(round(data.temp));
+        }
+        // Round and set 'feels like' temperature
+        if (
+          hasProp(data, 'feels_like') &&
+          typeof data.feels_like !== 'undefined'
+        ) {
+          setFeelsLike(round(data.feels_like));
+        }
+      }
+
+      // Setup rain data if its required to be shown
+      if (showPrecipitation) {
+        // Precip chance
+        if (hasProp(data, 'pop')) {
+          setPrecipChance(round(data.pop * 100, 0));
+        }
+
+        // Rainfall
         if (hasProp(data, 'rain') && typeof data.rain !== 'undefined') {
           if (
             hasProp(data.rain, '1h') &&
             typeof data.rain['1h'] !== 'undefined'
           ) {
+            // Set precip amount
             if (data.rain['1h'] < 1) {
-              setPrecip('< 1');
+              setRainAmount('< 1');
             } else {
-              setPrecip(data.rain['1h'].toFixed(0));
+              setRainAmount(round(data.rain['1h'], 0).toString());
             }
           }
         } else {
-          setPrecip('0');
+          setRainAmount('0');
+        }
+
+        // Snowfall
+        if (hasProp(data, 'snow') && typeof data.snow !== 'undefined') {
+          if (
+            hasProp(data.snow, '1h') &&
+            typeof data.snow['1h'] !== 'undefined'
+          ) {
+            // Set precip amount
+            if (data.snow['1h'] < 1) {
+              setSnowAmount('< 1');
+            } else {
+              setSnowAmount(round(data.snow['1h'], 0).toString());
+            }
+          }
+        } else {
+          setSnowAmount('0');
         }
       }
     }
   }, [data]);
-  // console.log('hour', data);
 
   const hourlyClasses = classNames({
     'hourly-block': true,
-    'hourly--night': isNightTime,
+    'hourly-block--night': isNightTime,
   });
 
   return (
@@ -97,21 +139,30 @@ const HourlyBlock = ({
 
       {showTemperature && (
         <div>
-          <p className="hourly-block__temp">
-            <strong>{data.temp.toFixed(1)}&deg;</strong>
-          </p>
-
-          <p className="hourly-block__feels-like">
-            {data.feels_like.toFixed(1)}&deg;
-          </p>
+          {temp !== null && (
+            <p className="hourly-block__temp">
+              <strong>{temp}&deg;</strong>
+            </p>
+          )}
+          {feelsLike !== null && (
+            <p className="hourly-block__feels-like">{feelsLike}&deg;</p>
+          )}
         </div>
       )}
 
-      {showRain && (
+      {showPrecipitation && (
         <div>
-          <p className="hourly-block__rain">{(data.pop * 100).toFixed(0)}%</p>
+          {precipChance !== null && (
+            <p className="hourly-block__precip-chance">{precipChance}%</p>
+          )}
 
-          <p className="hourly-block__precip">{precip} mm</p>
+          {rainAmount !== null && (
+            <p className="hourly-block__rain">{rainAmount} mm</p>
+          )}
+
+          {snowAmount !== null && (
+            <p className="hourly-block__snow">{snowAmount} mm</p>
+          )}
         </div>
       )}
 

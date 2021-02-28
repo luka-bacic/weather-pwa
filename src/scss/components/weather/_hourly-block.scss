@@ -13,12 +13,20 @@
   }
 
   &__feels-like {
-    position: relative;
-    margin-top: $padding * 2;
+    // position: relative;
+    // margin-top: $padding * 2;
   }
 
-  &__rain {
+  &__precip-chance {
+  }
+
+  &__feels-like,
+  &__precip-chance,
+  &__rain,
+  &__snow {
     margin-top: $padding * 2;
+  }
+  &__snow {
   }
 
   &--night {
