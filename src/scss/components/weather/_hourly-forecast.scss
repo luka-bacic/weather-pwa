@@ -30,10 +30,6 @@
       left: 0;
     }
 
-    &:first-of-type {
-      margin-left: -$padding / 2;
-    }
-
     // All but first element
     &:nth-child(n + 2) {
       h4 {
@@ -48,6 +44,7 @@
 
   &__labels {
     div {
+      padding-left: $padding / 2;
       display: none;
       line-height: 2;
       position: absolute;
