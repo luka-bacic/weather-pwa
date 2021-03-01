@@ -3,7 +3,7 @@ import HourlyBlock from 'components/weather/reusable/HourlyBlock';
 import { HourlyResponse, Day } from 'types';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { placeHourlyLabel } from 'functions';
+import { placeLabel } from 'functions';
 
 type Props = {
   data: HourlyResponse[];
@@ -120,15 +120,10 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
           const { top } = outerRef.current.getBoundingClientRect();
 
           // Set style for temperature label
-          placeHourlyLabel(
-            tempLabelRef,
-            showTemperature,
-            '.hourly-block__temp',
-            top
-          );
+          placeLabel(tempLabelRef, showTemperature, '.hourly-block__temp', top);
 
           // Set style for feels like label
-          placeHourlyLabel(
+          placeLabel(
             feelsLikeLabelRef,
             showTemperature,
             '.hourly-block__feels-like',

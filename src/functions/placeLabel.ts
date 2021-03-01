@@ -7,7 +7,7 @@ type Args = {
   outerElemTop: number;
 };
 
-export function placeHourlyLabel(
+export function placeLabel(
   ref: RefObject<HTMLDivElement>,
   toShow: boolean,
   cssSelector: string,
