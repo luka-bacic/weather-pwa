@@ -203,7 +203,7 @@ const HourlyBlock = ({
 
       {showUvIndex && (
         <div className="hourly-block__uv">
-          <UvIndex uv={data.uvi} />
+          <UvIndex uv={data.uvi} minimalOutput />
         </div>
       )}
 

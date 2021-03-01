@@ -5,9 +5,10 @@ import { uvScale } from 'functions';
 
 type Props = {
   uv: number;
+  minimalOutput?: boolean;
 };
 
-const UvIndex = ({ uv }: Props) => {
+const UvIndex = ({ uv, minimalOutput = false }: Props) => {
   const [uvData, setUvData] = useState<UvInfo | undefined>(undefined);
 
   useEffect(() => {
@@ -22,8 +23,12 @@ const UvIndex = ({ uv }: Props) => {
         <span className={`uv-info__circle ${uvData.cssClass}`}>
           <span className="sr-only">uv index</span>
         </span>
-        {uvData.value}&nbsp;({uvData.description})
-        <Tooltip text={uvData.longDescription} />
+
+        {uvData.value}
+
+        {!minimalOutput && uvData.description}
+
+        {!minimalOutput && <Tooltip text={uvData.longDescription} />}
       </span>
     );
   } else {
