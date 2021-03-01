@@ -149,13 +149,11 @@ const HourlyBlock = ({
         <span className="sr-only">Time of day</span>
         {time}
       </div>
+
       {iconData && (
-        <img
-          src={iconData.url}
-          className="hourly-block__icon"
-          alt={iconData.description}
-          loading="lazy"
-        />
+        <div className="hourly-block__icon">
+          <img src={iconData.url} alt={iconData.description} loading="lazy" />
+        </div>
       )}
 
       {showTemperature && temp !== null && (
