@@ -25,8 +25,12 @@
   &__feels-like,
   &__precip-chance,
   &__rain,
-  &__snow {
-    margin-top: $padding * 2.5;
+  &__snow,
+  &__wind-speed,
+  &__uv,
+  &__clouds,
+  &__pressure {
+    margin-top: $padding * 3;
   }
   &__snow {
   }

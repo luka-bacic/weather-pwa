@@ -1,11 +1,4 @@
-import { Ref, RefObject } from 'react';
-
-type Args = {
-  ref: RefObject<HTMLDivElement>;
-  toShow: boolean;
-  cssSelector: string;
-  outerElemTop: number;
-};
+import { RefObject } from 'react';
 
 export function placeLabel(
   ref: RefObject<HTMLDivElement>,
@@ -14,7 +7,7 @@ export function placeLabel(
   outerElemTop: number
 ): void {
   if (typeof ref !== 'undefined' && ref.current !== null) {
-    const padding = 32;
+    const padding = 16 * 2.5;
 
     if (toShow) {
       // Get first div where the data is displayed

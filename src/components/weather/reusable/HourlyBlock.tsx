@@ -10,8 +10,11 @@ import UvIndex from 'components/weather/reusable/UvIndex';
 type Props = {
   data: HourlyResponse;
   timezoneOffset: number;
-  showPrecipitation: boolean;
+  showPrecipChance: boolean;
+  showRainfall: boolean;
+  showSnowfall: boolean;
   showTemperature: boolean;
+  showFeelsLike: boolean;
   showWind: boolean;
   showUvIndex: boolean;
   showClouds: boolean;
@@ -21,8 +24,11 @@ type Props = {
 const HourlyBlock = ({
   data,
   timezoneOffset,
-  showPrecipitation,
+  showPrecipChance,
+  showRainfall,
+  showSnowfall,
   showTemperature,
+  showFeelsLike,
   showWind,
   showUvIndex,
   showClouds,
@@ -61,12 +67,16 @@ const HourlyBlock = ({
         }
       }
 
-      // Setup temperature data if its required to be shown
+      // Setup temperature if its required to be shown
       if (showTemperature) {
         // Round and set temperature
         if (hasProp(data, 'temp') && typeof data.temp !== 'undefined') {
           setTemp(round(data.temp));
         }
+      }
+
+      // Setup apparent temperature if its required to be shown
+      if (showFeelsLike) {
         // Round and set 'feels like' temperature
         if (
           hasProp(data, 'feels_like') &&
@@ -77,19 +87,21 @@ const HourlyBlock = ({
       }
 
       // Setup rain data if its required to be shown
-      if (showPrecipitation) {
+      if (showPrecipChance) {
         // Precip chance
         if (hasProp(data, 'pop')) {
           setPrecipChance(round(data.pop * 100, 0));
         }
+      }
 
-        // Rainfall
+      // Rainfall
+      if (showRainfall) {
         if (hasProp(data, 'rain') && typeof data.rain !== 'undefined') {
           if (
             hasProp(data.rain, '1h') &&
             typeof data.rain['1h'] !== 'undefined'
           ) {
-            // Set precip amount
+            // Set rainfall amount
             if (data.rain['1h'] < 1) {
               setRainAmount('< 1');
             } else {
@@ -99,14 +111,18 @@ const HourlyBlock = ({
         } else {
           setRainAmount('0');
         }
+      } else {
+        setRainAmount('0');
+      }
 
-        // Snowfall
+      // Snowfall
+      if (showSnowfall) {
         if (hasProp(data, 'snow') && typeof data.snow !== 'undefined') {
           if (
             hasProp(data.snow, '1h') &&
             typeof data.snow['1h'] !== 'undefined'
           ) {
-            // Set precip amount
+            // Set rainfall amount
             if (data.snow['1h'] < 1) {
               setSnowAmount('< 1');
             } else {
@@ -116,6 +132,8 @@ const HourlyBlock = ({
         } else {
           setSnowAmount('0');
         }
+      } else {
+        setSnowAmount('0');
       }
     }
   }, [data]);
@@ -137,49 +155,44 @@ const HourlyBlock = ({
         />
       )}
 
-      {showTemperature && (
-        <div>
-          {temp !== null && (
-            <div className="hourly-block__temp">
-              <strong>{temp}&deg;</strong>
-            </div>
-          )}
-          {feelsLike !== null && (
-            <div className="hourly-block__feels-like">{feelsLike}&deg;</div>
-          )}
+      {showTemperature && temp !== null && (
+        <div className="hourly-block__temp">
+          <strong>{temp}&deg;</strong>
         </div>
       )}
 
-      {showPrecipitation && (
-        <div>
-          {precipChance !== null && (
-            <div className="hourly-block__precip-chance">{precipChance}%</div>
-          )}
+      {showFeelsLike && feelsLike !== null && (
+        <div className="hourly-block__feels-like">{feelsLike}&deg;</div>
+      )}
 
-          {rainAmount !== null && (
-            <div className="hourly-block__rain">{rainAmount} mm</div>
-          )}
+      {showPrecipChance && precipChance !== null && (
+        <div className="hourly-block__precip-chance">{precipChance}%</div>
+      )}
 
-          {snowAmount !== null && (
-            <div className="hourly-block__snow">{snowAmount} mm</div>
-          )}
-        </div>
+      {showRainfall && rainAmount !== null && (
+        <div className="hourly-block__rain">{rainAmount} mm</div>
+      )}
+
+      {showSnowfall && snowAmount !== null && (
+        <div className="hourly-block__snow">{snowAmount} mm</div>
       )}
 
       {showWind && (
-        <div>
-          <div className="hourly__wind-speed">
-            <WindInfo speed={data.wind_speed} degrees={data.wind_deg} />
-          </div>
+        <div className="hourly-block__wind-speed">
+          <WindInfo speed={data.wind_speed} degrees={data.wind_deg} />
         </div>
       )}
 
-      {showUvIndex && <UvIndex uv={data.uvi} />}
+      {showUvIndex && (
+        <div className="hourly-block__uv">
+          <UvIndex uv={data.uvi} />
+        </div>
+      )}
 
-      {showClouds && <div className="hourly__clouds">{data.clouds}%</div>}
+      {showClouds && <div className="hourly-block__clouds">{data.clouds}%</div>}
 
       {showPressure && (
-        <div className="hourly__pressure">{data.pressure} hPa</div>
+        <div className="hourly-block__pressure">{data.pressure} hPa</div>
       )}
     </div>
   );
