@@ -145,7 +145,10 @@ const HourlyBlock = ({
 
   return (
     <div className={hourlyClasses}>
-      <div className="hourly-block__time">{time}</div>
+      <div className="hourly-block__time">
+        <span className="sr-only">Time of day</span>
+        {time}
+      </div>
       {iconData && (
         <img
           src={iconData.url}
@@ -157,24 +160,39 @@ const HourlyBlock = ({
 
       {showTemperature && temp !== null && (
         <div className="hourly-block__temp">
-          <strong>{temp}&deg;</strong>
+          <strong>
+            <span className="sr-only">temperature</span>
+            {temp}&deg;
+          </strong>
         </div>
       )}
 
       {showFeelsLike && feelsLike !== null && (
-        <div className="hourly-block__feels-like">{feelsLike}&deg;</div>
+        <div className="hourly-block__feels-like">
+          <span className="sr-only">apparent temperature</span>
+          {feelsLike}&deg;
+        </div>
       )}
 
       {showPrecipChance && precipChance !== null && (
-        <div className="hourly-block__precip-chance">{precipChance}%</div>
+        <div className="hourly-block__precip-chance">
+          <span className="sr-only">precipitation chance</span>
+          {precipChance}%
+        </div>
       )}
 
       {showRainfall && rainAmount !== null && (
-        <div className="hourly-block__rain">{rainAmount} mm</div>
+        <div className="hourly-block__rain">
+          <span className="sr-only">rainfall</span>
+          {rainAmount} mm
+        </div>
       )}
 
       {showSnowfall && snowAmount !== null && (
-        <div className="hourly-block__snow">{snowAmount} mm</div>
+        <div className="hourly-block__snow">
+          <span className="sr-only">snowfall</span>
+          {snowAmount} mm
+        </div>
       )}
 
       {showWind && (
@@ -189,10 +207,18 @@ const HourlyBlock = ({
         </div>
       )}
 
-      {showClouds && <div className="hourly-block__clouds">{data.clouds}%</div>}
+      {showClouds && (
+        <div className="hourly-block__clouds">
+          <span className="sr-only">cloud cover</span>
+          {data.clouds}%
+        </div>
+      )}
 
       {showPressure && (
-        <div className="hourly-block__pressure">{data.pressure} hPa</div>
+        <div className="hourly-block__pressure">
+          <span className="sr-only">atmospheric pressure</span>
+          {data.pressure} hPa
+        </div>
       )}
     </div>
   );
