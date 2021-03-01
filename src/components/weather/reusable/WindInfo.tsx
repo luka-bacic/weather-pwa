@@ -6,25 +6,22 @@ import { degreesToDirection } from 'functions';
 type Props = {
   degrees: number;
   speed: number;
+  noIcon?: boolean;
 };
 
-const WindInfo = ({ degrees, speed }: Props) => {
+const WindInfo = ({ degrees, speed, noIcon = false }: Props) => {
   return (
     <span className="wind-info">
-      <BiWind />
-      {typeof speed !== 'undefined' && (
-        <span>
-          <strong>{speed.toFixed(0)} m/s</strong>
-        </span>
-      )}
+      {!noIcon && <BiWind />}
+
+      {typeof speed !== 'undefined' && <span>{speed.toFixed(0)} m/s</span>}
+
       {typeof degrees !== 'undefined' && (
-        <span>
-          <BsArrowUp
-            style={{ transform: `rotate(${degrees}deg)` }}
-            title={`${degreesToDirection(degrees)} wind direction`}
-          />
-          &nbsp;
-        </span>
+        <BsArrowUp
+          className="wind-info__icon"
+          style={{ transform: `rotate(${degrees}deg)` }}
+          title={`${degreesToDirection(degrees)} wind direction`}
+        />
       )}
     </span>
   );

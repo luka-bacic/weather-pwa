@@ -197,7 +197,7 @@ const HourlyBlock = ({
 
       {showWind && (
         <div className="hourly-block__wind-speed">
-          <WindInfo speed={data.wind_speed} degrees={data.wind_deg} />
+          <WindInfo speed={data.wind_speed} degrees={data.wind_deg} noIcon />
         </div>
       )}
 

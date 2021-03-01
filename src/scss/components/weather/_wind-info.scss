@@ -1,7 +1,12 @@
-// .wind-info {
-//   svg {
-//     $size: 35px;
-//     width: $size;
-//     height: $size;
-//   }
-// }
+.wind-info {
+  display: inline-flex;
+  align-items: center;
+
+  &__icon {
+    $size: 25px;
+
+    margin-left: $padding / 4;
+    width: $size;
+    height: $size;
+  }
+}
