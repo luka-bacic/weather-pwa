@@ -44,6 +44,35 @@
   }
 
   &--night {
-    background: rgba(c('black'), 0.08);
+    background: c('night');
+  }
+
+  &--extend {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: calc(-1px - #{$padding} / 2);
+      right: -$padding / 2;
+      top: -$padding / 2;
+      bottom: calc(-#{$padding} / 2 + 2px);
+      z-index: 1;
+      background: rgba(c('white'), 0.8);
+    }
+
+    .hourly-block--night & {
+      &::before {
+        background: rgba(c('night'), 0.8);
+      }
+    }
+  }
+
+  > div:last-of-type {
+    &.hourly-block--extend {
+      &::before {
+        bottom: -$padding / 2;
+      }
+    }
   }
 }

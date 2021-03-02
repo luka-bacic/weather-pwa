@@ -78,10 +78,10 @@ export interface CurrentResponse {
   wind_gust?: number;
   wind_deg: number;
   rain?: {
-    '1h'?: number;
+    '1h': number;
   };
   snow?: {
-    '1h'?: number;
+    '1h': number;
   };
   weather: Weather[];
 }
@@ -106,10 +106,10 @@ export interface HourlyResponse {
   wind_deg: number;
   pop: number;
   rain?: {
-    '1h'?: number;
+    '1h': number;
   };
   snow?: {
-    '1h'?: number;
+    '1h': number;
   };
   weather: Weather[];
 }
@@ -144,4 +144,17 @@ export interface DailyResponse {
   rain?: number;
   snow?: number;
   weather: Weather[];
+}
+
+export interface ExtendHourlyClasses {
+  temp?: boolean;
+  feels_like?: boolean;
+  pressure?: boolean;
+  uvi?: boolean;
+  clouds?: boolean;
+  wind_speed?: boolean;
+  wind_deg?: boolean;
+  pop?: boolean;
+  rain?: boolean;
+  snow?: boolean;
 }
