@@ -3,7 +3,7 @@ import HourlyBlock from 'components/weather/reusable/HourlyBlock';
 import { HourlyResponse, Day } from 'types';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { placeLabel } from 'functions';
+import { placeLabel, round, shouldExtendCell } from 'functions';
 
 type Props = {
   data: HourlyResponse[];
@@ -34,11 +34,11 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
   const [showFeelsLike, toggleShowFeelsLike] = useState(true);
   const [showPrecipChance, toggleShowPrecipChance] = useState(true);
   const [showRainfall, toggleShowRainfall] = useState(true);
-  const [showSnowfall, toggleShowSnowfall] = useState(false);
-  const [showWind, toggleShowWind] = useState(false);
-  const [showUvIndex, toggleShowUvIndex] = useState(false);
-  const [showClouds, toggleShowClouds] = useState(false);
-  const [showPressure, toggleShowPressure] = useState(false);
+  const [showSnowfall, toggleShowSnowfall] = useState(true);
+  const [showWind, toggleShowWind] = useState(true);
+  const [showUvIndex, toggleShowUvIndex] = useState(true);
+  const [showClouds, toggleShowClouds] = useState(true);
+  const [showPressure, toggleShowPressure] = useState(true);
 
   useEffect(() => {
     if (typeof data !== 'undefined') {
@@ -89,22 +89,29 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
       // Create Hour components to render hourly data
       setRenderedHours(
         weekDays.map((day, i) => {
-          const hours = day.weather.map((hour, j) => (
-            <HourlyBlock
-              data={hour}
-              timezoneOffset={timezoneOffset}
-              showPrecipChance={showPrecipChance}
-              showRainfall={showRainfall}
-              showSnowfall={showSnowfall}
-              showTemperature={showTemperature}
-              showFeelsLike={showFeelsLike}
-              showWind={showWind}
-              showUvIndex={showUvIndex}
-              showClouds={showClouds}
-              showPressure={showPressure}
-              key={j}
-            />
-          ));
+          const hours = day.weather.map((hour, j, allHours) => {
+            // Used to hide the border of a data cell, so it looks
+            // like it is a wide cell if the data is the same in 2 hours
+            // const classes = shouldExtendCell(hour, j, allHours);
+            const classes = {};
+            return (
+              <HourlyBlock
+                data={hour}
+                timezoneOffset={timezoneOffset}
+                showPrecipChance={showPrecipChance}
+                showRainfall={showRainfall}
+                showSnowfall={showSnowfall}
+                showTemperature={showTemperature}
+                showFeelsLike={showFeelsLike}
+                showWind={showWind}
+                showUvIndex={showUvIndex}
+                showClouds={showClouds}
+                showPressure={showPressure}
+                extendCells={classes}
+                key={j}
+              />
+            );
+          });
 
           return (
             <div className="hourly-forecast__day" key={i}>
@@ -125,7 +132,6 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
     showPressure,
     showFeelsLike,
     showRainfall,
-
     showSnowfall,
   ]);
 
@@ -193,7 +199,6 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
         }
       }, 0);
     }
-    // console.log(document.querySelectorAll('.hourly-block__feels-like'));
   });
 
   return (

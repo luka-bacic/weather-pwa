@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HourlyResponse, IconData } from 'types';
+import { ExtendHourlyClasses, HourlyResponse, IconData } from 'types';
 import { hasProp, getIconInfo, round } from 'functions';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -19,6 +19,7 @@ type Props = {
   showUvIndex: boolean;
   showClouds: boolean;
   showPressure: boolean;
+  extendCells: ExtendHourlyClasses;
 };
 
 const HourlyBlock = ({
@@ -33,9 +34,11 @@ const HourlyBlock = ({
   showUvIndex,
   showClouds,
   showPressure,
+  extendCells,
 }: Props) => {
   dayjs.extend(utc);
 
+  // console.log(extendCells);
   const [time, setTime] = useState('');
   const [iconData, setIconData] = useState<IconData | null>(null);
   const [isNightTime, setIsNightTime] = useState(false);
@@ -157,7 +160,12 @@ const HourlyBlock = ({
       )}
 
       {showTemperature && temp !== null && (
-        <div className="hourly-block__temp">
+        <div
+          className={classNames({
+            'hourly-block__temp': true,
+            'hourly-block--extend': extendCells?.temp,
+          })}
+        >
           <strong>
             <span className="sr-only">temperature</span>
             {temp}&deg;
@@ -166,54 +174,94 @@ const HourlyBlock = ({
       )}
 
       {showFeelsLike && feelsLike !== null && (
-        <div className="hourly-block__feels-like">
+        <div
+          className={classNames({
+            'hourly-block__feels-like': true,
+            'hourly-block--extend': extendCells?.feels_like,
+          })}
+        >
           <span className="sr-only">apparent temperature</span>
           {feelsLike}&deg;
         </div>
       )}
 
       {showPrecipChance && precipChance !== null && (
-        <div className="hourly-block__precip-chance">
+        <div
+          className={classNames({
+            'hourly-block__precip-chance': true,
+            'hourly-block--extend': extendCells?.pop,
+          })}
+        >
           <span className="sr-only">precipitation chance</span>
           {precipChance}%
         </div>
       )}
 
       {showRainfall && rainAmount !== null && (
-        <div className="hourly-block__rain">
+        <div
+          className={classNames({
+            'hourly-block__rain': true,
+            'hourly-block--extend': extendCells?.rain,
+          })}
+        >
           <span className="sr-only">rainfall</span>
           {rainAmount} mm
         </div>
       )}
 
       {showSnowfall && snowAmount !== null && (
-        <div className="hourly-block__snow">
+        <div
+          className={classNames({
+            'hourly-block__snow': true,
+            'hourly-block--extend': extendCells?.snow,
+          })}
+        >
           <span className="sr-only">snowfall</span>
           {snowAmount} mm
         </div>
       )}
 
       {showWind && (
-        <div className="hourly-block__wind-speed">
+        <div
+          className={classNames({
+            'hourly-block__wind-speed': true,
+            'hourly-block--extend': extendCells?.wind_speed,
+          })}
+        >
           <WindInfo speed={data.wind_speed} degrees={data.wind_deg} noIcon />
         </div>
       )}
 
       {showUvIndex && (
-        <div className="hourly-block__uv">
+        <div
+          className={classNames({
+            'hourly-block__uv': true,
+            'hourly-block--extend': extendCells?.uvi,
+          })}
+        >
           <UvIndex uv={data.uvi} minimalOutput />
         </div>
       )}
 
       {showClouds && (
-        <div className="hourly-block__clouds">
+        <div
+          className={classNames({
+            'hourly-block__clouds': true,
+            'hourly-block--extend': extendCells?.clouds,
+          })}
+        >
           <span className="sr-only">cloud cover</span>
           {data.clouds}%
         </div>
       )}
 
       {showPressure && (
-        <div className="hourly-block__pressure">
+        <div
+          className={classNames({
+            'hourly-block__pressure': true,
+            'hourly-block--extend': extendCells?.pressure,
+          })}
+        >
           <span className="sr-only">atmospheric pressure</span>
           {data.pressure} hPa
         </div>
