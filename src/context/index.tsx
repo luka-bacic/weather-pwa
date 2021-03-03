@@ -1,14 +1,14 @@
-import React, { createContext, ReactElement, Dispatch } from 'react';
-import reducer from './reducer';
-import useAsyncReducer from 'hooks/useAsyncReducer';
-import { DataStore } from 'types';
+import React, {
+  createContext,
+  useReducer,
+  ReactElement,
+  Dispatch,
+} from 'react';
+import { rootReducer } from './reducers';
 
-const initialState: DataStore = {
-  activeLocation: undefined,
-  tempLocation: undefined,
-  savedLocations: [],
-  lastMapData: undefined,
-  message: '',
+const initialState = {
+  ass: null,
+  balls: null,
 };
 
 const initialDispatch = () => {};
@@ -23,7 +23,7 @@ type Props = {
 };
 
 const GlobalContextProvider = ({ children }: Props) => {
-  const [state, dispatch] = useAsyncReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(rootReducer, initialState);
 
   return (
     <GlobalStateContext.Provider value={state}>

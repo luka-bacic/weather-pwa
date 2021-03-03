@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-import { GlobalDispatchContext } from 'context/GlobalContextProvider';
+import { GlobalDispatchContext } from 'context';
 import { Link } from 'gatsby';
 
 const defaultData = {

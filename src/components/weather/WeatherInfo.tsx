@@ -3,7 +3,7 @@ import { Link } from 'gatsby';
 import {
   // GlobalDispatchContext,
   GlobalStateContext,
-} from '../../context/GlobalContextProvider';
+} from 'context';
 import CurrentWeather from 'components/weather/CurrentWeather';
 import DailyBlock from 'components/weather/reusable/DailyBlock';
 import DailyForecast from 'components/weather/DailyForecast';

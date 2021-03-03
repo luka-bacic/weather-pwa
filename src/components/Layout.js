@@ -1,10 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import Nav from 'components/Nav';
 import Toast from 'components/Toast';
-import {
-  GlobalDispatchContext,
-  GlobalStateContext,
-} from '../context/GlobalContextProvider';
+import { GlobalDispatchContext, GlobalStateContext } from 'context';
 import 'scss/style.scss';
 import 'focus-visible';
 
