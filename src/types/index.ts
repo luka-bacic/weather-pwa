@@ -158,3 +158,9 @@ export interface ExtendHourlyClasses {
   rain?: boolean;
   snow?: boolean;
 }
+
+// Context types
+export interface ActionObject {
+  type: string;
+  payload?: object;
+}
