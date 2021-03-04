@@ -1,4 +1,3 @@
-export { combineReducers } from './combineReducers';
 export { degreesToDirection } from './degreesToDirection';
 export { getIconInfo } from './getIconInfo';
 export { hasProp } from './hasProp';
