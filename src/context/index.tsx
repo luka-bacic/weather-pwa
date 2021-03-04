@@ -1,14 +1,15 @@
 import React, {
   createContext,
-  useReducer,
   ReactElement,
   Dispatch,
+  useReducer,
 } from 'react';
 import { rootReducer } from './reducers';
-
+// import useReducerWithThunk from 'hooks/useAsyncReducer';
+// import { useThunkReducer } from 'react-hook-thunk-reducer';
+import { DataStore } from 'types';
 const initialState = {
-  ass: null,
-  balls: null,
+  weather: null,
 };
 
 const initialDispatch = () => {};

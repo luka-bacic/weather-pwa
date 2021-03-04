@@ -1,1 +1,1 @@
-export { testAction } from './testAction';
+export { setWeather } from './weatherActions';

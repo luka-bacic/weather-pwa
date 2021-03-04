@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { GlobalDispatchContext } from 'context';
 import { Link } from 'gatsby';
+import { setWeather } from 'context/actions';
 
 const defaultData = {
   lat: 32,
@@ -79,10 +80,10 @@ const WorldMap = () => {
       };
     });
 
-    dispatch({
-      type: 'UPDATE_MAP_DATA',
-      payload: newData,
-    });
+    // dispatch({
+    //   type: 'UPDATE_MAP_DATA',
+    //   payload: newData,
+    // });
 
     // Center map to clicked area
     e.target.panTo([e.latlng.lat, e.latlng.lng]);
@@ -98,10 +99,10 @@ const WorldMap = () => {
     };
     setMapData(newData);
 
-    dispatch({
-      type: 'UPDATE_MAP_DATA',
-      payload: newData,
-    });
+    // dispatch({
+    //   type: 'UPDATE_MAP_DATA',
+    //   payload: newData,
+    // });
   };
 
   const handleZoomEnd = e => {
@@ -113,22 +114,43 @@ const WorldMap = () => {
       };
     });
 
-    dispatch({
-      type: 'UPDATE_MAP_DATA',
-      payload: zoomLevel,
-    });
+    // dispatch({
+    //   type: 'UPDATE_MAP_DATA',
+    //   payload: zoomLevel,
+    // });
   };
 
-  const displayWeather = () => {
-    dispatch({
-      type: 'FETCH_WEATHER',
-      payload: mapData,
-    });
+  const getWeather = () => {
+    let url = `${process.env.WEATHER_API_URL}`;
+    // Coordinates
+    url += `?lat=${mapData.lat}&lon=${mapData.actualLng}`;
+    // Weather key
+    url += `&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}`;
+    // Units
+    url += `&units=metric`;
+    // Exclude this from response
+    url += `&exclude=minutely`;
 
-    dispatch({
-      type: 'UPDATE_MAP_DATA',
-      payload: mapData,
-    });
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const modifiedData = {
+          ...data,
+          address: mapData.address,
+          isTemp: true,
+          lastUpdated: Date.now(),
+        };
+
+        dispatch(setWeather(modifiedData));
+      })
+      .catch(error =>
+        console.error('Error occurred while getting weather forecast:\n', error)
+      );
+
+    // dispatch({
+    //   type: 'UPDATE_MAP_DATA',
+    //   payload: mapData,
+    // });
   };
 
   useEffect(() => {
@@ -187,7 +209,7 @@ const WorldMap = () => {
 
           <Marker position={[mapData.lat, mapData.lng]}></Marker>
         </MapContainer>
-        <Link to="/" className="btn" onClick={displayWeather}>
+        <Link to="/" className="btn" onClick={getWeather}>
           See weather
         </Link>
       </div>

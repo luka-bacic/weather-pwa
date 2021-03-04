@@ -1,9 +1,9 @@
 export interface DataStore {
-  activeLocation: LocationInfo | undefined;
-  tempLocation: LocationInfo | undefined;
-  savedLocations: LocationInfo[];
-  lastMapData: MapData | undefined;
-  message: string;
+  activeLocation: LocationInfo | null;
+  // tempLocation: LocationInfo | undefined;
+  // savedLocations: LocationInfo[];
+  // lastMapData: MapData | undefined;
+  // message: string;
 }
 
 export interface MapData {
@@ -163,4 +163,23 @@ export interface ExtendHourlyClasses {
 export interface ActionObject {
   type: string;
   payload?: object;
+}
+
+export interface WeatherAction {
+  type: 'SET_WEATHER';
+  payload: LocationInfo;
+}
+
+export interface Reducer {
+  (state: object, action: ActionObject): object;
+}
+
+export interface WeatherState {
+  weather: LocationInfo;
+}
+
+export type initialWeatherState = null | LocationInfo;
+
+export interface WeatherReducer {
+  (state: initialWeatherState, action: WeatherAction): WeatherState;
 }
