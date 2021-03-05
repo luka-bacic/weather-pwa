@@ -7,9 +7,11 @@ import React, {
 import { rootReducer } from './reducers';
 // import useReducerWithThunk from 'hooks/useAsyncReducer';
 // import { useThunkReducer } from 'react-hook-thunk-reducer';
-import { DataStore } from 'types';
-const initialState = {
-  weather: null,
+import { GlobalState } from 'types';
+import { initialWeatherState } from 'context/initialState';
+
+const initialState: GlobalState = {
+  weather: initialWeatherState,
 };
 
 const initialDispatch = () => {};

@@ -1,20 +1,22 @@
-import { WeatherAction, initialWeatherState, WeatherState } from 'types';
-
-const initialState: initialWeatherState = null;
+import { WeatherAction, WeatherState } from 'types';
+import { initialWeatherState } from 'context/initialState';
 
 export function weatherReducer(
-  state = initialState,
+  state = initialWeatherState,
   action: WeatherAction
-): WeatherState | initialWeatherState {
+): WeatherState {
   switch (action.type) {
     case 'SET_WEATHER': {
       return {
         ...state,
-        ...action.payload,
+        ready: true,
+        forecast: {
+          ...action.payload,
+        },
       };
     }
     default: {
-      return null;
+      return state;
     }
   }
 }

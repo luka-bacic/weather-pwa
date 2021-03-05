@@ -13,11 +13,8 @@ export { UvInfo, IconData, Day, MapData, ExtendHourlyClasses } from 'other';
 
 // Context types
 //
-// Global state
-export { GlobalState } from 'context';
-
-// State chunks
-export { WeatherState } from 'context/state';
+// State
+export { GlobalState, WeatherState } from 'context/state';
 
 // Actions
 export { WeatherAction } from 'context/actions';
