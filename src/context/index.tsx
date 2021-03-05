@@ -5,18 +5,9 @@ import React, {
   useReducer,
 } from 'react';
 import { rootReducer } from './reducers';
-// import useReducerWithThunk from 'hooks/useAsyncReducer';
-// import { useThunkReducer } from 'react-hook-thunk-reducer';
-import { GlobalState } from 'types';
-import { initialWeatherState } from 'context/initialState';
+import { initialGlobalState, initialDispatch } from 'context/initialState';
 
-const initialState: GlobalState = {
-  weather: initialWeatherState,
-};
-
-const initialDispatch = () => {};
-
-export const GlobalStateContext = createContext(initialState);
+export const GlobalStateContext = createContext(initialGlobalState);
 export const GlobalDispatchContext = createContext<Dispatch<any>>(
   initialDispatch
 );
@@ -26,7 +17,7 @@ type Props = {
 };
 
 const GlobalContextProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(rootReducer, initialState);
+  const [state, dispatch] = useReducer(rootReducer, initialGlobalState);
 
   return (
     <GlobalStateContext.Provider value={state}>
