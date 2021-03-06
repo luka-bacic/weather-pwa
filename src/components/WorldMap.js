@@ -105,7 +105,7 @@ const WorldMap = () => {
   };
 
   const getWeather = () => {
-    let url = `https://api.openweathermap.org/data/2.5/onecall`;
+    let url = `${process.env.GATSBY_WEATHER_API_URL}`;
     // Coordinates
     url += `?lat=${mapData.lat}&lon=${mapData.actualLng}`;
     // Weather key
