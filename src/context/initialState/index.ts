@@ -1,4 +1,4 @@
-import { WeatherState, GlobalState, MapState } from 'types';
+import { WeatherState, GlobalState, MapState, FilterState } from 'types';
 
 export const initialWeatherState: WeatherState = {
   ready: false,
@@ -12,8 +12,22 @@ export const initialMapState: MapState = {
   address: '',
 };
 
+export const initialFilterState: FilterState = {
+  temp: true,
+  feelsLike: true,
+  precip: true,
+  rain: true,
+  snow: false,
+  wind: false,
+  uv: false,
+  clouds: false,
+  pressure: false,
+};
+
 export const initialGlobalState: GlobalState = {
   weather: initialWeatherState,
+  mapData: initialMapState,
+  filters: initialFilterState,
 };
 
 export const initialDispatch = () => {};
