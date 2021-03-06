@@ -5,14 +5,16 @@ import { GlobalDispatchContext } from 'context';
 import { initialMapState } from 'context/initialState';
 import { Link } from 'gatsby';
 import { setWeather, updateMapData } from 'context/actions';
+import { LeafletEventHandlerFn, LeafletMouseEvent, Map } from 'leaflet';
 
 const WorldMap = () => {
   // Update default data with localstorage data, if present
-  // This is outside of useEffect() as it is:
-  //   1. Required before the first render
-  //   2. Doesn't cause an instant pan to the location when map is remounted
-  if (localStorage.getItem('lastMapData')) {
-    const oldData = JSON.parse(localStorage.getItem('lastMapData'));
+  // This is outside of useEffect() as it
+  // Doesn't cause an instant pan to the location when map is remounted
+  const oldDataRaw = localStorage.getItem('lastMapData');
+
+  if (oldDataRaw !== null) {
+    const oldData = JSON.parse(oldDataRaw);
 
     if (typeof oldData.lat !== 'undefined') {
       initialMapState.lat = oldData.lat;
@@ -50,12 +52,12 @@ const WorldMap = () => {
   });
 
   // Leaflet map instance
-  const [leaflet, setLeaflet] = useState(null);
+  const [leaflet, setLeaflet] = useState<Map | null>(null);
 
   // Dispatch to update global state
   const dispatch = useContext(GlobalDispatchContext);
 
-  const handleMapClick = e => {
+  const handleMapClick = (e: LeafletMouseEvent) => {
     const { lat, lng } = e.target.wrapLatLng([e.latlng.lat, e.latlng.lng]);
 
     const newData = {
@@ -79,12 +81,12 @@ const WorldMap = () => {
     e.target.panTo([e.latlng.lat, e.latlng.lng]);
   };
 
-  const handleAutocompleteSelect = e => {
+  const handleAutocompleteSelect = (e: any) => {
     const newData = {
-      lat: e.location.y,
-      lng: e.location.x,
-      actualLng: e.location.x,
-      zoom: e.target.getZoom(),
+      lat: parseFloat(e.location.y),
+      lng: parseFloat(e.location.x),
+      actualLng: parseFloat(e.location.x),
+      zoom: parseFloat(e.target.getZoom()),
       address: e.location.label,
     };
     setMapData(newData);
@@ -92,8 +94,9 @@ const WorldMap = () => {
     dispatch(updateMapData(newData));
   };
 
-  const handleZoomEnd = e => {
+  const handleZoomEnd: LeafletEventHandlerFn = e => {
     const zoomLevel = { zoom: e.target.getZoom() };
+
     setMapData(prevState => {
       return {
         ...prevState,
@@ -114,8 +117,6 @@ const WorldMap = () => {
     url += `&units=metric`;
     // Exclude this from response
     url += `&exclude=minutely`;
-
-    console.log('url', url);
 
     fetch(url)
       .then(response => response.json())
@@ -154,7 +155,7 @@ const WorldMap = () => {
           });
 
           // Move center of map to the location
-          if (leaflet) {
+          if (leaflet !== null) {
             leaflet.panTo([data?.latitude, data?.longitude]);
           }
         })
@@ -165,11 +166,12 @@ const WorldMap = () => {
     }
   }, [leaflet]);
 
-  const mapCreated = map => {
+  const mapCreated = (map: Map) => {
     map.addControl(searchControl);
     map.on('click', handleMapClick);
     map.on('zoomend', handleZoomEnd);
     map.on('geosearch/showlocation', handleAutocompleteSelect);
+
     setLeaflet(map);
   };
 
@@ -196,6 +198,8 @@ const WorldMap = () => {
         </Link>
       </div>
     );
+  } else {
+    return null;
   }
 };
 
