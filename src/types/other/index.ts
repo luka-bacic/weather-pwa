@@ -22,15 +22,6 @@ export interface Day {
   weather: HourlyResponse[];
 }
 
-// Local state for src/components/WorldMap
-export interface MapState {
-  actualLng: number;
-  address: string;
-  lat: number;
-  lng: number;
-  zoom: number;
-}
-
 // Wether to extend a cell in hourly forecast
 export interface ExtendHourlyClasses {
   temp?: boolean;
@@ -43,4 +34,18 @@ export interface ExtendHourlyClasses {
   pop?: boolean;
   rain?: boolean;
   snow?: boolean;
+}
+
+export interface FilterIdentifier {
+  id:
+    | 'temp'
+    | 'feelsLike'
+    | 'precip'
+    | 'rain'
+    | 'snow'
+    | 'wind'
+    | 'uv'
+    | 'clouds'
+    | 'pressure';
+  value: boolean;
 }

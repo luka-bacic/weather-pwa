@@ -9,15 +9,26 @@ export {
 } from 'forecast';
 
 // Other
-export { UvInfo, IconData, Day, MapState, ExtendHourlyClasses } from 'other';
+export {
+  UvInfo,
+  IconData,
+  Day,
+  ExtendHourlyClasses,
+  FilterIdentifier,
+} from 'other';
 
 // Context types
 //
 // State
-export { GlobalState, WeatherState } from 'context/state';
+export {
+  GlobalState,
+  WeatherState,
+  MapState,
+  FilterState,
+} from 'context/state';
 
 // Actions
-export { WeatherAction, MapAction } from 'context/actions';
+export { WeatherAction, MapAction, FilterAction } from 'context/actions';
 
 // Action types
 export { SET_WEATHER } from 'context/types';

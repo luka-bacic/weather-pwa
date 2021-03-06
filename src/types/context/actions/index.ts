@@ -1,6 +1,5 @@
-import { LocationInfo, MapState } from 'types';
+import { LocationInfo, MapState, FilterIdentifier } from 'types';
 
-// Actions
 export interface WeatherAction {
   type: 'SET_WEATHER';
   payload: LocationInfo;
@@ -9,4 +8,9 @@ export interface WeatherAction {
 export interface MapAction {
   type: 'UPDATE_MAP_DATA';
   payload: MapState;
+}
+
+export interface FilterAction {
+  type: 'UPDATE_FILTER';
+  payload: FilterIdentifier;
 }
