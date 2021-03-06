@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import Nav from 'components/Nav';
 import Toast from 'components/Toast';
 import { GlobalDispatchContext, GlobalStateContext } from 'context';
+import { setWeather, updateMapData } from 'context/actions';
 import 'scss/style.scss';
 import 'focus-visible';
 
@@ -15,8 +16,22 @@ const Layout = ({ children }) => {
   const { message } = useContext(GlobalStateContext);
 
   useEffect(() => {
-    dispatch({ type: 'GET_LOCAL_DATA' });
-  }, [message]); // eslint-disable-line
+    // Load old weather data into state
+    const oldWeatherRaw = localStorage.getItem('activeWeather');
+
+    if (oldWeatherRaw) {
+      const oldWeather = JSON.parse(oldWeatherRaw);
+      dispatch(setWeather(oldWeather));
+    }
+
+    // Load old map data into state
+    const oldMapRaw = localStorage.getItem('activeWeather');
+
+    if (oldMapRaw) {
+      const oldMap = JSON.parse(oldMapRaw);
+      dispatch(updateMapData(oldMap));
+    }
+  }, [dispatch]);
 
   return (
     <>

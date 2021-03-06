@@ -23,7 +23,7 @@ export interface Day {
 }
 
 // Local state for src/components/WorldMap
-export interface MapData {
+export interface MapState {
   actualLng: number;
   address: string;
   lat: number;

@@ -2,16 +2,9 @@ import React, { useContext, useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { GlobalDispatchContext } from 'context';
+import { initialMapState } from 'context/initialState';
 import { Link } from 'gatsby';
-import { setWeather } from 'context/actions';
-
-const defaultData = {
-  lat: 32,
-  lng: 2,
-  actualLng: 2, // Longitude on the map can be outside the [-180, 180] range. This represents lng inside this range
-  zoom: 4,
-  address: '',
-};
+import { setWeather, updateMapData } from 'context/actions';
 
 const WorldMap = () => {
   // Update default data with localstorage data, if present
@@ -22,19 +15,19 @@ const WorldMap = () => {
     const oldData = JSON.parse(localStorage.getItem('lastMapData'));
 
     if (typeof oldData.lat !== 'undefined') {
-      defaultData.lat = oldData.lat;
+      initialMapState.lat = oldData.lat;
     }
     if (typeof oldData.lng !== 'undefined') {
-      defaultData.lng = oldData.lng;
+      initialMapState.lng = oldData.lng;
     }
     if (typeof oldData.actualLng !== 'undefined') {
-      defaultData.actualLng = oldData.actualLng;
+      initialMapState.actualLng = oldData.actualLng;
     }
     if (typeof oldData.zoom !== 'undefined') {
-      defaultData.zoom = oldData.zoom;
+      initialMapState.zoom = oldData.zoom;
     }
     if (typeof oldData.address !== 'undefined') {
-      defaultData.address = oldData.address;
+      initialMapState.address = oldData.address;
     }
   }
 
@@ -49,11 +42,11 @@ const WorldMap = () => {
 
   // Local state
   const [mapData, setMapData] = useState({
-    lat: defaultData.lat,
-    lng: defaultData.lng,
-    actualLng: defaultData.actualLng,
-    zoom: defaultData.zoom,
-    address: defaultData.address,
+    lat: initialMapState.lat,
+    lng: initialMapState.lng,
+    actualLng: initialMapState.actualLng,
+    zoom: initialMapState.zoom,
+    address: initialMapState.address,
   });
 
   // Leaflet map instance
@@ -80,10 +73,7 @@ const WorldMap = () => {
       };
     });
 
-    // dispatch({
-    //   type: 'UPDATE_MAP_DATA',
-    //   payload: newData,
-    // });
+    dispatch(updateMapData(newData));
 
     // Center map to clicked area
     e.target.panTo([e.latlng.lat, e.latlng.lng]);
@@ -99,10 +89,7 @@ const WorldMap = () => {
     };
     setMapData(newData);
 
-    // dispatch({
-    //   type: 'UPDATE_MAP_DATA',
-    //   payload: newData,
-    // });
+    dispatch(updateMapData(newData));
   };
 
   const handleZoomEnd = e => {
@@ -114,10 +101,7 @@ const WorldMap = () => {
       };
     });
 
-    // dispatch({
-    //   type: 'UPDATE_MAP_DATA',
-    //   payload: zoomLevel,
-    // });
+    dispatch(updateMapData(zoomLevel));
   };
 
   const getWeather = () => {
@@ -142,15 +126,11 @@ const WorldMap = () => {
         };
 
         dispatch(setWeather(modifiedData));
+        dispatch(updateMapData(mapData));
       })
       .catch(error =>
         console.error('Error occurred while getting weather forecast:\n', error)
       );
-
-    // dispatch({
-    //   type: 'UPDATE_MAP_DATA',
-    //   payload: mapData,
-    // });
   };
 
   useEffect(() => {
@@ -196,8 +176,8 @@ const WorldMap = () => {
     return (
       <div>
         <MapContainer
-          center={[defaultData.lat, defaultData.lng]}
-          zoom={defaultData.zoom}
+          center={[initialMapState.lat, initialMapState.lng]}
+          zoom={initialMapState.zoom}
           style={{ height: '50vh' }}
           whenCreated={mapCreated}
           id="map"
