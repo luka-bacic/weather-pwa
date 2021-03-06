@@ -8,7 +8,7 @@ export function getIconInfo(weather: Weather, size?: '2x' | '4x'): IconData {
   }
 
   return {
-    url: `http://openweathermap.org/img/wn/${weather.icon}${appendSize}.png`,
+    url: `https://openweathermap.org/img/wn/${weather.icon}${appendSize}.png`,
     description: weather?.description,
   };
 }
