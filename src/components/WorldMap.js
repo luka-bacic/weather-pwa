@@ -105,7 +105,7 @@ const WorldMap = () => {
   };
 
   const getWeather = () => {
-    let url = `${process.env.GATSBY_WEATHER_API_URL}`;
+    let url = `https://api.openweathermap.org/data/2.5/onecall`;
     // Coordinates
     url += `?lat=${mapData.lat}&lon=${mapData.actualLng}`;
     // Weather key
@@ -114,6 +114,8 @@ const WorldMap = () => {
     url += `&units=metric`;
     // Exclude this from response
     url += `&exclude=minutely`;
+
+    console.log('url', url);
 
     fetch(url)
       .then(response => response.json())
