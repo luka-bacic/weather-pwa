@@ -3,7 +3,7 @@ import { Link } from 'gatsby';
 import {
   // GlobalDispatchContext,
   GlobalStateContext,
-} from '../../context/GlobalContextProvider';
+} from 'context';
 import CurrentWeather from 'components/weather/CurrentWeather';
 import DailyBlock from 'components/weather/reusable/DailyBlock';
 import DailyForecast from 'components/weather/DailyForecast';
@@ -11,13 +11,19 @@ import HourlyForecast from 'components/weather/HourlyForecast';
 import WeatherAlerts from 'components/weather/WeatherAlerts';
 import QuickInfo from 'components/weather/QuickInfo';
 import ForecastTime from 'components/weather/ForecastTime';
+import { LocationInfo } from '../../types';
 
 const WeatherInfo = () => {
   // const dispatch = useContext(GlobalDispatchContext);
 
-  const { activeLocation: weather } = useContext(GlobalStateContext);
+  const [forecast, setForecast] = useState<LocationInfo | undefined>(undefined);
+  const { weather } = useContext(GlobalStateContext);
 
-  useEffect(() => {}, [weather]);
+  useEffect(() => {
+    if (weather.ready) {
+      setForecast(weather.forecast);
+    }
+  }, [weather]);
 
   if (weather) {
     console.log(weather);
@@ -53,37 +59,38 @@ const WeatherInfo = () => {
 
   return (
     <div className="weather-info">
-      {typeof weather !== 'undefined' ? (
+      {typeof forecast !== 'undefined' ? (
         <div>
-          <h1>{weather.address}</h1>
+          {forecast.hasOwnProperty('address') && <h1> {forecast.address}</h1>}
 
           {/* <div style={{ border: '1px solid green', padding: '1rem' }}>
-            <button onClick={saveLocation}>Save Location</button>
-            <input
-              type="text"
-              onChange={handleInputChange}
-              value={inputValue}
-            />
-      </div> */}
+      <button onClick={saveLocation}>Save Location</button>
+      <input
+        type="text"
+        onChange={handleInputChange}
+        value={inputValue}
+      />
+</div> */}
 
           <div className="flex">
             <WeatherAlerts
-              alerts={weather.alerts}
-              timezoneOffset={weather.timezone_offset}
+              alerts={forecast.alerts}
+              timezoneOffset={forecast.timezone_offset}
             />
 
             <CurrentWeather
-              data={weather.current}
-              // timezoneOffset={weather.timezone_offset}
+              data={forecast.current}
+              // timezoneOffset={forecast.timezone_offset}
             />
           </div>
-          {typeof weather.daily[0] !== 'undefined' && (
+
+          {typeof forecast.daily[0] !== 'undefined' && (
             <>
-              <QuickInfo data={weather.daily[0]} />
+              <QuickInfo data={forecast.daily[0]} />
 
               <DailyBlock
-                data={weather.daily[0]}
-                timezoneOffset={weather.timezone_offset}
+                data={forecast.daily[0]}
+                timezoneOffset={forecast.timezone_offset}
                 title="Show more about today"
                 single
               />
@@ -91,22 +98,22 @@ const WeatherInfo = () => {
           )}
 
           <HourlyForecast
-            data={weather.hourly}
-            timezoneOffset={weather.timezone_offset}
+            data={forecast.hourly}
+            timezoneOffset={forecast.timezone_offset}
           />
 
-          {typeof weather.daily !== 'undefined' &&
-            Array.isArray(weather.daily) && (
+          {typeof forecast.daily !== 'undefined' &&
+            Array.isArray(forecast.daily) && (
               <DailyForecast
-                data={weather.daily}
-                timezoneOffset={weather.timezone_offset}
+                data={forecast.daily}
+                timezoneOffset={forecast.timezone_offset}
                 withoutFirst
               />
             )}
 
           <ForecastTime
-            timezoneOffset={weather.timezone_offset}
-            lastUpdated={weather.lastUpdated}
+            timezoneOffset={forecast.timezone_offset}
+            lastUpdated={forecast.lastUpdated}
           />
         </div>
       ) : (
