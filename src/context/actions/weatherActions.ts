@@ -1,14 +1,11 @@
-import { LocationInfo } from '../../types';
+import { LocationInfo, WeatherAction } from 'types';
 
-export const setWeather = (weather: LocationInfo) => {
+export const setWeather = (weather: LocationInfo): WeatherAction => {
   // Save data for offline usage
-  setLocalStorage('activeWeather', weather);
+  localStorage.setItem('activeWeather', JSON.stringify(weather));
+
   return {
     type: 'SET_WEATHER',
     payload: weather,
   };
-};
-
-const setLocalStorage = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value));
 };
