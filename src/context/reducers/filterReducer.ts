@@ -7,14 +7,25 @@ export function filterReducer(
 ): FilterState {
   switch (action.type) {
     case 'UPDATE_FILTER': {
-      console.log('PAYLOD', action.payload);
-      return {
-        ...state,
-        [action.payload.id]: {
-          ...state[action.payload.id],
-          checked: action.payload.value,
-        },
-      };
+      if (
+        action.payload.id === 'temp' ||
+        action.payload.id === 'feelsLike' ||
+        action.payload.id === 'precip' ||
+        action.payload.id === 'rain' ||
+        action.payload.id === 'snow' ||
+        action.payload.id === 'wind' ||
+        action.payload.id === 'uv' ||
+        action.payload.id === 'clouds' ||
+        action.payload.id === 'pressure'
+      ) {
+        return {
+          ...state,
+          [action?.payload?.id]: {
+            ...state[action.payload.id],
+            checked: action.payload.value,
+          },
+        };
+      }
     }
     default: {
       return state;
