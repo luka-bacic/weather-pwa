@@ -105,11 +105,11 @@ const WorldMap = () => {
   };
 
   const getWeather = () => {
-    let url = `${process.env.WEATHER_API_URL}`;
+    let url = `${process.env.GATSBY_WEATHER_API_URL}`;
     // Coordinates
     url += `?lat=${mapData.lat}&lon=${mapData.actualLng}`;
     // Weather key
-    url += `&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}`;
+    url += `&appid=${process.env.GATSBY_OPEN_WEATHER_MAP_API_KEY}`;
     // Units
     url += `&units=metric`;
     // Exclude this from response
