@@ -1,0 +1,36 @@
+.filters {
+  display: flex;
+  overflow-x: scroll;
+  margin-bottom: $padding / 2;
+
+  &__single {
+    flex-shrink: 0;
+    margin-right: $padding / 2;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+
+    input[type='checkbox'] {
+      display: none;
+
+      ~ label {
+        display: flex;
+        align-items: center;
+        border: 2px solid c('blue');
+        color: c('blue');
+        padding: $padding / 4 $padding / 2;
+        user-select: none;
+        cursor: pointer;
+      }
+
+      &:checked {
+        ~ label {
+          color: red;
+          background: c('blue');
+          color: c('white');
+        }
+      }
+    }
+  }
+}

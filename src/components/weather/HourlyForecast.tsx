@@ -1,9 +1,17 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, {
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+  useContext,
+} from 'react';
 import HourlyBlock from 'components/weather/reusable/HourlyBlock';
 import { HourlyResponse, Day } from 'types';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { placeLabel, round, shouldExtendCell } from 'functions';
+import { placeLabel } from 'functions';
+import Filters from 'components/weather/Filters';
+import { GlobalStateContext } from 'context';
 
 type Props = {
   data: HourlyResponse[];
@@ -12,6 +20,9 @@ type Props = {
 
 const HourlyForecast = ({ data, timezoneOffset }: Props) => {
   dayjs.extend(utc);
+
+  // Global state
+  const { filters } = useContext(GlobalStateContext);
 
   // Refs
   const outerRef = useRef<HTMLDivElement>(null);
@@ -29,16 +40,6 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
   const today = dayjs().format('d');
 
   const [renderedHours, setRenderedHours] = useState<ReactElement[]>([]);
-  // State for filters
-  const [showTemperature, toggleShowTemperature] = useState(true);
-  const [showFeelsLike, toggleShowFeelsLike] = useState(true);
-  const [showPrecipChance, toggleShowPrecipChance] = useState(true);
-  const [showRainfall, toggleShowRainfall] = useState(true);
-  const [showSnowfall, toggleShowSnowfall] = useState(true);
-  const [showWind, toggleShowWind] = useState(true);
-  const [showUvIndex, toggleShowUvIndex] = useState(true);
-  const [showClouds, toggleShowClouds] = useState(true);
-  const [showPressure, toggleShowPressure] = useState(true);
 
   useEffect(() => {
     if (typeof data !== 'undefined') {
@@ -98,15 +99,15 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
               <HourlyBlock
                 data={hour}
                 timezoneOffset={timezoneOffset}
-                showPrecipChance={showPrecipChance}
-                showRainfall={showRainfall}
-                showSnowfall={showSnowfall}
-                showTemperature={showTemperature}
-                showFeelsLike={showFeelsLike}
-                showWind={showWind}
-                showUvIndex={showUvIndex}
-                showClouds={showClouds}
-                showPressure={showPressure}
+                showPrecipChance={filters.precip.checked}
+                showRainfall={filters.rain.checked}
+                showSnowfall={filters.snow.checked}
+                showTemperature={filters.temp.checked}
+                showFeelsLike={filters.feelsLike.checked}
+                showWind={filters.wind.checked}
+                showUvIndex={filters.uv.checked}
+                showClouds={filters.clouds.checked}
+                showPressure={filters.pressure.checked}
                 extendCells={classes}
                 key={j}
               />
@@ -122,18 +123,7 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
         })
       );
     }
-  }, [
-    data,
-    showPrecipChance,
-    showTemperature,
-    showWind,
-    showUvIndex,
-    showClouds,
-    showPressure,
-    showFeelsLike,
-    showRainfall,
-    showSnowfall,
-  ]);
+  }, [data, filters]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -143,12 +133,17 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
           const { top } = outerRef.current.getBoundingClientRect();
 
           // Set style for temperature label
-          placeLabel(tempLabelRef, showTemperature, '.hourly-block__temp', top);
+          placeLabel(
+            tempLabelRef,
+            filters.temp.checked,
+            '.hourly-block__temp',
+            top
+          );
 
           // Set style for feels like label
           placeLabel(
             feelsLikeLabelRef,
-            showFeelsLike,
+            filters.feelsLike.checked,
             '.hourly-block__feels-like',
             top
           );
@@ -156,7 +151,7 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
           // Set style for precip chance label
           placeLabel(
             precipChanceLabelRef,
-            showPrecipChance,
+            filters.precip.checked,
             '.hourly-block__precip-chance',
             top
           );
@@ -164,7 +159,7 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
           // Set style for rainfall label
           placeLabel(
             rainfallLabelRef,
-            showRainfall,
+            filters.rain.checked,
             '.hourly-block__rain',
             top
           );
@@ -172,27 +167,42 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
           // Set style for snowfall label
           placeLabel(
             snowfallLabelRef,
-            showSnowfall,
+            filters.snow.checked,
             '.hourly-block__snow',
             top
           );
 
           // Set style for wind label
-          placeLabel(windLabelRef, showWind, '.hourly-block__wind-speed', top);
+          placeLabel(
+            windLabelRef,
+            filters.wind.checked,
+            '.hourly-block__wind-speed',
+            top
+          );
 
           // Set style for UV index label
-          placeLabel(uvLabelRef, showUvIndex, '.hourly-block__uv', top);
+          placeLabel(uvLabelRef, filters.uv.checked, '.hourly-block__uv', top);
 
           // Set style for cloud cover label
-          placeLabel(cloudLabelRef, showClouds, '.hourly-block__clouds', top);
+          placeLabel(
+            cloudLabelRef,
+            filters.clouds.checked,
+            '.hourly-block__clouds',
+            top
+          );
 
           // Set style for cloud cover label
-          placeLabel(cloudLabelRef, showClouds, '.hourly-block__clouds', top);
+          placeLabel(
+            cloudLabelRef,
+            filters.clouds.checked,
+            '.hourly-block__clouds',
+            top
+          );
 
           // Set style for pressure label
           placeLabel(
             pressureLabelRef,
-            showPressure,
+            filters.pressure.checked,
             '.hourly-block__pressure',
             top
           );
@@ -205,106 +215,7 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
     <section className="hourly-forecast">
       <h3>Hourly forecast</h3>
 
-      <div className="hourly-forecast__filters">
-        <label htmlFor="temperature">
-          Temperature
-          <input
-            type="checkbox"
-            name="filters"
-            id="temperature"
-            onChange={() => toggleShowTemperature(prevState => !prevState)}
-            checked={showTemperature}
-          />
-        </label>
-
-        <label htmlFor="feelsLike">
-          Apparent temperature
-          <input
-            type="checkbox"
-            name="filters"
-            id="feelsLike"
-            onChange={() => toggleShowFeelsLike(prevState => !prevState)}
-            checked={showFeelsLike}
-          />
-        </label>
-
-        <label htmlFor="precipChance">
-          Precipitation chance
-          <input
-            type="checkbox"
-            name="filters"
-            id="precipChance"
-            onChange={() => toggleShowPrecipChance(prevState => !prevState)}
-            checked={showPrecipChance}
-          />
-        </label>
-
-        <label htmlFor="rain">
-          Rainfall
-          <input
-            type="checkbox"
-            name="filters"
-            id="rain"
-            onChange={() => toggleShowRainfall(prevState => !prevState)}
-            checked={showRainfall}
-          />
-        </label>
-
-        <label htmlFor="snow">
-          Snowfall
-          <input
-            type="checkbox"
-            name="filters"
-            id="snow"
-            onChange={() => toggleShowSnowfall(prevState => !prevState)}
-            checked={showSnowfall}
-          />
-        </label>
-
-        <label htmlFor="wind">
-          Wind
-          <input
-            type="checkbox"
-            name="filters"
-            id="wind"
-            onChange={() => toggleShowWind(prevState => !prevState)}
-            checked={showWind}
-          />
-        </label>
-
-        <label htmlFor="uv">
-          UV
-          <input
-            type="checkbox"
-            name="filters"
-            id="uv"
-            onChange={() => toggleShowUvIndex(prevState => !prevState)}
-            checked={showUvIndex}
-          />
-        </label>
-
-        <label htmlFor="clouds">
-          Clouds
-          <input
-            type="checkbox"
-            name="filters"
-            id="clouds"
-            onChange={() => toggleShowClouds(prevState => !prevState)}
-            checked={showClouds}
-          />
-        </label>
-
-        <label htmlFor="pressure">
-          Pressure
-          <input
-            type="checkbox"
-            name="filters"
-            id="pressure"
-            onChange={() => toggleShowPressure(prevState => !prevState)}
-            checked={showPressure}
-          />
-        </label>
-      </div>
+      <Filters />
 
       <div className="hourly-forecast__outer" ref={outerRef}>
         <div className="hourly-forecast__wrap">

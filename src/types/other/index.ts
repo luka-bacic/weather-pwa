@@ -36,16 +36,7 @@ export interface ExtendHourlyClasses {
   snow?: boolean;
 }
 
-export interface FilterIdentifier {
-  id:
-    | 'temp'
-    | 'feelsLike'
-    | 'precip'
-    | 'rain'
-    | 'snow'
-    | 'wind'
-    | 'uv'
-    | 'clouds'
-    | 'pressure';
+export interface FilterData {
   value: boolean;
+  id: string;
 }

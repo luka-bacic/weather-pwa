@@ -7,10 +7,12 @@ export function filterReducer(
 ): FilterState {
   switch (action.type) {
     case 'UPDATE_FILTER': {
+      console.log('PAYLOD', action.payload);
       return {
         ...state,
-        ...{
-          [action.payload.id]: action.payload.value,
+        [action.payload.id]: {
+          ...state[action.payload.id],
+          checked: action.payload.value,
         },
       };
     }

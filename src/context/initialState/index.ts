@@ -13,15 +13,39 @@ export const initialMapState: MapState = {
 };
 
 export const initialFilterState: FilterState = {
-  temp: true,
-  feelsLike: true,
-  precip: true,
-  rain: true,
-  snow: false,
-  wind: false,
-  uv: false,
-  clouds: false,
-  pressure: false,
+  temp: {
+    checked: true,
+    label: 'Temperature',
+  },
+  feelsLike: {
+    checked: true,
+    label: 'Apparent temperature',
+  },
+  precip: {
+    checked: true,
+    label: 'Precip chance',
+  },
+  rain: {
+    checked: true,
+    label: 'Rainfall',
+  },
+  snow: {
+    checked: false,
+    label: 'Snowfall',
+  },
+  wind: {
+    checked: false,
+    label: 'Wind',
+  },
+  uv: { checked: false, label: 'UV' },
+  clouds: {
+    checked: false,
+    label: 'Clouds',
+  },
+  pressure: {
+    checked: false,
+    label: 'Pressure',
+  },
 };
 
 export const initialGlobalState: GlobalState = {

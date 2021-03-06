@@ -1,14 +1,4 @@
 .hourly-forecast {
-  &__filters {
-    display: flex;
-
-    label {
-      + label {
-        margin-left: $padding;
-      }
-    }
-  }
-
   &__outer {
     position: relative;
   }

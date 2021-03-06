@@ -24,13 +24,40 @@ export interface MapState {
 }
 
 export interface FilterState {
-  temp: boolean;
-  feelsLike: boolean;
-  precip: boolean;
-  rain: boolean;
-  snow: boolean;
-  wind: boolean;
-  uv: boolean;
-  clouds: boolean;
-  pressure: boolean;
+  temp: {
+    checked: boolean;
+    label: string;
+  };
+  feelsLike: {
+    checked: boolean;
+    label: string;
+  };
+  precip: {
+    checked: boolean;
+    label: string;
+  };
+  rain: {
+    checked: boolean;
+    label: string;
+  };
+  snow: {
+    checked: boolean;
+    label: string;
+  };
+  wind: {
+    checked: boolean;
+    label: string;
+  };
+  uv: {
+    checked: boolean;
+    label: string;
+  };
+  clouds: {
+    checked: boolean;
+    label: string;
+  };
+  pressure: {
+    checked: boolean;
+    label: string;
+  };
 }

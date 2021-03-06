@@ -9,13 +9,7 @@ export {
 } from 'forecast';
 
 // Other
-export {
-  UvInfo,
-  IconData,
-  Day,
-  ExtendHourlyClasses,
-  FilterIdentifier,
-} from 'other';
+export { UvInfo, IconData, Day, ExtendHourlyClasses, FilterData } from 'other';
 
 // Context types
 //

@@ -25,9 +25,9 @@ const WeatherInfo = () => {
     }
   }, [weather]);
 
-  if (weather) {
-    console.log(weather);
-  }
+  // if (weather) {
+  //   console.log(weather);
+  // }
 
   // const [locationName, setLocationName] = useState('');
   // const [inputValue, setInputValue] = useState('');

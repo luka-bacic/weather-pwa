@@ -1,4 +1,4 @@
-import { LocationInfo, MapState, FilterIdentifier } from 'types';
+import { LocationInfo, MapState, FilterData } from 'types';
 
 export interface WeatherAction {
   type: 'SET_WEATHER';
@@ -12,5 +12,5 @@ export interface MapAction {
 
 export interface FilterAction {
   type: 'UPDATE_FILTER';
-  payload: FilterIdentifier;
+  payload: FilterData;
 }
