@@ -60,11 +60,38 @@ const WorldMap = () => {
   const handleMapClick = (e: LeafletMouseEvent) => {
     const { lat, lng } = e.target.wrapLatLng([e.latlng.lat, e.latlng.lng]);
 
+    let geocodeUrl =
+      `${process.env.GATSBY_REVERSE_GEOLOC_API_URL}` +
+      `?lat=${lat}&lon=${lng}` +
+      `&appid=${process.env.GATSBY_OPEN_WEATHER_MAP_API_KEY}`;
+
+    // Reverse geocode to get name of place
+    fetch(geocodeUrl)
+      .then(response => response.json())
+      .then(results => {
+        let address = '';
+        if (results.length) {
+          // Get first result
+          address = results[0].name;
+        } else {
+          // Name the location by coordinates
+          address = `Location at ${lat.toFixed(3)} lat, ${lng.toFixed(3)} lon`;
+        }
+
+        // Update address
+        setMapData(prevState => {
+          return {
+            ...prevState,
+            address: address,
+          };
+        });
+      });
+
+    // Update lat and lng
     const newData = {
       lat: lat,
       lng: e.latlng.lng,
       actualLng: lng,
-      address: `Location at ${lat.toFixed(3)} lat, ${lng.toFixed(3)} lng`,
     };
 
     // Update local state
@@ -108,17 +135,22 @@ const WorldMap = () => {
   };
 
   const getWeather = () => {
-    let url = `${process.env.GATSBY_WEATHER_API_URL}`;
     // Coordinates
-    url += `?lat=${mapData.lat}&lon=${mapData.actualLng}`;
+    const latLng = `?lat=${mapData.lat}&lon=${mapData.actualLng}`;
     // Weather key
-    url += `&appid=${process.env.GATSBY_OPEN_WEATHER_MAP_API_KEY}`;
-    // Units
-    url += `&units=metric`;
-    // Exclude this from response
-    url += `&exclude=minutely`;
+    const apiKey = `&appid=${process.env.GATSBY_OPEN_WEATHER_MAP_API_KEY}`;
 
-    fetch(url)
+    let weatherUrl =
+      `${process.env.GATSBY_WEATHER_API_URL}` +
+      latLng +
+      apiKey +
+      // Units
+      `&units=metric` +
+      // Exclude this from response
+      `&exclude=minutely`;
+
+    // Get weather
+    fetch(weatherUrl)
       .then(response => response.json())
       .then(data => {
         const modifiedData = {
