@@ -1,6 +1,6 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, ReactElement } from 'react';
 import Nav from 'components/Nav';
-import Toast from 'components/Toast';
+// import Toast from 'components/Toast';
 import { GlobalDispatchContext, GlobalStateContext } from 'context';
 import { setWeather, updateMapData } from 'context/actions';
 import 'scss/style.scss';
@@ -11,9 +11,13 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-const Layout = ({ children }) => {
+type Props = {
+  children: ReactElement;
+};
+
+const Layout = ({ children }: Props) => {
   const dispatch = useContext(GlobalDispatchContext);
-  const { message } = useContext(GlobalStateContext);
+  // const { message } = useContext(GlobalStateContext);
 
   useEffect(() => {
     // Load old weather data into state
@@ -36,7 +40,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Nav />
-      {message && <Toast message={message} />}
+      {/* {message && <Toast message={message} />} */}
       <main>{children}</main>
     </>
   );
