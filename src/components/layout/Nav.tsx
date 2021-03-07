@@ -23,7 +23,8 @@ const Nav = () => {
         <span className="sr-only">Open menu</span>
       </button>
 
-      <div className="nav__wrap" ref={wrapRef} onClick={toggleNavVisibility}>
+      <div className="nav__wrap" ref={wrapRef}>
+        <div className="nav__spacer" onClick={toggleNavVisibility}></div>
         <nav className="nav__inner">
           <div className="nav__inner-head">
             Weather

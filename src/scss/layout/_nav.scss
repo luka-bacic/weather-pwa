@@ -25,6 +25,10 @@
     z-index: 2000;
     @include t3d(100%);
     transition: transform $fast;
+    display: flex;
+  }
+
+  &__spacer {
     background: rgba(c('black'), 0.2);
   }
 
