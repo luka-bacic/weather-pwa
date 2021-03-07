@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'gatsby';
-import {
-  // GlobalDispatchContext,
-  GlobalStateContext,
-} from 'context';
+import { GlobalDispatchContext, GlobalStateContext } from 'context';
 import CurrentWeather from 'components/weather/CurrentWeather';
 import DailyBlock from 'components/weather/reusable/DailyBlock';
 import DailyForecast from 'components/weather/DailyForecast';
@@ -11,51 +8,44 @@ import HourlyForecast from 'components/weather/HourlyForecast';
 import WeatherAlerts from 'components/weather/WeatherAlerts';
 import QuickInfo from 'components/weather/QuickInfo';
 import ForecastTime from 'components/weather/ForecastTime';
-import { LocationInfo } from '../../types';
+import { LocationInfo } from 'types';
+import { saveLocation } from 'context/actions';
 
 const WeatherInfo = () => {
-  // const dispatch = useContext(GlobalDispatchContext);
+  const dispatch = useContext(GlobalDispatchContext);
 
   const [forecast, setForecast] = useState<LocationInfo | undefined>(undefined);
-  const { weather } = useContext(GlobalStateContext);
+  const {
+    weather: { activeLocation },
+  } = useContext(GlobalStateContext);
 
   useEffect(() => {
-    if (weather.ready) {
-      setForecast(weather.activeWeather);
+    if (activeLocation.ready) {
+      setForecast(activeLocation.forecast);
     }
-  }, [weather]);
+  }, [activeLocation]);
 
-  // if (weather) {
-  //   console.log(weather);
-  // }
+  const [locationName, setLocationName] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
-  // const [locationName, setLocationName] = useState('');
-  // const [inputValue, setInputValue] = useState('');
+  const handleInputChange = (e: any) => {
+    setLocationName(e.target.value.trim());
+    setInputValue(e.target.value.trim());
+  };
 
-  // const handleInputChange = e => {
-  //   setLocationName(e.target.value.trim());
-  //   setInputValue(e.target.value.trim());
-  // };
-
-  // const saveLocation = () => {
-  //   if (locationName.trim().length) {
-  //     dispatch({
-  //       type: 'SAVE_LOCATION',
-  //       payload: {
-  //         ...weather,
-  //         address: locationName,
-  //       },
-  //     });
-  //   } else {
-  //     dispatch({
-  //       type: 'SET_MESSAGE',
-  //       payload: {
-  //         type: 'error',
-  //         text: 'Please type in a name to save the location',
-  //       },
-  //     });
-  //   }
-  // };
+  const saveLocationToState = () => {
+    if (locationName.trim().length) {
+      dispatch(saveLocation({ ...forecast, address: locationName }));
+    } else {
+      // dispatch({
+      //   type: 'SET_MESSAGE',
+      //   payload: {
+      //     type: 'error',
+      //     text: 'Please type in a name to save the location',
+      //   },
+      // });
+    }
+  };
 
   return (
     <div className="weather-info">
@@ -63,14 +53,14 @@ const WeatherInfo = () => {
         <div>
           {forecast.hasOwnProperty('address') && <h1> {forecast.address}</h1>}
 
-          {/* <div style={{ border: '1px solid green', padding: '1rem' }}>
-      <button onClick={saveLocation}>Save Location</button>
-      <input
-        type="text"
-        onChange={handleInputChange}
-        value={inputValue}
-      />
-</div> */}
+          <div style={{ border: '1px solid green', padding: '1rem' }}>
+            <button onClick={saveLocationToState}>Save Location</button>
+            <input
+              type="text"
+              onChange={handleInputChange}
+              value={inputValue}
+            />
+          </div>
 
           <div className="flex">
             <WeatherAlerts

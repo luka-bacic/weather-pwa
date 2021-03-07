@@ -2,7 +2,7 @@ import React, { useEffect, useContext, ReactElement } from 'react';
 import Header from './Header';
 // import Toast from 'components/Toast';
 import { GlobalDispatchContext, GlobalStateContext } from 'context';
-import { setWeather, updateMapData } from 'context/actions';
+import { setWeather, updateMapData, loadSavedLocations } from 'context/actions';
 import 'scss/style.scss';
 import 'focus-visible';
 
@@ -20,8 +20,17 @@ const Layout = ({ children }: Props) => {
   // const { message } = useContext(GlobalStateContext);
 
   useEffect(() => {
-    // Load old weather data into state
-    const oldWeatherRaw = localStorage.getItem('activeWeather');
+    // Load saved locations into state
+    const oldSavedRaw = localStorage.getItem('savedLocations');
+
+    if (oldSavedRaw) {
+      const oldSaved = JSON.parse(oldSavedRaw);
+
+      dispatch(loadSavedLocations(oldSaved));
+    }
+
+    // Load old active weather data into state
+    const oldWeatherRaw = localStorage.getItem('activeLocation');
 
     if (oldWeatherRaw) {
       const oldWeather = JSON.parse(oldWeatherRaw);
@@ -29,7 +38,7 @@ const Layout = ({ children }: Props) => {
     }
 
     // Load old map data into state
-    const oldMapRaw = localStorage.getItem('activeWeather');
+    const oldMapRaw = localStorage.getItem('lastMapData');
 
     if (oldMapRaw) {
       const oldMap = JSON.parse(oldMapRaw);

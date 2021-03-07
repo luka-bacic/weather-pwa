@@ -11,8 +11,11 @@ export interface GlobalState {
 }
 
 export interface WeatherState {
-  ready: boolean;
-  activeWeather?: LocationInfo;
+  activeLocation: {
+    ready: boolean;
+    forecast: LocationInfo;
+  };
+  savedLocations: LocationInfo[];
 }
 
 export interface MapState {

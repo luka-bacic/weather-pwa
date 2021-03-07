@@ -103,7 +103,6 @@ export interface Weather {
 // cause it is not used in this app) with additions of
 // `id`, `address`, `lastUpdated`, `isTemp`
 export interface LocationInfo {
-  id: string;
   address: string;
   alerts?: AlertResponse[];
   current: CurrentResponse;

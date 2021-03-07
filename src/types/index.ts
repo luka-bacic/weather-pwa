@@ -22,7 +22,13 @@ export {
 } from 'context/state';
 
 // Actions
-export { WeatherAction, MapAction, FilterAction } from 'context/actions';
+export {
+  SetActiveWeatherAction,
+  LoadSavedLocationAction,
+  SaveLocationAction,
+  MapAction,
+  FilterAction,
+} from 'context/actions';
 
 // Action types
 export { SET_WEATHER } from 'context/types';

@@ -1,7 +1,11 @@
 import { WeatherState, GlobalState, MapState, FilterState } from 'types';
 
 export const initialWeatherState: WeatherState = {
-  ready: false,
+  activeLocation: {
+    ready: false,
+    forecast: undefined,
+  },
+  savedLocations: [],
 };
 
 export const initialMapState: MapState = {
