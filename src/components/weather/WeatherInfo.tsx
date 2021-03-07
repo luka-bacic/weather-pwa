@@ -21,7 +21,7 @@ const WeatherInfo = () => {
 
   useEffect(() => {
     if (weather.ready) {
-      setForecast(weather.forecast);
+      setForecast(weather.activeWeather);
     }
   }, [weather]);
 

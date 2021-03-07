@@ -12,7 +12,7 @@ export interface GlobalState {
 
 export interface WeatherState {
   ready: boolean;
-  forecast?: LocationInfo;
+  activeWeather?: LocationInfo;
 }
 
 export interface MapState {

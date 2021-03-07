@@ -10,7 +10,7 @@ export function weatherReducer(
       return {
         ...state,
         ready: true,
-        forecast: {
+        activeWeather: {
           ...action.payload,
         },
       };
