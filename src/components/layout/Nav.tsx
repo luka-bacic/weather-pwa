@@ -2,6 +2,25 @@ import React, { useRef } from 'react';
 import { Link } from 'gatsby';
 import { IoMdClose, IoMdMenu } from 'react-icons/io';
 
+const pages = [
+  {
+    link: '/',
+    text: 'Weather',
+  },
+  {
+    link: '/map/',
+    text: 'Pick Location',
+  },
+  //   {
+  // link : '/about/',
+  // text: 'About'
+  //   },
+  //   {
+  // link : '/feedback',
+  // text: 'Feedback'
+  //   },
+];
+
 const Nav = () => {
   const wrapRef = useRef<HTMLDivElement>(null);
 
@@ -38,18 +57,11 @@ const Nav = () => {
             </button>
           </div>
 
-          <Link className="nav__link" to="/">
-            Weather
-          </Link>
-          <Link className="nav__link" to="/map/">
-            Map
-          </Link>
-          <Link className="nav__link" to="/about/">
-            About
-          </Link>
-          <Link className="nav__link" to="/feedback/">
-            Feedback
-          </Link>
+          {pages.map((page, i) => (
+            <Link className="nav__link" to={page.link} key={i}>
+              {page.text}
+            </Link>
+          ))}
         </nav>
       </div>
     </div>
