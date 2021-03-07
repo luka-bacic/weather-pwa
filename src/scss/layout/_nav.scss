@@ -1,15 +1,70 @@
-nav {
-  display: flex;
-  background: c('blue');
-  height: $nav-height;
-  padding: $padding;
+.nav {
+  &__toggler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
 
-  a {
+    svg {
+      width: $icon-size;
+      height: $icon-size;
+    }
+  }
+
+  &__wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    @include t3d(100%);
+    transition: transform $fast;
+    background: rgba(c('black'), 0.2);
+  }
+
+  &__inner {
+    margin-left: auto;
+    height: 100%;
+    background: c('white');
+    min-width: 200px;
+    width: 80vw;
+    max-width: 300px;
+    color: c('black');
+    font-size: 20px;
+    border-left: 1px solid c('grey');
+  }
+
+  &__inner-head,
+  &__link {
+    padding: $padding * 0.75 $padding;
     display: flex;
     align-items: center;
-    color: c('white');
-    text-transform: uppercase;
-    margin-right: $padding;
+    border-bottom: 1px solid c('grey');
+  }
+
+  &__inner-head {
+    justify-content: space-between;
+    font-weight: 700;
+  }
+
+  &__link {
     text-decoration: none;
+    color: currentColor;
+
+    &:hover,
+    &.focus-visible {
+      background: c('pale-blue');
+    }
+  }
+
+  &--wrap-open {
+    @include t3d(0);
+  }
+
+  &--inner-open {
   }
 }

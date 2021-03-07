@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, ReactElement } from 'react';
-import Nav from 'components/Nav';
+import Header from './Header';
 // import Toast from 'components/Toast';
 import { GlobalDispatchContext, GlobalStateContext } from 'context';
 import { setWeather, updateMapData } from 'context/actions';
@@ -39,7 +39,7 @@ const Layout = ({ children }: Props) => {
 
   return (
     <>
-      <Nav />
+      <Header />
       {/* {message && <Toast message={message} />} */}
       <main>{children}</main>
     </>
