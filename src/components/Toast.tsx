@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
+import { MessageState } from '../types';
 
-const Toast = ({ message }) => {
+type Props = {
+  message: MessageState;
+};
+const Toast = ({ message }: Props) => {
   const [isClosed, setIsClosed] = useState(false);
 
   useEffect(() => {

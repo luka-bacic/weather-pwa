@@ -1,11 +1,13 @@
 .toast {
   position: fixed;
-  top: calc(#{$nav-height} + #{$padding});
+  bottom: $padding;
   left: $padding;
   right: $padding;
+  z-index: 100;
   padding: $padding 0;
   border-width: 1px;
   border-style: solid;
+  background: c('white');
 
   &.closed {
     display: none;

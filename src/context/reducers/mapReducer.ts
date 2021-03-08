@@ -1,10 +1,10 @@
-import { MapAction, MapState } from 'types';
+import { MapAction, MapState, PartialMapState } from 'types';
 import { initialMapState } from 'context/initialState';
 
 export function mapReducer(
   state = initialMapState,
   action: MapAction
-): MapState {
+): MapState | PartialMapState {
   switch (action.type) {
     case 'UPDATE_MAP_DATA': {
       return {

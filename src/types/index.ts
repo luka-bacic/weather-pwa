@@ -18,14 +18,18 @@ export {
   GlobalState,
   WeatherState,
   MapState,
+  PartialMapState,
   FilterState,
-} from 'context/state';
+  MessageState,
+} from 'contextApi/state';
 
 // Actions
-export { WeatherAction, MapAction, FilterAction } from 'context/actions';
-
-// Action types
-export { SET_WEATHER } from 'context/types';
-
-// Reducers
-export { WeatherReducer } from 'context/reducers';
+export {
+  SetActiveWeatherAction,
+  LoadSavedLocationAction,
+  SaveLocationAction,
+  MapAction,
+  FilterAction,
+  SetMessageAction,
+  NoOldSavedLocationsAction,
+} from 'contextApi/actions';

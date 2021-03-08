@@ -100,8 +100,8 @@ export interface Weather {
 }
 
 // Complete response from the API (excluding minutely forecast,
-//  cause it is not used in this app) with additions of
-// `address`, `lastUpdated`, `isTemp`
+// cause it is not used in this app) with additions of
+// `id`, `address`, `lastUpdated`, `isTemp`
 export interface LocationInfo {
   address: string;
   alerts?: AlertResponse[];

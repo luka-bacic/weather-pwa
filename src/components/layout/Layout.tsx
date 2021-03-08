@@ -1,8 +1,12 @@
 import React, { useEffect, useContext, ReactElement } from 'react';
 import Header from './Header';
-// import Toast from 'components/Toast';
+import Toast from 'components/Toast';
 import { GlobalDispatchContext, GlobalStateContext } from 'context';
-import { setWeather, updateMapData } from 'context/actions';
+import {
+  loadOldActiveWeather,
+  loadOldMapData,
+  loadSavedLocations,
+} from '../../context/actions';
 import 'scss/style.scss';
 import 'focus-visible';
 
@@ -17,31 +21,24 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const dispatch = useContext(GlobalDispatchContext);
-  // const { message } = useContext(GlobalStateContext);
+  const { message } = useContext(GlobalStateContext);
 
   useEffect(() => {
-    // Load old weather data into state
-    const oldWeatherRaw = localStorage.getItem('activeWeather');
+    // Load saved locations into state
+    dispatch(loadSavedLocations());
 
-    if (oldWeatherRaw) {
-      const oldWeather = JSON.parse(oldWeatherRaw);
-      dispatch(setWeather(oldWeather));
-    }
+    // Load old active weather data into state
+    dispatch(loadOldActiveWeather());
 
     // Load old map data into state
-    const oldMapRaw = localStorage.getItem('activeWeather');
-
-    if (oldMapRaw) {
-      const oldMap = JSON.parse(oldMapRaw);
-      dispatch(updateMapData(oldMap));
-    }
+    dispatch(loadOldMapData());
   }, [dispatch]);
 
   return (
     <>
       <Header />
-      {/* {message && <Toast message={message} />} */}
       <main>{children}</main>
+      {message.type !== '' && <Toast message={message} />}
     </>
   );
 };

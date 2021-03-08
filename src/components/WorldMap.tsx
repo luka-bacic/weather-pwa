@@ -4,7 +4,7 @@ import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { GlobalDispatchContext } from 'context';
 import { initialMapState } from 'context/initialState';
 import { Link } from 'gatsby';
-import { setWeather, updateMapData } from 'context/actions';
+import { updateMapData, fetchWeather } from 'context/actions';
 import { LeafletEventHandlerFn, LeafletMouseEvent, Map } from 'leaflet';
 
 const WorldMap = () => {
@@ -160,7 +160,7 @@ const WorldMap = () => {
           lastUpdated: Date.now(),
         };
 
-        dispatch(setWeather(modifiedData));
+        dispatch(fetchWeather(modifiedData));
         dispatch(updateMapData(mapData));
       })
       .catch(error =>

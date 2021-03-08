@@ -6,13 +6,16 @@ export interface GlobalState {
   // tempLocation: LocationInfo | undefined;
   // savedLocations: LocationInfo[];
   mapData: MapState;
-  // message: string;
+  message: MessageState;
   filters: FilterState;
 }
 
 export interface WeatherState {
-  ready: boolean;
-  forecast?: LocationInfo;
+  activeLocation: {
+    ready: boolean;
+    forecast?: LocationInfo;
+  };
+  savedLocations: LocationInfo[];
 }
 
 export interface MapState {
@@ -21,6 +24,14 @@ export interface MapState {
   lat: number;
   lng: number;
   zoom: number;
+}
+
+export interface PartialMapState {
+  actualLng?: number;
+  address?: string;
+  lat?: number;
+  lng?: number;
+  zoom?: number;
 }
 
 export interface FilterState {
@@ -60,4 +71,9 @@ export interface FilterState {
     checked: boolean;
     label: string;
   };
+}
+
+export interface MessageState {
+  type: '' | 'info' | 'error';
+  text: string;
 }
