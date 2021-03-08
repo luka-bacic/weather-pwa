@@ -6,14 +6,14 @@ export interface GlobalState {
   // tempLocation: LocationInfo | undefined;
   // savedLocations: LocationInfo[];
   mapData: MapState;
-  // message: string;
+  message: MessageState;
   filters: FilterState;
 }
 
 export interface WeatherState {
   activeLocation: {
     ready: boolean;
-    forecast: LocationInfo;
+    forecast?: LocationInfo;
   };
   savedLocations: LocationInfo[];
 }
@@ -63,4 +63,9 @@ export interface FilterState {
     checked: boolean;
     label: string;
   };
+}
+
+export interface MessageState {
+  type: '' | 'info';
+  text: string;
 }

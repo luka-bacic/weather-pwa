@@ -1,5 +1,6 @@
-import { LocationInfo, MapState, FilterData } from 'types';
+import { LocationInfo, MapState, FilterData, MessageState } from 'types';
 
+// Weather actions
 export interface SetActiveWeatherAction {
   type: 'SET_ACTIVE_WEATHER';
   payload: LocationInfo;
@@ -15,12 +16,20 @@ export interface SaveLocationAction {
   payload: LocationInfo[];
 }
 
+// Map actions
 export interface MapAction {
   type: 'UPDATE_MAP_DATA';
   payload: MapState;
 }
 
+// Filter actions
 export interface FilterAction {
   type: 'UPDATE_FILTER';
   payload: FilterData;
+}
+
+// Message actions
+export interface SetMessageAction {
+  type: 'SET_MESSAGE';
+  payload: MessageState;
 }

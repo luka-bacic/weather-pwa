@@ -24,7 +24,6 @@ export function weatherReducer(
     }
 
     case 'LOAD_SAVED_LOCATIONS': {
-      console.log('loading into state', action.payload);
       return {
         ...state,
         savedLocations: action.payload,

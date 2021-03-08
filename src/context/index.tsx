@@ -1,11 +1,11 @@
-import React, {
-  createContext,
-  ReactElement,
-  Dispatch,
-  useReducer,
-} from 'react';
+import React, { createContext, ReactElement, Dispatch } from 'react';
 import { rootReducer } from './reducers';
 import { initialGlobalState, initialDispatch } from 'context/initialState';
+
+import thunk from 'redux-thunk';
+import { createReducer } from 'react-use';
+
+const useThunkReducer = createReducer(thunk);
 
 export const GlobalStateContext = createContext(initialGlobalState);
 export const GlobalDispatchContext = createContext<Dispatch<any>>(
@@ -17,7 +17,7 @@ type Props = {
 };
 
 const GlobalContextProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(rootReducer, initialGlobalState);
+  const [state, dispatch] = useThunkReducer(rootReducer, initialGlobalState);
 
   return (
     <GlobalStateContext.Provider value={state}>

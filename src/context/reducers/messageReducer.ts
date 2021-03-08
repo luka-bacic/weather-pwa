@@ -1,10 +1,10 @@
-import { MapAction, MapState } from 'types';
-import { initialMapState } from 'context/initialState';
+import { SetMessageAction, MessageState } from 'types';
+import { initialMessageState } from 'context/initialState';
 
 export function messageReducer(
-  state = initialMapState,
-  action: MapAction
-): MapState {
+  state = initialMessageState,
+  action: SetMessageAction
+): MessageState {
   switch (action.type) {
     case 'SET_MESSAGE': {
       console.log('inside set message reducer');
