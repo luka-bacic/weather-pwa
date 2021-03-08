@@ -23,7 +23,6 @@ const Layout = ({ children }: Props) => {
   const dispatch = useContext(GlobalDispatchContext);
   const { message } = useContext(GlobalStateContext);
 
-  console.log(message);
   useEffect(() => {
     // Load saved locations into state
     dispatch(loadSavedLocations());
