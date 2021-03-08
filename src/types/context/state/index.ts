@@ -66,6 +66,6 @@ export interface FilterState {
 }
 
 export interface MessageState {
-  type: '' | 'info';
+  type: '' | 'info' | 'error';
   text: string;
 }

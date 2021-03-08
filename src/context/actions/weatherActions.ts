@@ -4,6 +4,7 @@ import {
   LocationInfo,
   SetActiveWeatherAction,
   LoadSavedLocationAction,
+  MessageState,
 } from 'types';
 import { Dispatch } from 'redux';
 
@@ -49,7 +50,10 @@ export const saveLocation = (location: LocationInfo) => {
   return function (dispatch: Dispatch) {
     let savedLocations: LocationInfo[] = [];
     let isInProximity = false;
-    let message = {};
+    let message: MessageState = {
+      type: '',
+      text: '',
+    };
 
     // Get previous saved locations, if any
     const oldDataRaw = localStorage.getItem('savedLocations');
