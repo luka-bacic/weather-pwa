@@ -1,0 +1,10 @@
+.saved-locations {
+  &__link {
+    display: block;
+    margin-bottom: $padding / 2;
+    padding: $padding / 2 0 $padding;
+    color: currentColor;
+    text-decoration: none;
+    border-bottom: 1px solid c('grey');
+  }
+}

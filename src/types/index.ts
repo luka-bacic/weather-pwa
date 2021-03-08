@@ -31,4 +31,5 @@ export {
   MapAction,
   FilterAction,
   SetMessageAction,
+  NoOldSavedLocationsAction,
 } from 'contextApi/actions';

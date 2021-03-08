@@ -7,7 +7,6 @@ export function messageReducer(
 ): MessageState {
   switch (action.type) {
     case 'SET_MESSAGE': {
-      console.log('inside set message reducer');
       return {
         ...action.payload,
       };

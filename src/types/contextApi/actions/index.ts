@@ -17,6 +17,10 @@ export interface LoadSavedLocationAction {
   payload: LocationInfo[];
 }
 
+export interface NoOldSavedLocationsAction {
+  type: 'NO_OLD_SAVED_LOCATIONS_ACTION';
+}
+
 export interface SaveLocationAction {
   type: 'SAVE_LOCATION';
   payload: LocationInfo[];

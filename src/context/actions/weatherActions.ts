@@ -5,6 +5,7 @@ import {
   SetActiveWeatherAction,
   LoadSavedLocationAction,
   MessageState,
+  NoOldSavedLocationsAction,
 } from 'types';
 import { Dispatch } from 'redux';
 
@@ -30,18 +31,23 @@ export const loadOldActiveWeather = () => {
 };
 
 // Gets saved locations from local storage and loads it to the store
-export const loadSavedLocations = (): LoadSavedLocationAction | void => {
+export const loadSavedLocations = ():
+  | LoadSavedLocationAction
+  | NoOldSavedLocationsAction => {
   // Get saved locations from local storage
   const oldSavedRaw = localStorage.getItem('savedLocations');
 
-  console.log('in action');
   if (oldSavedRaw) {
-    console.log('in action that isnot null');
     const oldSaved = JSON.parse(oldSavedRaw);
 
     return {
       type: 'LOAD_SAVED_LOCATIONS',
       payload: oldSaved,
+    };
+  } else {
+    // Trigger default switch case
+    return {
+      type: 'NO_OLD_SAVED_LOCATIONS_ACTION',
     };
   }
 };
@@ -118,7 +124,9 @@ export const saveLocation = (location: LocationInfo) => {
 };
 
 // Sets the given active weather to store
-const setActiveWeather = (weather: LocationInfo): SetActiveWeatherAction => {
+export const setActiveWeather = (
+  weather: LocationInfo
+): SetActiveWeatherAction => {
   return {
     type: 'SET_ACTIVE_WEATHER',
     payload: weather,
