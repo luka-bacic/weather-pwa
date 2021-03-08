@@ -1,4 +1,10 @@
-import { WeatherState, GlobalState, MapState, FilterState } from 'types';
+import {
+  WeatherState,
+  GlobalState,
+  MapState,
+  FilterState,
+  MessageState,
+} from 'types';
 
 export const initialWeatherState: WeatherState = {
   activeLocation: {
@@ -52,10 +58,16 @@ export const initialFilterState: FilterState = {
   },
 };
 
+export const initialMessageState: MessageState = {
+  type: '',
+  text: '',
+};
+
 export const initialGlobalState: GlobalState = {
   weather: initialWeatherState,
   mapData: initialMapState,
   filters: initialFilterState,
+  message: initialMessageState,
 };
 
 export const initialDispatch = () => {};

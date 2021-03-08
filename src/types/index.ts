@@ -19,6 +19,7 @@ export {
   WeatherState,
   MapState,
   FilterState,
+  MessageState,
 } from 'context/state';
 
 // Actions
@@ -28,6 +29,7 @@ export {
   SaveLocationAction,
   MapAction,
   FilterAction,
+  SetMessageAction,
 } from 'context/actions';
 
 // Action types
