@@ -20,7 +20,7 @@ export {
   MapState,
   FilterState,
   MessageState,
-} from 'context/state';
+} from 'contextApi/state';
 
 // Actions
 export {
@@ -30,10 +30,7 @@ export {
   MapAction,
   FilterAction,
   SetMessageAction,
-} from 'context/actions';
+} from 'contextApi/actions';
 
 // Action types
-export { SET_WEATHER } from 'context/types';
-
-// Reducers
-export { WeatherReducer } from 'context/reducers';
+export { SET_WEATHER } from 'contextApi/types';
