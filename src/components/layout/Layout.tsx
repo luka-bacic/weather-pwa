@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, ReactElement } from 'react';
 import Header from './Header';
-// import Toast from 'components/Toast';
+import Toast from 'components/Toast';
 import { GlobalDispatchContext, GlobalStateContext } from 'context';
 import {
   loadOldActiveWeather,
@@ -21,8 +21,9 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const dispatch = useContext(GlobalDispatchContext);
-  // const { message } = useContext(GlobalStateContext);
+  const { message } = useContext(GlobalStateContext);
 
+  console.log(message);
   useEffect(() => {
     // Load saved locations into state
     dispatch(loadSavedLocations());
@@ -37,7 +38,7 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <Header />
-      {/* {message && <Toast message={message} />} */}
+      {message && <Toast message={message} />}
       <main>{children}</main>
     </>
   );

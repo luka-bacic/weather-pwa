@@ -18,6 +18,7 @@ export {
   GlobalState,
   WeatherState,
   MapState,
+  PartialMapState,
   FilterState,
   MessageState,
 } from 'contextApi/state';
@@ -31,6 +32,3 @@ export {
   FilterAction,
   SetMessageAction,
 } from 'contextApi/actions';
-
-// Action types
-export { SET_WEATHER } from 'contextApi/types';

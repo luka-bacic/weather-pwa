@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { MapState, MapAction } from 'types';
+import { PartialMapState, MapAction } from 'types';
 
 // Load old map data into state
 export const loadOldMapData = () => {
@@ -16,7 +16,7 @@ export const loadOldMapData = () => {
   };
 };
 
-export const updateMapData = (mapData: MapState): MapAction => {
+export const updateMapData = (mapData: PartialMapState): MapAction => {
   // Save for offline usage
   localStorage.setItem('lastMapData', JSON.stringify(mapData));
 

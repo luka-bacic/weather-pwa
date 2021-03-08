@@ -35,7 +35,9 @@ const WeatherInfo = () => {
 
   const saveLocationToState = () => {
     if (locationName.trim().length) {
-      dispatch(saveLocation({ ...forecast, address: locationName }));
+      if (typeof forecast !== 'undefined') {
+        dispatch(saveLocation({ ...forecast, address: locationName }));
+      }
     } else {
       // dispatch({
       //   type: 'SET_MESSAGE',

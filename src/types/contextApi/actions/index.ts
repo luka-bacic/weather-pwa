@@ -1,4 +1,10 @@
-import { LocationInfo, MapState, FilterData, MessageState } from 'types';
+import {
+  LocationInfo,
+  MapState,
+  PartialMapState,
+  FilterData,
+  MessageState,
+} from 'types';
 
 // Weather actions
 export interface SetActiveWeatherAction {
@@ -19,7 +25,7 @@ export interface SaveLocationAction {
 // Map actions
 export interface MapAction {
   type: 'UPDATE_MAP_DATA';
-  payload: MapState;
+  payload: MapState | PartialMapState;
 }
 
 // Filter actions

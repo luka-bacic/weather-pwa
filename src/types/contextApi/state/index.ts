@@ -26,6 +26,14 @@ export interface MapState {
   zoom: number;
 }
 
+export interface PartialMapState {
+  actualLng?: number;
+  address?: string;
+  lat?: number;
+  lng?: number;
+  zoom?: number;
+}
+
 export interface FilterState {
   temp: {
     checked: boolean;
