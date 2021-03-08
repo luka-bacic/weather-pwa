@@ -38,8 +38,8 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <Header />
-      {message && <Toast message={message} />}
       <main>{children}</main>
+      {message.type !== '' && <Toast message={message} />}
     </>
   );
 };
