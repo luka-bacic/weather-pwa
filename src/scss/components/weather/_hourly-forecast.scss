@@ -1,11 +1,12 @@
 .hourly-forecast {
+  overflow: hidden;
   &__outer {
     position: relative;
   }
 
   &__wrap {
     display: flex;
-    overflow-x: scroll;
+    overflow-x: auto;
   }
 
   &__day {
