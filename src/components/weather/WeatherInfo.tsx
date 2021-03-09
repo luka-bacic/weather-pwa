@@ -57,8 +57,6 @@ const WeatherInfo = () => {
     <div className="weather-info">
       {typeof forecast !== 'undefined' ? (
         <div>
-          {forecast.hasOwnProperty('address') && <h1> {forecast.address}</h1>}
-
           <div style={{ border: '1px solid green', padding: '1rem' }}>
             <button onClick={saveLocationToState}>Save Location</button>
             <input
