@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Link } from 'gatsby';
 import { IoMdClose, IoMdMenu } from 'react-icons/io';
 
-const pages = [
+const links = [
   {
     link: '/',
     text: 'Weather',
@@ -57,8 +57,13 @@ const Nav = () => {
             </button>
           </div>
 
-          {pages.map((page, i) => (
-            <Link className="nav__link" to={page.link} key={i}>
+          {links.map((page, i) => (
+            <Link
+              className="nav__link"
+              to={page.link}
+              onClick={toggleNavVisibility}
+              key={i}
+            >
               {page.text}
             </Link>
           ))}
