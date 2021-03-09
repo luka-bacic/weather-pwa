@@ -21,6 +21,7 @@ export {
   PartialMapState,
   FilterState,
   MessageState,
+  PageState,
 } from 'contextApi/state';
 
 // Actions
