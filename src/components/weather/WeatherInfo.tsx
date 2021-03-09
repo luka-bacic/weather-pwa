@@ -9,7 +9,7 @@ import WeatherAlerts from 'components/weather/WeatherAlerts';
 import QuickInfo from 'components/weather/QuickInfo';
 import ForecastTime from 'components/weather/ForecastTime';
 import { LocationInfo } from 'types';
-import { saveLocation } from 'context/actions';
+import { saveLocation, setPageName } from 'context/actions';
 
 const WeatherInfo = () => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -21,7 +21,11 @@ const WeatherInfo = () => {
 
   useEffect(() => {
     if (activeLocation.ready) {
-      setForecast(activeLocation.forecast);
+      if (typeof activeLocation.forecast !== 'undefined') {
+        setForecast(activeLocation.forecast);
+
+        dispatch(setPageName(activeLocation.forecast.address));
+      }
     }
   }, [activeLocation]);
 

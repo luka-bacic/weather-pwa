@@ -43,3 +43,9 @@ export interface SetMessageAction {
   type: 'SET_MESSAGE';
   payload: MessageState;
 }
+
+// Page actions
+export interface SetPageNameAction {
+  type: 'SET_PAGE_NAME';
+  payload: string;
+}

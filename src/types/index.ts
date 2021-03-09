@@ -32,4 +32,5 @@ export {
   FilterAction,
   SetMessageAction,
   NoOldSavedLocationsAction,
+  SetPageNameAction,
 } from 'contextApi/actions';

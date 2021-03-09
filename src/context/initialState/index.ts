@@ -4,6 +4,7 @@ import {
   MapState,
   FilterState,
   MessageState,
+  PageState,
 } from 'types';
 
 export const initialWeatherState: WeatherState = {
@@ -63,11 +64,16 @@ export const initialMessageState: MessageState = {
   text: '',
 };
 
+export const initialPageState: PageState = {
+  name: '',
+};
+
 export const initialGlobalState: GlobalState = {
   weather: initialWeatherState,
   mapData: initialMapState,
   filters: initialFilterState,
   message: initialMessageState,
+  page: initialPageState,
 };
 
 export const initialDispatch = () => {};

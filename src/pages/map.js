@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import WorldMap from '../components/WorldMap';
+import { GlobalDispatchContext } from 'context';
+import { setPageName } from 'context/actions';
 
-const pickLocation = () => {
+const PickLocation = () => {
+  const dispatch = useContext(GlobalDispatchContext);
+
+  useEffect(() => {
+    dispatch(setPageName('Pick location'));
+  }, [dispatch]);
   return (
     <div>
       {/* Render the map only in client - react-leaflet doesn't support SSR */}
@@ -14,4 +21,4 @@ const pickLocation = () => {
   );
 };
 
-export default pickLocation;
+export default PickLocation;

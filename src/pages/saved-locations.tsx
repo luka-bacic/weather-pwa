@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { GlobalStateContext, GlobalDispatchContext } from 'context';
 import { Link } from 'gatsby';
-import { setActiveWeather } from 'context/actions';
+import { setActiveWeather, setPageName } from 'context/actions';
 
 const SavedLocations = () => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -10,6 +10,9 @@ const SavedLocations = () => {
     weather: { savedLocations },
   } = useContext(GlobalStateContext);
 
+  useEffect(() => {
+    dispatch(setPageName('Saved locations'));
+  }, [dispatch]);
   return (
     <div className="saved-locations">
       {savedLocations.length &&

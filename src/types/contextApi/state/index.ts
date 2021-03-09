@@ -3,11 +3,10 @@ import { LocationInfo } from 'types/forecast';
 // Global state
 export interface GlobalState {
   weather: WeatherState;
-  // tempLocation: LocationInfo | undefined;
-  // savedLocations: LocationInfo[];
   mapData: MapState;
   message: MessageState;
   filters: FilterState;
+  page: PageState;
 }
 
 export interface WeatherState {
@@ -76,4 +75,8 @@ export interface FilterState {
 export interface MessageState {
   type: '' | 'info' | 'error';
   text: string;
+}
+
+export interface PageState {
+  name: string;
 }
