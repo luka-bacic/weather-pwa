@@ -9,6 +9,7 @@ const PickLocation = () => {
   useEffect(() => {
     dispatch(setPageName('Pick location'));
   }, [dispatch]);
+
   return (
     <div>
       {/* Render the map only in client - react-leaflet doesn't support SSR */}
