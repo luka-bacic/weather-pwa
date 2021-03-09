@@ -6,15 +6,44 @@ import {
   LoadSavedLocationAction,
   MessageState,
   NoOldSavedLocationsAction,
+  MapState,
 } from 'types';
 import { Dispatch } from 'redux';
 
-export const fetchWeather = (weather: LocationInfo) => {
+export const fetchWeather = (mapData: MapState) => {
   return function (dispatch: Dispatch) {
-    // Save data for offline usage
-    localStorage.setItem('activeLocation', JSON.stringify(weather));
+    // Coordinates
+    const latLng = `?lat=${mapData.lat}&lon=${mapData.actualLng}`;
+    // Weather key
+    const apiKey = `&appid=${process.env.GATSBY_OPEN_WEATHER_MAP_API_KEY}`;
 
-    dispatch(setActiveWeather(weather));
+    let weatherUrl =
+      `${process.env.GATSBY_WEATHER_API_URL}` +
+      latLng +
+      apiKey +
+      // Units
+      `&units=metric` +
+      // Exclude this from response
+      `&exclude=minutely`;
+
+    // Get weather
+    fetch(weatherUrl)
+      .then(response => response.json())
+      .then(data => {
+        const modifiedData: LocationInfo = {
+          ...data,
+          address: mapData.address,
+          lastUpdated: Date.now(),
+        };
+
+        // Save data for offline usage
+        localStorage.setItem('activeLocation', JSON.stringify(modifiedData));
+
+        dispatch(setActiveWeather(modifiedData));
+      })
+      .catch(error =>
+        console.error('Error occurred while getting weather forecast:\n', error)
+      );
   };
 };
 

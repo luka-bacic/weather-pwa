@@ -135,37 +135,8 @@ const WorldMap = () => {
   };
 
   const getWeather = () => {
-    // Coordinates
-    const latLng = `?lat=${mapData.lat}&lon=${mapData.actualLng}`;
-    // Weather key
-    const apiKey = `&appid=${process.env.GATSBY_OPEN_WEATHER_MAP_API_KEY}`;
-
-    let weatherUrl =
-      `${process.env.GATSBY_WEATHER_API_URL}` +
-      latLng +
-      apiKey +
-      // Units
-      `&units=metric` +
-      // Exclude this from response
-      `&exclude=minutely`;
-
-    // Get weather
-    fetch(weatherUrl)
-      .then(response => response.json())
-      .then(data => {
-        const modifiedData = {
-          ...data,
-          address: mapData.address,
-          isTemp: true,
-          lastUpdated: Date.now(),
-        };
-
-        dispatch(fetchWeather(modifiedData));
-        dispatch(updateMapData(mapData));
-      })
-      .catch(error =>
-        console.error('Error occurred while getting weather forecast:\n', error)
-      );
+    dispatch(fetchWeather(mapData));
+    dispatch(updateMapData(mapData));
   };
 
   useEffect(() => {
