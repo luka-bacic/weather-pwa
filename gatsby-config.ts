@@ -14,7 +14,26 @@ module.exports = {
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sitemap',
-    'gatsby-plugin-offline',
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Weather - get forecasts for any part of the world.`,
+        short_name: `Weather`,
+        start_url: `/`,
+        background_color: `#e4eff6`,
+        theme_color: `#055583`,
+        display: `fullscreen`,
+        icon: `src/images/icon.png`,
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-offline',
+      options: {
+        workboxConfig: {
+          globPatterns: ['**/icon-path*'],
+        },
+      },
+    },
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
