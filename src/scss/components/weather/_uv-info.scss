@@ -4,10 +4,9 @@
 
   &__circle {
     display: inline-block;
-    $size: 24px;
-    width: $size;
-    height: $size;
-    border-radius: $size;
+    width: $icon-size;
+    height: $icon-size;
+    border-radius: $icon-size;
     margin-right: $padding / 2;
 
     &.low {

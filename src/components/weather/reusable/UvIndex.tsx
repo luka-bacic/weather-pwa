@@ -23,11 +23,7 @@ const UvIndex = ({ uv, minimalOutput = false }: Props) => {
         <span className={`uv-info__circle ${uvData.cssClass}`}>
           <span className="sr-only">uv index</span>
         </span>
-
-        {uvData.value}
-
-        {!minimalOutput && uvData.description}
-
+        {uvData.value} {!minimalOutput && uvData.description}
         {!minimalOutput && <Tooltip text={uvData.longDescription} />}
       </span>
     );
