@@ -8,8 +8,7 @@ import UvIndex from './UvIndex';
 import classNames from 'classnames';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { FiSunset, FiSunrise, FiCloud } from 'react-icons/fi';
-import { GiDew } from 'react-icons/gi';
-import { WiHumidity } from 'react-icons/wi';
+import { CgCompressV } from 'react-icons/cg';
 type Props = {
   data: DailyResponse;
   timezoneOffset: number;
@@ -29,8 +28,7 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
   const [snow, setSnow] = useState<number | null>(null);
   const [iconData, setIconData] = useState<IconData | null>(null);
   const [renderPrecip, setRenderPrecip] = useState(false);
-  const [renderOther, setRenderOther] = useState(false);
-  const [renderWind, setRenderWind] = useState(false);
+  const [renderWindCloudPressure, setRenderWindCloudPressure] = useState(false);
   const [renderSunUv, setRenderSunUv] = useState(false);
   const [renderTemp, setRenderTemp] = useState(false);
   const [btnTitle, setBtnTitle] = useState('');
@@ -101,17 +99,7 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
         hasProp(data, 'wind_gust') ||
         hasProp(data, 'wind_deg')
       ) {
-        setRenderWind(true);
-      }
-
-      // Should the `other` section be rendered
-      if (
-        hasProp(data, 'clouds') ||
-        hasProp(data, 'dew_point') ||
-        hasProp(data, 'humidity') ||
-        hasProp(data, 'pressure')
-      ) {
-        setRenderOther(true);
+        setRenderWindCloudPressure(true);
       }
 
       // Format sunrise time
@@ -241,6 +229,8 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
             </div>
           )}
 
+          <p className="day__summary">{data.weather[0].description}</p>
+
           {renderPrecip && (
             <div className="day__precip">
               {precip !== null && (
@@ -280,20 +270,18 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
         </div>
       )}
 
-      {renderWind && (
+      {renderWindCloudPressure && (
         <div className="day__wind">
-          <h4>Wind</h4>
+          <h4>Wind, clouds and pressure</h4>
           <WindInfo degrees={data.wind_deg} speed={data.wind_speed} />
 
           {hasProp(data, 'wind_gust') && (
-            <p className="day__wind-speed">{data.wind_gust} m/s wind gust</p>
+            <p className="day__wind-speed">
+              <span className="day__spacer"></span>
+              {data.wind_gust} m/s wind gust
+            </p>
           )}
-        </div>
-      )}
 
-      {renderOther && (
-        <div className="day__other">
-          <h4>Other</h4>
           {hasProp(data, 'clouds') && (
             <p className="day__clouds">
               <FiCloud />
@@ -301,20 +289,11 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
             </p>
           )}
 
-          {hasProp(data, 'dew_point') && (
-            <p className="day__dew-point">
-              <GiDew />
-              {round(data.dew_point, 1)}&deg; dew point
-            </p>
-          )}
-          {hasProp(data, 'humidity') && (
-            <p className="day__humidity">
-              <WiHumidity />
-              {data.humidity}% humidity
-            </p>
-          )}
           {hasProp(data, 'pressure') && (
-            <p className="day__pressure">{data.pressure} hPa</p>
+            <p className="day__pressure">
+              <CgCompressV title="atmospheric pressure" />
+              {data.pressure} hPa
+            </p>
           )}
         </div>
       )}

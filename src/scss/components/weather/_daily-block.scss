@@ -1,5 +1,4 @@
 .day {
-  // background: rgba(seagreen, 0.2);
   $border: 1px solid rgba(c('black'), 0.3);
   border-top: $border;
 
@@ -16,13 +15,6 @@
     .day__title-marker {
       transform: rotate(180deg);
     }
-
-    // &.transition-ended {
-    //   .day__title-date {
-    //     opacity: 1;
-    //     visibility: visible;
-    //   }
-    // }
 
     .day__title-info {
       display: none;
@@ -44,6 +36,7 @@
     align-items: center;
     justify-content: space-between;
     min-height: calc(#{$padding} * 2 + 45px);
+    user-select: none;
   }
 
   &__title-text {
@@ -54,14 +47,13 @@
   &__title-date {
     flex-shrink: 0;
     margin-right: auto;
-    // visibility: hidden;
-    // opacity: 0;
     display: none;
-    // transition: opacity $fast;
   }
 
   &__title-info {
     flex-shrink: 0;
+    margin-left: auto;
+    margin-right: $padding / 2;
 
     > span {
       display: inline-flex;
@@ -84,9 +76,6 @@
     margin-left: $padding / 4;
   }
 
-  &__title-max {
-  }
-
   &__title-precip {
     min-width: 6ch;
     padding: $padding / 2;
@@ -101,7 +90,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-
     background: c('blue');
   }
 
@@ -128,7 +116,7 @@
   }
 
   &__temperature {
-    > div {
+    p {
       display: flex;
 
       > span {
@@ -136,6 +124,12 @@
           margin-left: 1rem;
         }
       }
+    }
+  }
+
+  &__summary {
+    &::first-letter {
+      text-transform: uppercase;
     }
   }
 
@@ -147,8 +141,15 @@
     opacity: 0.1 !important;
   }
 
-  svg:not([class]) {
+  svg:not([class]),
+  &__spacer {
+    display: inline-block;
     width: $icon-size;
     height: $icon-size;
+    margin-right: $padding / 2;
+  }
+
+  .wind-info {
+    margin-bottom: $padding;
   }
 }
