@@ -251,14 +251,14 @@ const DailyBlock = ({ data, timezoneOffset, single, title }: Props) => {
           {sunrise && (
             <p className="day__sunrise">
               <FiSunrise />
-              <strong>{sunrise}</strong> sunrise
+              <strong>{sunrise}</strong>&nbsp;sunrise
             </p>
           )}
 
           {sunset && (
             <p className="day__sunset">
               <FiSunset />
-              <strong>{sunset}</strong> sunset
+              <strong>{sunset}</strong>&nbsp;sunset
             </p>
           )}
 

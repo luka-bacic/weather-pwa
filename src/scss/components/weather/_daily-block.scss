@@ -115,9 +115,7 @@
   }
 
   &__precip,
-  &__sun-uv,
-  &__wind,
-  &__other {
+  &__sun-uv {
     border-bottom: 1px solid rgba(c('blue'), 0.7);
   }
 
@@ -141,6 +139,15 @@
 
   &__icon {
     margin-bottom: $padding;
+  }
+
+  &__sunrise,
+  &__sunset,
+  &__clouds,
+  &__pressure {
+    display: flex;
+    align-items: center;
+    line-height: 1;
   }
 
   &--no-rain {
