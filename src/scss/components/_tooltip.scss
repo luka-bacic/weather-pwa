@@ -27,10 +27,12 @@
     top: 0;
     left: 100%;
     width: 300px;
-    border: 1px solid red;
+    border: 1px solid c('blue');
     user-select: none;
-    // pointer-events: none;
+    background: c('white');
     cursor: default;
+    font-size: 16px;
+    line-height: 1.5;
   }
 
   &.open,
