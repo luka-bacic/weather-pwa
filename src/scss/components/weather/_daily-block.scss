@@ -37,6 +37,12 @@
     justify-content: space-between;
     min-height: calc(#{$padding} * 2 + 45px);
     user-select: none;
+
+    + .day__sun-uv {
+      h4 {
+        margin-top: 0;
+      }
+    }
   }
 
   &__title-text {
