@@ -46,7 +46,7 @@ const QuickInfo = ({ data }: Props) => {
 
       // Set chance of precipitation
       if (hasProp(data, 'pop')) {
-        setPrecip(data.pop * 100);
+        setPrecip(round(data.pop * 100, 0));
       }
 
       // Set chance of rainfall
