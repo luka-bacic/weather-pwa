@@ -26,15 +26,6 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
 
   // Refs
   const outerRef = useRef<HTMLDivElement>(null);
-  const feelsLikeLabelRef = useRef<HTMLDivElement>(null);
-  const tempLabelRef = useRef<HTMLDivElement>(null);
-  const precipChanceLabelRef = useRef<HTMLDivElement>(null);
-  const rainfallLabelRef = useRef<HTMLDivElement>(null);
-  const snowfallLabelRef = useRef<HTMLDivElement>(null);
-  const windLabelRef = useRef<HTMLDivElement>(null);
-  const uvLabelRef = useRef<HTMLDivElement>(null);
-  const cloudLabelRef = useRef<HTMLDivElement>(null);
-  const pressureLabelRef = useRef<HTMLDivElement>(null);
 
   const weekDays: Day[] = [];
   const today = dayjs().format('d');
@@ -90,28 +81,52 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
       // Create Hour components to render hourly data
       setRenderedHours(
         weekDays.map((day, i) => {
-          const hours = day.weather.map((hour, j, allHours) => {
+          const hours = day.weather.map((hour, j) => {
             // Used to hide the border of a data cell, so it looks
             // like it is a wide cell if the data is the same in 2 hours
             // const classes = shouldExtendCell(hour, j, allHours);
             const classes = {};
-            return (
-              <HourlyBlock
-                data={hour}
-                timezoneOffset={timezoneOffset}
-                showPrecipChance={filters.precip.checked}
-                showRainfall={filters.rain.checked}
-                showSnowfall={filters.snow.checked}
-                showTemperature={filters.temp.checked}
-                showFeelsLike={filters.feelsLike.checked}
-                showWind={filters.wind.checked}
-                showUvIndex={filters.uv.checked}
-                showClouds={filters.clouds.checked}
-                showPressure={filters.pressure.checked}
-                extendCells={classes}
-                key={j}
-              />
-            );
+            if (i === 0 && j === 0) {
+              if (outerRef.current !== null) {
+                return (
+                  <HourlyBlock
+                    data={hour}
+                    timezoneOffset={timezoneOffset}
+                    showPrecipChance={filters.precip.checked}
+                    showRainfall={filters.rain.checked}
+                    showSnowfall={filters.snow.checked}
+                    showTemperature={filters.temp.checked}
+                    showFeelsLike={filters.feelsLike.checked}
+                    showWind={filters.wind.checked}
+                    showUvIndex={filters.uv.checked}
+                    showClouds={filters.clouds.checked}
+                    showPressure={filters.pressure.checked}
+                    extendCells={classes}
+                    addLabel={true}
+                    outerWrapRef={outerRef}
+                    key={j}
+                  />
+                );
+              }
+            } else {
+              return (
+                <HourlyBlock
+                  data={hour}
+                  timezoneOffset={timezoneOffset}
+                  showPrecipChance={filters.precip.checked}
+                  showRainfall={filters.rain.checked}
+                  showSnowfall={filters.snow.checked}
+                  showTemperature={filters.temp.checked}
+                  showFeelsLike={filters.feelsLike.checked}
+                  showWind={filters.wind.checked}
+                  showUvIndex={filters.uv.checked}
+                  showClouds={filters.clouds.checked}
+                  showPressure={filters.pressure.checked}
+                  extendCells={classes}
+                  key={j}
+                />
+              );
+            }
           });
 
           return (
@@ -125,92 +140,6 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
     }
   }, [data, filters]);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setTimeout(() => {
-        if (outerRef.current !== null) {
-          // Get top from the outer div
-          const { top } = outerRef.current.getBoundingClientRect();
-
-          // Set style for temperature label
-          placeLabel(
-            tempLabelRef,
-            filters.temp.checked,
-            '.hourly-block__temp',
-            top
-          );
-
-          // Set style for feels like label
-          placeLabel(
-            feelsLikeLabelRef,
-            filters.feelsLike.checked,
-            '.hourly-block__feels-like',
-            top
-          );
-
-          // Set style for precip chance label
-          placeLabel(
-            precipChanceLabelRef,
-            filters.precip.checked,
-            '.hourly-block__precip-chance',
-            top
-          );
-
-          // Set style for rainfall label
-          placeLabel(
-            rainfallLabelRef,
-            filters.rain.checked,
-            '.hourly-block__rain',
-            top
-          );
-
-          // Set style for snowfall label
-          placeLabel(
-            snowfallLabelRef,
-            filters.snow.checked,
-            '.hourly-block__snow',
-            top
-          );
-
-          // Set style for wind label
-          placeLabel(
-            windLabelRef,
-            filters.wind.checked,
-            '.hourly-block__wind-speed',
-            top
-          );
-
-          // Set style for UV index label
-          placeLabel(uvLabelRef, filters.uv.checked, '.hourly-block__uv', top);
-
-          // Set style for cloud cover label
-          placeLabel(
-            cloudLabelRef,
-            filters.clouds.checked,
-            '.hourly-block__clouds',
-            top
-          );
-
-          // Set style for cloud cover label
-          placeLabel(
-            cloudLabelRef,
-            filters.clouds.checked,
-            '.hourly-block__clouds',
-            top
-          );
-
-          // Set style for pressure label
-          placeLabel(
-            pressureLabelRef,
-            filters.pressure.checked,
-            '.hourly-block__pressure',
-            top
-          );
-        }
-      }, 0);
-    }
-  });
-
   return (
     <section className="hourly-forecast">
       <h3>Hourly forecast</h3>
@@ -220,18 +149,6 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
       <div className="hourly-forecast__outer" ref={outerRef}>
         <div className="hourly-forecast__wrap">
           {renderedHours.length && renderedHours}
-        </div>
-
-        <div className="hourly-forecast__labels">
-          <div ref={tempLabelRef}>Temperature</div>
-          <div ref={feelsLikeLabelRef}>Feels like</div>
-          <div ref={precipChanceLabelRef}>Precipitation chance</div>
-          <div ref={rainfallLabelRef}>Rainfall</div>
-          <div ref={snowfallLabelRef}>Snowfall</div>
-          <div ref={windLabelRef}>Wind</div>
-          <div ref={uvLabelRef}>UV index</div>
-          <div ref={cloudLabelRef}>Cloud cover</div>
-          <div ref={pressureLabelRef}>Pressure</div>
         </div>
       </div>
     </section>

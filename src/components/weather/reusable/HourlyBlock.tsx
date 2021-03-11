@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useLayoutEffect,
+  RefObject,
+} from 'react';
 import { ExtendHourlyClasses, HourlyResponse, IconData } from 'types';
-import { hasProp, getIconInfo, round } from 'functions';
+import { hasProp, getIconInfo, round, placeLabel } from 'functions';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import classNames from 'classnames';
@@ -20,6 +26,8 @@ type Props = {
   showClouds: boolean;
   showPressure: boolean;
   extendCells: ExtendHourlyClasses;
+  addLabel?: boolean;
+  outerWrapRef?: RefObject<HTMLDivElement | null>;
 };
 
 const HourlyBlock = ({
@@ -35,10 +43,32 @@ const HourlyBlock = ({
   showClouds,
   showPressure,
   extendCells,
+  addLabel = false,
+  outerWrapRef,
 }: Props) => {
   dayjs.extend(utc);
 
-  // console.log(extendCells);
+  // Refs
+  const tempRef = useRef<HTMLDivElement>(null);
+  const tempLabelRef = useRef<HTMLDivElement>(null);
+  const feelsLikeRef = useRef<HTMLDivElement>(null);
+  const feelsLikeLabelRef = useRef<HTMLDivElement>(null);
+  const precipRef = useRef<HTMLDivElement>(null);
+  const precipLabelRef = useRef<HTMLDivElement>(null);
+  const rainfallRef = useRef<HTMLDivElement>(null);
+  const rainfallLabelRef = useRef<HTMLDivElement>(null);
+  const snowfallRef = useRef<HTMLDivElement>(null);
+  const snowfallLabelRef = useRef<HTMLDivElement>(null);
+  const windRef = useRef<HTMLDivElement>(null);
+  const windLabelRef = useRef<HTMLDivElement>(null);
+  const uvRef = useRef<HTMLDivElement>(null);
+  const uvLabelRef = useRef<HTMLDivElement>(null);
+  const cloudsRef = useRef<HTMLDivElement>(null);
+  const cloudsLabelRef = useRef<HTMLDivElement>(null);
+  const pressureRef = useRef<HTMLDivElement>(null);
+  const pressureLabelRef = useRef<HTMLDivElement>(null);
+
+  // Local state
   const [time, setTime] = useState('');
   const [iconData, setIconData] = useState<IconData | null>(null);
   const [isNightTime, setIsNightTime] = useState(false);
@@ -48,6 +78,7 @@ const HourlyBlock = ({
   const [rainAmount, setRainAmount] = useState<string | null>(null);
   const [snowAmount, setSnowAmount] = useState<string | null>(null);
 
+  // Render logic of weather stats
   useEffect(() => {
     if (typeof data !== 'undefined') {
       // Set label for the hour
@@ -141,6 +172,21 @@ const HourlyBlock = ({
     }
   }, [data]);
 
+  // Placement of labels
+  useLayoutEffect(() => {
+    if (addLabel) {
+      placeLabel(outerWrapRef, tempRef, tempLabelRef);
+      placeLabel(outerWrapRef, feelsLikeRef, feelsLikeLabelRef);
+      placeLabel(outerWrapRef, precipRef, precipLabelRef);
+      placeLabel(outerWrapRef, rainfallRef, rainfallLabelRef);
+      placeLabel(outerWrapRef, snowfallRef, snowfallLabelRef);
+      placeLabel(outerWrapRef, windRef, windLabelRef);
+      placeLabel(outerWrapRef, uvRef, uvLabelRef);
+      placeLabel(outerWrapRef, cloudsRef, cloudsLabelRef);
+      placeLabel(outerWrapRef, pressureRef, pressureLabelRef);
+    }
+  });
+
   const hourlyClasses = classNames({
     'hourly-block': true,
     'hourly-block--night': isNightTime,
@@ -165,11 +211,22 @@ const HourlyBlock = ({
             'hourly-block__temp': true,
             'hourly-block--extend': extendCells?.temp,
           })}
+          ref={tempRef}
         >
           <strong>
             <span className="sr-only">temperature</span>
             {temp}&deg;
           </strong>
+
+          {addLabel && (
+            <span
+              ref={tempLabelRef}
+              className="hourly-block__label"
+              aria-hidden="true"
+            >
+              Temperature
+            </span>
+          )}
         </div>
       )}
 
@@ -179,9 +236,19 @@ const HourlyBlock = ({
             'hourly-block__feels-like': true,
             'hourly-block--extend': extendCells?.feels_like,
           })}
+          ref={feelsLikeRef}
         >
           <span className="sr-only">apparent temperature</span>
           {feelsLike}&deg;
+          {addLabel && (
+            <span
+              ref={feelsLikeLabelRef}
+              className="hourly-block__label"
+              aria-hidden="true"
+            >
+              Apparent temperature
+            </span>
+          )}
         </div>
       )}
 
@@ -191,9 +258,19 @@ const HourlyBlock = ({
             'hourly-block__precip-chance': true,
             'hourly-block--extend': extendCells?.pop,
           })}
+          ref={precipRef}
         >
           <span className="sr-only">precipitation chance</span>
           {precipChance}%
+          {addLabel && (
+            <span
+              ref={precipLabelRef}
+              className="hourly-block__label"
+              aria-hidden="true"
+            >
+              Precipitation chance
+            </span>
+          )}
         </div>
       )}
 
@@ -203,9 +280,19 @@ const HourlyBlock = ({
             'hourly-block__rain': true,
             'hourly-block--extend': extendCells?.rain,
           })}
+          ref={rainfallRef}
         >
           <span className="sr-only">rainfall</span>
           {rainAmount} mm
+          {addLabel && (
+            <span
+              ref={rainfallLabelRef}
+              className="hourly-block__label"
+              aria-hidden="true"
+            >
+              Rainfall
+            </span>
+          )}
         </div>
       )}
 
@@ -215,9 +302,19 @@ const HourlyBlock = ({
             'hourly-block__snow': true,
             'hourly-block--extend': extendCells?.snow,
           })}
+          ref={snowfallRef}
         >
           <span className="sr-only">snowfall</span>
           {snowAmount} mm
+          {addLabel && (
+            <span
+              ref={snowfallLabelRef}
+              className="hourly-block__label"
+              aria-hidden="true"
+            >
+              Snowfall
+            </span>
+          )}
         </div>
       )}
 
@@ -227,8 +324,18 @@ const HourlyBlock = ({
             'hourly-block__wind-speed': true,
             'hourly-block--extend': extendCells?.wind_speed,
           })}
+          ref={windRef}
         >
           <WindInfo speed={data.wind_speed} degrees={data.wind_deg} noIcon />
+          {addLabel && (
+            <span
+              ref={windLabelRef}
+              className="hourly-block__label"
+              aria-hidden="true"
+            >
+              Wind speed and direction
+            </span>
+          )}
         </div>
       )}
 
@@ -238,8 +345,18 @@ const HourlyBlock = ({
             'hourly-block__uv': true,
             'hourly-block--extend': extendCells?.uvi,
           })}
+          ref={uvRef}
         >
           <UvIndex uv={data.uvi} minimalOutput />
+          {addLabel && (
+            <span
+              ref={uvLabelRef}
+              className="hourly-block__label"
+              aria-hidden="true"
+            >
+              UV index
+            </span>
+          )}
         </div>
       )}
 
@@ -249,9 +366,19 @@ const HourlyBlock = ({
             'hourly-block__clouds': true,
             'hourly-block--extend': extendCells?.clouds,
           })}
+          ref={cloudsRef}
         >
           <span className="sr-only">cloud cover</span>
           {data.clouds}%
+          {addLabel && (
+            <span
+              ref={cloudsLabelRef}
+              className="hourly-block__label"
+              aria-hidden="true"
+            >
+              Cloud cover
+            </span>
+          )}
         </div>
       )}
 
@@ -261,9 +388,19 @@ const HourlyBlock = ({
             'hourly-block__pressure': true,
             'hourly-block--extend': extendCells?.pressure,
           })}
+          ref={pressureRef}
         >
           <span className="sr-only">atmospheric pressure</span>
           {data.pressure} hPa
+          {addLabel && (
+            <span
+              ref={pressureLabelRef}
+              className="hourly-block__label"
+              aria-hidden="true"
+            >
+              Pressure
+            </span>
+          )}
         </div>
       )}
     </div>

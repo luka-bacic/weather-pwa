@@ -33,18 +33,4 @@
   &__hour-wrap {
     display: flex;
   }
-
-  &__labels {
-    div {
-      padding-left: $padding / 2;
-      display: none;
-      line-height: 2;
-      position: absolute;
-      left: 0;
-      right: 0;
-      background: c('pale-blue');
-      border-top: 1px solid c('grey');
-      border-bottom: 1px solid c('grey');
-    }
-  }
 }

@@ -1,31 +1,21 @@
 import { RefObject } from 'react';
 
 export function placeLabel(
-  ref: RefObject<HTMLDivElement>,
-  toShow: boolean,
-  cssSelector: string,
-  outerElemTop: number
+  outerWrapRef: RefObject<HTMLDivElement | null> | undefined,
+  statRef: RefObject<HTMLDivElement>,
+  statLabelRef: RefObject<HTMLDivElement>
 ): void {
-  if (typeof ref !== 'undefined' && ref.current !== null) {
-    const padding = 16 * 2.5;
+  const padding = 16 * 2.5;
 
-    if (toShow) {
-      // Get first div where the data is displayed
-      const displayedData = document.querySelector(cssSelector);
-
-      // If node is found
-      if (displayedData) {
-        // Get amount of px from top of document
-        const { top: displayedDataTop } = displayedData.getBoundingClientRect();
-        // Add `top` to be above
-        ref.current.style.top = `${
-          displayedDataTop - outerElemTop - padding - 2
-        }px`;
-        // Show
-        ref.current.classList.add('d-block');
-      }
-    } else {
-      ref.current.classList.remove('d-block');
+  // Is the wrapper div's ref valid
+  if (typeof outerWrapRef !== 'undefined' && outerWrapRef.current !== null) {
+    if (statRef.current !== null && statLabelRef.current !== null) {
+      statLabelRef.current.style.top = `${
+        statRef.current.getBoundingClientRect().top -
+        outerWrapRef.current.getBoundingClientRect().top -
+        padding -
+        2
+      }px`;
     }
   }
 }

@@ -75,4 +75,15 @@
       }
     }
   }
+
+  &__label {
+    padding-left: $padding / 2;
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: c('pale-blue');
+    border-top: 1px solid c('grey');
+    border-bottom: 1px solid c('grey');
+    line-height: 2;
+  }
 }
