@@ -5,7 +5,12 @@ import React, {
   useLayoutEffect,
   RefObject,
 } from 'react';
-import { ExtendHourlyClasses, HourlyResponse, IconData } from 'types';
+import {
+  ExtendHourlyClasses,
+  HourlyResponse,
+  IconData,
+  FilterState,
+} from 'types';
 import { hasProp, getIconInfo, round, placeLabel } from 'functions';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -16,35 +21,19 @@ import UvIndex from 'components/weather/reusable/UvIndex';
 type Props = {
   data: HourlyResponse;
   timezoneOffset: number;
-  showPrecipChance: boolean;
-  showRainfall: boolean;
-  showSnowfall: boolean;
-  showTemperature: boolean;
-  showFeelsLike: boolean;
-  showWind: boolean;
-  showUvIndex: boolean;
-  showClouds: boolean;
-  showPressure: boolean;
   extendCells: ExtendHourlyClasses;
   addLabel?: boolean;
   outerWrapRef?: RefObject<HTMLDivElement | null>;
+  filters: FilterState;
 };
 
 const HourlyBlock = ({
   data,
   timezoneOffset,
-  showPrecipChance,
-  showRainfall,
-  showSnowfall,
-  showTemperature,
-  showFeelsLike,
-  showWind,
-  showUvIndex,
-  showClouds,
-  showPressure,
   extendCells,
   addLabel = false,
   outerWrapRef,
+  filters,
 }: Props) => {
   dayjs.extend(utc);
 
@@ -102,7 +91,7 @@ const HourlyBlock = ({
       }
 
       // Setup temperature if its required to be shown
-      if (showTemperature) {
+      if (filters.temp.checked) {
         // Round and set temperature
         if (hasProp(data, 'temp') && typeof data.temp !== 'undefined') {
           setTemp(round(data.temp));
@@ -110,7 +99,7 @@ const HourlyBlock = ({
       }
 
       // Setup apparent temperature if its required to be shown
-      if (showFeelsLike) {
+      if (filters.feelsLike.checked) {
         // Round and set 'feels like' temperature
         if (
           hasProp(data, 'feels_like') &&
@@ -121,7 +110,7 @@ const HourlyBlock = ({
       }
 
       // Setup rain data if its required to be shown
-      if (showPrecipChance) {
+      if (filters.precip.checked) {
         // Precip chance
         if (hasProp(data, 'pop')) {
           setPrecipChance(round(data.pop * 100, 0));
@@ -129,7 +118,7 @@ const HourlyBlock = ({
       }
 
       // Rainfall
-      if (showRainfall) {
+      if (filters.rain.checked) {
         if (hasProp(data, 'rain') && typeof data.rain !== 'undefined') {
           if (
             hasProp(data.rain, '1h') &&
@@ -150,7 +139,7 @@ const HourlyBlock = ({
       }
 
       // Snowfall
-      if (showSnowfall) {
+      if (filters.snow.checked) {
         if (hasProp(data, 'snow') && typeof data.snow !== 'undefined') {
           if (
             hasProp(data.snow, '1h') &&
@@ -205,7 +194,7 @@ const HourlyBlock = ({
         </div>
       )}
 
-      {showTemperature && temp !== null && (
+      {filters.temp.checked && temp !== null && (
         <div
           className={classNames({
             'hourly-block__temp': true,
@@ -230,7 +219,7 @@ const HourlyBlock = ({
         </div>
       )}
 
-      {showFeelsLike && feelsLike !== null && (
+      {filters.feelsLike.checked && feelsLike !== null && (
         <div
           className={classNames({
             'hourly-block__feels-like': true,
@@ -252,7 +241,7 @@ const HourlyBlock = ({
         </div>
       )}
 
-      {showPrecipChance && precipChance !== null && (
+      {filters.precip.checked && precipChance !== null && (
         <div
           className={classNames({
             'hourly-block__precip-chance': true,
@@ -274,7 +263,7 @@ const HourlyBlock = ({
         </div>
       )}
 
-      {showRainfall && rainAmount !== null && (
+      {filters.rain.checked && rainAmount !== null && (
         <div
           className={classNames({
             'hourly-block__rain': true,
@@ -296,7 +285,7 @@ const HourlyBlock = ({
         </div>
       )}
 
-      {showSnowfall && snowAmount !== null && (
+      {filters.snow.checked && snowAmount !== null && (
         <div
           className={classNames({
             'hourly-block__snow': true,
@@ -318,7 +307,7 @@ const HourlyBlock = ({
         </div>
       )}
 
-      {showWind && (
+      {filters.wind.checked && (
         <div
           className={classNames({
             'hourly-block__wind-speed': true,
@@ -339,7 +328,7 @@ const HourlyBlock = ({
         </div>
       )}
 
-      {showUvIndex && (
+      {filters.uv.checked && (
         <div
           className={classNames({
             'hourly-block__uv': true,
@@ -360,7 +349,7 @@ const HourlyBlock = ({
         </div>
       )}
 
-      {showClouds && (
+      {filters.clouds.checked && (
         <div
           className={classNames({
             'hourly-block__clouds': true,
@@ -382,7 +371,7 @@ const HourlyBlock = ({
         </div>
       )}
 
-      {showPressure && (
+      {filters.pressure.checked && (
         <div
           className={classNames({
             'hourly-block__pressure': true,

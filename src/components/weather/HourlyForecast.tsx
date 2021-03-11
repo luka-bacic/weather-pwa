@@ -9,7 +9,6 @@ import HourlyBlock from 'components/weather/reusable/HourlyBlock';
 import { HourlyResponse, Day } from 'types';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { placeLabel } from 'functions';
 import Filters from 'components/weather/Filters';
 import { GlobalStateContext } from 'context';
 
@@ -92,15 +91,7 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
                   <HourlyBlock
                     data={hour}
                     timezoneOffset={timezoneOffset}
-                    showPrecipChance={filters.precip.checked}
-                    showRainfall={filters.rain.checked}
-                    showSnowfall={filters.snow.checked}
-                    showTemperature={filters.temp.checked}
-                    showFeelsLike={filters.feelsLike.checked}
-                    showWind={filters.wind.checked}
-                    showUvIndex={filters.uv.checked}
-                    showClouds={filters.clouds.checked}
-                    showPressure={filters.pressure.checked}
+                    filters={filters}
                     extendCells={classes}
                     addLabel={true}
                     outerWrapRef={outerRef}
@@ -113,15 +104,7 @@ const HourlyForecast = ({ data, timezoneOffset }: Props) => {
                 <HourlyBlock
                   data={hour}
                   timezoneOffset={timezoneOffset}
-                  showPrecipChance={filters.precip.checked}
-                  showRainfall={filters.rain.checked}
-                  showSnowfall={filters.snow.checked}
-                  showTemperature={filters.temp.checked}
-                  showFeelsLike={filters.feelsLike.checked}
-                  showWind={filters.wind.checked}
-                  showUvIndex={filters.uv.checked}
-                  showClouds={filters.clouds.checked}
-                  showPressure={filters.pressure.checked}
+                  filters={filters}
                   extendCells={classes}
                   key={j}
                 />
