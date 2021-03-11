@@ -13,20 +13,13 @@
   &__icon {
     margin-top: $padding;
     min-height: 50px;
+    min-width: 50px;
 
     img {
       display: block;
       margin-left: auto;
       margin-right: auto;
     }
-  }
-
-  &__feels-like {
-    // position: relative;
-    // margin-top: $padding * 2;
-  }
-
-  &__precip-chance {
   }
 
   &__temp,
@@ -40,7 +33,18 @@
   &__pressure {
     margin-top: $padding * 3;
   }
-  &__snow {
+
+  &__label {
+    padding-left: $padding / 2;
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: c('pale-blue');
+    border-top: 1px solid c('grey');
+    border-bottom: 1px solid c('grey');
+    line-height: 2;
+    pointer-events: none;
+    user-select: none;
   }
 
   &--night {
@@ -74,16 +78,5 @@
         bottom: -$padding / 2;
       }
     }
-  }
-
-  &__label {
-    padding-left: $padding / 2;
-    position: absolute;
-    left: 0;
-    right: 0;
-    background: c('pale-blue');
-    border-top: 1px solid c('grey');
-    border-bottom: 1px solid c('grey');
-    line-height: 2;
   }
 }
