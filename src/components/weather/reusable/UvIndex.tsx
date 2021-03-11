@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Tooltip from 'components/Tooltip';
+import Tooltip from 'components/reusable/Tooltip';
 import { UvInfo } from 'types';
 import { uvScale } from 'functions';
 
