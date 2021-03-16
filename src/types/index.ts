@@ -42,4 +42,5 @@ export {
   NoOldSavedLocationsAction,
   SetPageNameAction,
   RenameLocationAction,
+  DeleteLocationAction,
 } from 'contextApi/actions';

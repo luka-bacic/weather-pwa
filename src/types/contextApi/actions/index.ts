@@ -32,6 +32,11 @@ export interface RenameLocationAction {
   payload: LocationInfo[];
 }
 
+export interface DeleteLocationAction {
+  type: 'DELETE_LOCATION';
+  payload: LocationInfo[];
+}
+
 // Map actions
 export interface MapAction {
   type: 'UPDATE_MAP_DATA';

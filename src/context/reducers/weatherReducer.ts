@@ -5,6 +5,7 @@ import {
   LoadSavedLocationAction,
   RenameLocationAction,
   NoOldSavedLocationsAction,
+  DeleteLocationAction,
 } from 'types';
 import { initialWeatherState } from 'context/initialState';
 
@@ -16,6 +17,7 @@ export function weatherReducer(
     | LoadSavedLocationAction
     | RenameLocationAction
     | NoOldSavedLocationsAction
+    | DeleteLocationAction
 ): WeatherState {
   switch (action.type) {
     case 'SET_ACTIVE_WEATHER': {
@@ -38,7 +40,8 @@ export function weatherReducer(
     }
 
     case 'SAVE_LOCATION':
-    case 'RENAME_LOCATION': {
+    case 'RENAME_LOCATION':
+    case 'DELETE_LOCATION': {
       return {
         ...state,
         savedLocations: [...action.payload],

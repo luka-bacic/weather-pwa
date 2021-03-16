@@ -46,3 +46,8 @@ export interface LocationLatLngNewName {
   lng: number;
   newName: string;
 }
+
+export interface LatLngObject {
+  lat: number;
+  lng: number;
+}

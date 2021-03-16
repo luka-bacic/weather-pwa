@@ -7,10 +7,14 @@ import {
   MessageState,
   NoOldSavedLocationsAction,
   MapState,
-  RenameLocationAction,
   LocationLatLngNewName,
+  RenameLocationAction,
+  SetMessageAction,
+  DeleteLocationAction,
+  LatLngObject,
 } from 'types';
 import { Dispatch } from 'redux';
+import { findLocationIndex } from 'functions';
 
 export const fetchWeather = (mapData: MapState) => {
   return function (dispatch: Dispatch) {
@@ -163,7 +167,9 @@ export const saveLocation = (location: LocationInfo) => {
 };
 
 export const renameLocation = (latLngName: LocationLatLngNewName) => {
-  return function (dispatch: Dispatch) {
+  return function (
+    dispatch: Dispatch<RenameLocationAction | SetMessageAction>
+  ) {
     const message: MessageState = {
       type: '',
       text: '',
@@ -176,12 +182,13 @@ export const renameLocation = (latLngName: LocationLatLngNewName) => {
       );
 
       // Find index of the location in question
-      const index = savedLocationsLocal.findIndex(
-        location =>
-          location.lat === latLngName.lat && location.lon === latLngName.lng
+      const index = findLocationIndex(
+        latLngName.lat,
+        latLngName.lng,
+        savedLocationsLocal
       );
 
-      if (index !== -1) {
+      if (index > -1) {
         // Copy all saved locations
         const savedLocations = [...savedLocationsLocal];
         // Modify address of the location
@@ -205,6 +212,58 @@ export const renameLocation = (latLngName: LocationLatLngNewName) => {
         // Update message
         message.type = 'error';
         message.text = 'Something went wrong when renaming the location.';
+
+        dispatch(setMessage(message));
+      }
+    }
+  };
+};
+
+export const deleteLocation = (latLng: LatLngObject) => {
+  return function (
+    dispatch: Dispatch<DeleteLocationAction | SetMessageAction>
+  ) {
+    const message: MessageState = {
+      type: '',
+      text: '',
+    };
+    // Retrieve local data
+    const savedLocationsLocalRaw = localStorage.getItem('savedLocations');
+    if (savedLocationsLocalRaw !== null) {
+      const savedLocationsLocal: LocationInfo[] = JSON.parse(
+        savedLocationsLocalRaw
+      );
+
+      // Find index of the location in question
+      const index = findLocationIndex(
+        latLng.lat,
+        latLng.lng,
+        savedLocationsLocal
+      );
+
+      if (index > -1) {
+        const savedLocations = [...savedLocationsLocal];
+        // Delete element
+        savedLocations.splice(index, 1);
+
+        // Update local storage
+        localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
+
+        // Update message
+        message.type = 'info';
+        message.text = 'Location was deleted successfully';
+
+        // Update global state with new renamed location
+        dispatch({
+          type: 'DELETE_LOCATION',
+          payload: savedLocations,
+        });
+        // Notify user what happened
+        dispatch(setMessage(message));
+      } else {
+        // Update message
+        message.type = 'error';
+        message.text = 'Something went wrong when deleting the location.';
 
         dispatch(setMessage(message));
       }
