@@ -40,3 +40,9 @@ export interface FilterData {
   value: boolean;
   id: string;
 }
+
+export interface LocationLatLngNewName {
+  lat: number;
+  lng: number;
+  newName: string;
+}

@@ -9,7 +9,14 @@ export {
 } from 'forecast';
 
 // Other
-export { UvInfo, IconData, Day, ExtendHourlyClasses, FilterData } from 'other';
+export {
+  UvInfo,
+  IconData,
+  Day,
+  ExtendHourlyClasses,
+  FilterData,
+  LocationLatLngNewName,
+} from 'other';
 
 // Context types
 //
@@ -34,4 +41,5 @@ export {
   SetMessageAction,
   NoOldSavedLocationsAction,
   SetPageNameAction,
+  RenameLocationAction,
 } from 'contextApi/actions';

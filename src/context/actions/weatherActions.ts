@@ -7,6 +7,8 @@ import {
   MessageState,
   NoOldSavedLocationsAction,
   MapState,
+  RenameLocationAction,
+  LocationLatLngNewName,
 } from 'types';
 import { Dispatch } from 'redux';
 
@@ -34,6 +36,7 @@ export const fetchWeather = (mapData: MapState) => {
           ...data,
           address: mapData.address,
           lastUpdated: Date.now(),
+          isTemp: true,
         };
 
         // Save data for offline usage
@@ -124,11 +127,18 @@ export const saveLocation = (location: LocationInfo) => {
     // Add new location only if it is more than 1000 meters
     // away from any previously saved location
     if (!isInProximity) {
-      savedLocations.push(location);
+      const modifiedCurrentLocation = {
+        ...location,
+        isTemp: false,
+      };
+      savedLocations.push(modifiedCurrentLocation);
 
       // Update saved locations
       localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
-      localStorage.setItem('activeLocation', JSON.stringify(location));
+      localStorage.setItem(
+        'activeLocation',
+        JSON.stringify(modifiedCurrentLocation)
+      );
 
       message = {
         type: 'info',
@@ -149,6 +159,56 @@ export const saveLocation = (location: LocationInfo) => {
 
     // Let the user know what happened with the saving
     dispatch(setMessage(message));
+  };
+};
+
+export const renameLocation = (latLngName: LocationLatLngNewName) => {
+  return function (dispatch: Dispatch) {
+    const message: MessageState = {
+      type: '',
+      text: '',
+    };
+    // Retrieve local data
+    const savedLocationsLocalRaw = localStorage.getItem('savedLocations');
+    if (savedLocationsLocalRaw !== null) {
+      const savedLocationsLocal: LocationInfo[] = JSON.parse(
+        savedLocationsLocalRaw
+      );
+
+      // Find index of the location in question
+      const index = savedLocationsLocal.findIndex(
+        location =>
+          location.lat === latLngName.lat && location.lon === latLngName.lng
+      );
+
+      if (index !== -1) {
+        // Copy all saved locations
+        const savedLocations = [...savedLocationsLocal];
+        // Modify address of the location
+        savedLocations[index] = {
+          ...savedLocations[index],
+          address: latLngName.newName,
+        };
+
+        // Update local storage
+        localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
+
+        // Update message
+        message.type = 'info';
+        message.text = 'Location was renamed successfully';
+
+        // Update global state with new renamed location
+        dispatch({ type: 'RENAME_LOCATION', payload: savedLocations });
+        // Notify user what happened
+        dispatch(setMessage(message));
+      } else {
+        // Update message
+        message.type = 'error';
+        message.text = 'Something went wrong when renaming the location.';
+
+        dispatch(setMessage(message));
+      }
+    }
   };
 };
 

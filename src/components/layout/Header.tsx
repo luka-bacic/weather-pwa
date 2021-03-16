@@ -1,19 +1,51 @@
-import React, { useContext } from 'react';
+import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { GlobalStateContext } from 'context';
 import Nav from './Nav';
 import { Link } from 'gatsby';
+import { useLocation } from '@reach/router';
 
 const Header = () => {
+  const [pageName, setPageName] = useState('Weather');
+  const [headerLink, setHeaderLink] = useState<ReactElement | null>(null);
+  const { pathname: currentPage } = useLocation();
+
   const {
     page: { name },
+    weather: { activeLocation },
   } = useContext(GlobalStateContext);
 
-  const pageName = name ? name : 'Page';
+  // Display save location link if the location is temporary
+  useEffect(() => {
+    // console.log('is temp', activeLocation?.forecast?.isTemp);
+  });
+
+  // Set page name
+  useEffect(() => {
+    if (name) {
+      setPageName(name);
+    }
+  }, [currentPage, name]);
+
+  // Set left most link in header
+  useEffect(() => {
+    if (currentPage === '/saved-locations/') {
+      setHeaderLink(
+        <Link className="header__link" to="/">
+          Saved locations | Go back
+        </Link>
+      );
+    } else {
+      setHeaderLink(
+        <Link className="header__link" to="/saved-locations/">
+          {pageName}
+        </Link>
+      );
+    }
+  }, [pageName]);
+
   return (
     <header className="header">
-      <Link className="header__link" to="/saved-locations/">
-        {pageName}
-      </Link>
+      {headerLink !== null && headerLink}
       <Nav />
     </header>
   );

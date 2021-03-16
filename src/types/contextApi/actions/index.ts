@@ -4,6 +4,7 @@ import {
   PartialMapState,
   FilterData,
   MessageState,
+  LocationLatLngNewName,
 } from 'types';
 
 // Weather actions
@@ -23,6 +24,11 @@ export interface NoOldSavedLocationsAction {
 
 export interface SaveLocationAction {
   type: 'SAVE_LOCATION';
+  payload: LocationInfo[];
+}
+
+export interface RenameLocationAction {
+  type: 'RENAME_LOCATION';
   payload: LocationInfo[];
 }
 

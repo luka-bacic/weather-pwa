@@ -9,7 +9,7 @@ import WeatherAlerts from 'components/weather/WeatherAlerts';
 import QuickInfo from 'components/weather/QuickInfo';
 import ForecastTime from 'components/weather/ForecastTime';
 import { LocationInfo } from 'types';
-import { saveLocation, setPageName } from 'context/actions';
+import { setPageName } from 'context/actions';
 
 const WeatherInfo = () => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -29,43 +29,10 @@ const WeatherInfo = () => {
     }
   }, [activeLocation]);
 
-  const [locationName, setLocationName] = useState('');
-  const [inputValue, setInputValue] = useState('');
-
-  const handleInputChange = (e: any) => {
-    setLocationName(e.target.value.trim());
-    setInputValue(e.target.value.trim());
-  };
-
-  const saveLocationToState = () => {
-    if (locationName.trim().length) {
-      if (typeof forecast !== 'undefined') {
-        dispatch(saveLocation({ ...forecast, address: locationName }));
-      }
-    } else {
-      // dispatch({
-      //   type: 'SET_MESSAGE',
-      //   payload: {
-      //     type: 'error',
-      //     text: 'Please type in a name to save the location',
-      //   },
-      // });
-    }
-  };
-
   return (
     <div className="weather-info">
       {typeof forecast !== 'undefined' ? (
         <div>
-          <div style={{ border: '1px solid green', padding: '1rem' }}>
-            <button onClick={saveLocationToState}>Save Location</button>
-            <input
-              type="text"
-              onChange={handleInputChange}
-              value={inputValue}
-            />
-          </div>
-
           <div className="flex">
             <WeatherAlerts
               alerts={forecast.alerts}

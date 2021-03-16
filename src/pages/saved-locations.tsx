@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { GlobalStateContext, GlobalDispatchContext } from 'context';
-import { Link } from 'gatsby';
-import { setActiveWeather, setPageName } from 'context/actions';
+import { setPageName } from 'context/actions';
+import SavedLocation from 'components/reusable/SavedLocation';
 
 const SavedLocations = () => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -13,18 +13,12 @@ const SavedLocations = () => {
   useEffect(() => {
     dispatch(setPageName('Saved locations'));
   }, [dispatch]);
+
   return (
     <div className="saved-locations">
       {savedLocations.length &&
         savedLocations.map((location, i) => (
-          <Link
-            to="/"
-            key={i}
-            onClick={() => dispatch(setActiveWeather(location))}
-            className="saved-locations__link"
-          >
-            {location.address}
-          </Link>
+          <SavedLocation location={location} key={i} />
         ))}
     </div>
   );
