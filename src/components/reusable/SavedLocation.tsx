@@ -78,18 +78,18 @@ const SavedLocation = ({ location }: Props) => {
   };
 
   return (
-    <div className="saved-link">
+    <div className="saved-location">
       <Link
         to="/"
         onClick={() => dispatch(setActiveWeatherWithStorage(location))}
-        className="saved-link__link"
+        className="saved-location__link"
       >
         {location.address}
       </Link>
 
       {/* Rename button */}
       <button
-        className="saved-link__edit"
+        className="saved-location__edit"
         title="Rename location"
         onClick={() => setRenameModalOpenState(true)}
       >
@@ -101,7 +101,7 @@ const SavedLocation = ({ location }: Props) => {
       <Modal
         isOpen={renameModalOpenState}
         onRequestClose={() => setRenameModalOpenState(false)}
-        contentLabel="Example Modal"
+        contentLabel="Rename location"
         onAfterOpen={afterRenameModalOpenHandler}
       >
         <label htmlFor="rename">
@@ -114,19 +114,23 @@ const SavedLocation = ({ location }: Props) => {
           type="text"
           name="rename"
           id="rename"
+          className="saved-location__input"
           onChange={handleInputChange}
           ref={textInputRef}
           value={newLocationName}
         />
 
-        <button onClick={onRenameButtonClick}>Rename</button>
-        <button onClick={() => setRenameModalOpenState(false)}>Cancel</button>
+        <div className="">
+          <button onClick={onRenameButtonClick}>Rename</button>
+          <button onClick={() => setRenameModalOpenState(false)}>Cancel</button>
+        </div>
       </Modal>
 
       {/* Delete button */}
       <button
         onClick={() => setDeleteModalOpenState(true)}
         title="Delete location"
+        className="saved-location__delete"
       >
         <MdDeleteForever />
         <span className="sr-only">Delete location</span>
@@ -136,7 +140,7 @@ const SavedLocation = ({ location }: Props) => {
       <Modal
         isOpen={deleteModalOpenState}
         onRequestClose={() => setDeleteModalOpenState(false)}
-        contentLabel="Example Modal"
+        contentLabel="Delete location"
       >
         <h6>
           Are you sure you want to delete <strong>{location.address}</strong>?
