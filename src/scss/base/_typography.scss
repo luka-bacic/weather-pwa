@@ -28,6 +28,11 @@ h1 {
   @include fluid-type(24px, 36px);
 }
 
+h6 {
+  @include fluid-type(16px);
+  font-weight: normal;
+}
+
 strong {
   font-weight: 700;
 }
