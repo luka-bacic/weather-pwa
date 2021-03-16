@@ -6,6 +6,7 @@ export {
   setActiveWeather,
   renameLocation,
   deleteLocation,
+  setActiveWeatherWithStorage,
 } from './weatherActions';
 export { updateMapData, loadOldMapData } from './mapActions';
 export { updateFilter } from './filterActions';

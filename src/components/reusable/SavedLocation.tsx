@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import { GlobalDispatchContext } from 'context';
 import {
-  setActiveWeather,
+  setActiveWeatherWithStorage,
   renameLocation,
   setMessage,
   deleteLocation,
@@ -72,7 +72,7 @@ const SavedLocation = ({ location }: Props) => {
     <div className="saved-link">
       <Link
         to="/"
-        onClick={() => dispatch(setActiveWeather(location))}
+        onClick={() => dispatch(setActiveWeatherWithStorage(location))}
         className="saved-link__link"
       >
         {location.address}

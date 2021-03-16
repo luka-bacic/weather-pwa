@@ -271,6 +271,14 @@ export const deleteLocation = (latLng: LatLngObject) => {
   };
 };
 
+export const setActiveWeatherWithStorage = (location: LocationInfo) => {
+  return function (dispatch: Dispatch<SetActiveWeatherAction>) {
+    localStorage.setItem('activeLocation', JSON.stringify(location));
+
+    dispatch(setActiveWeather(location));
+  };
+};
+
 // Sets the given active weather to store
 export const setActiveWeather = (
   weather: LocationInfo
