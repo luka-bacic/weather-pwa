@@ -3,7 +3,7 @@ import { GlobalStateContext } from 'context';
 import Nav from './Nav';
 import { Link } from 'gatsby';
 import { useLocation } from '@reach/router';
-
+import StarLocation from '../misc/StarLocation';
 const Header = () => {
   const [pageName, setPageName] = useState('Weather');
   const [headerLink, setHeaderLink] = useState<ReactElement | null>(null);
@@ -11,13 +11,7 @@ const Header = () => {
 
   const {
     page: { name },
-    weather: { activeLocation },
   } = useContext(GlobalStateContext);
-
-  // Display save location link if the location is temporary
-  useEffect(() => {
-    // console.log('is temp', activeLocation?.forecast?.isTemp);
-  });
 
   // Set page name
   useEffect(() => {
@@ -46,6 +40,7 @@ const Header = () => {
   return (
     <header className="header">
       {headerLink !== null && headerLink}
+      {currentPage === '/' && <StarLocation />}
       <Nav />
     </header>
   );
