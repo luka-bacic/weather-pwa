@@ -3,6 +3,7 @@ import React, {
   MouseEventHandler,
   useContext,
   useState,
+  useRef,
 } from 'react';
 import { GlobalDispatchContext } from 'context';
 import {
@@ -24,12 +25,20 @@ const SavedLocation = ({ location }: Props) => {
   // Bind modal to root element (for accessibility)
   Modal.setAppElement('#___gatsby');
 
+  const textInputRef = useRef<HTMLInputElement>(null);
+
   const dispatch = useContext(GlobalDispatchContext);
 
   // Local state
   const [renameModalOpenState, setRenameModalOpenState] = useState(false);
   const [deleteModalOpenState, setDeleteModalOpenState] = useState(false);
-  const [newLocationName, setNewLocationName] = useState('');
+  const [newLocationName, setNewLocationName] = useState(location.address);
+
+  const afterRenameModalOpenHandler = () => {
+    if (textInputRef.current !== null) {
+      textInputRef.current.focus();
+    }
+  };
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = e => {
     setNewLocationName(e.target.value);
@@ -93,11 +102,12 @@ const SavedLocation = ({ location }: Props) => {
         isOpen={renameModalOpenState}
         onRequestClose={() => setRenameModalOpenState(false)}
         contentLabel="Example Modal"
+        onAfterOpen={afterRenameModalOpenHandler}
       >
         <label htmlFor="rename">
-          <h4>
+          <h6>
             Rename location <strong>{location.address}</strong>
-          </h4>
+          </h6>
         </label>
 
         <input
@@ -105,6 +115,8 @@ const SavedLocation = ({ location }: Props) => {
           name="rename"
           id="rename"
           onChange={handleInputChange}
+          ref={textInputRef}
+          value={newLocationName}
         />
 
         <button onClick={onRenameButtonClick}>Rename</button>
@@ -126,9 +138,9 @@ const SavedLocation = ({ location }: Props) => {
         onRequestClose={() => setDeleteModalOpenState(false)}
         contentLabel="Example Modal"
       >
-        <h4>
-          Are you sure you want to delete <strong>{location.address}</strong>
-        </h4>
+        <h6>
+          Are you sure you want to delete <strong>{location.address}</strong>?
+        </h6>
 
         <button onClick={onDeleteButtonClick}>Delete</button>
         <button onClick={() => setDeleteModalOpenState(false)}>Cancel</button>
