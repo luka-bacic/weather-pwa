@@ -16,10 +16,13 @@ const SavedLocations = () => {
 
   return (
     <div className="saved-locations">
-      {savedLocations.length &&
+      {savedLocations.length > 0 ? (
         savedLocations.map((location, i) => (
           <SavedLocation location={location} key={i} />
-        ))}
+        ))
+      ) : (
+        <p>Your saved locations will appear here.</p>
+      )}
     </div>
   );
 };
