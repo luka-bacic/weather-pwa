@@ -66,7 +66,7 @@ const WorldMap = () => {
           address = results[0].name;
         } else {
           // Name the location by coordinates
-          address = `Location at ${lat.toFixed(3)} lat, ${lng.toFixed(3)} lon`;
+          address = `${lat.toFixed(2)} lat, ${lng.toFixed(2)} lon`;
         }
 
         // Update address
