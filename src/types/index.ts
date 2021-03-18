@@ -16,6 +16,7 @@ export {
   ExtendHourlyClasses,
   FilterData,
   LocationLatLngNewName,
+  LatLngObject,
 } from 'other';
 
 // Context types
