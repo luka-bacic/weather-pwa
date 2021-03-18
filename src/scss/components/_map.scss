@@ -1,17 +1,50 @@
-#map {
-  // input[type='text'] {
-  //   position: absolute;
-  //   top: $padding * 4;
-  //   left: $padding;
-  //   right: $padding;
-  // }
+.world-map {
+  position: relative;
 
-  a {
-    &.btn {
-      position: absolute;
-      bottom: $padding;
-      left: $padding;
-      color: c('white');
+  &__fetch-weather {
+    position: absolute;
+    bottom: $padding * 1.5;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    margin: auto;
+  }
+
+  .leaflet-control-geosearch.leaflet-geosearch-bar {
+    margin-top: $padding;
+    width: 100%;
+    max-width: calc(100% - #{$padding * 2});
+
+    @include from(tablet) {
+      max-width: calc(100% - 120px);
+    }
+
+    @include from(tablet-m) {
+      max-width: 450px;
+    }
+
+    &,
+    * {
+      font-family: 'Roboto', sans-serif;
     }
   }
+
+  &__autocomplete-form {
+    min-height: $padding * 2 !important;
+    border-radius: 0 !important;
+    padding: 4px 8px !important;
+  }
+
+  &__autocomplete-input {
+    background: none !important;
+    font-size: 1rem !important;
+  }
+
+  &__autocomplete-reset {
+    line-height: 38px !important;
+  }
+}
+
+#map {
+  height: calc(100vh - #{$header-height} - #{$padding * 2});
 }

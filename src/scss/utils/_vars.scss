@@ -1,3 +1,15 @@
+$breakpoints: (
+  mobile: 390px,
+  tablet: 480px,
+  tablet-m: 620px,
+  tablet-l: 767px,
+  desktop: 1024px,
+  desktop-md: 1200px,
+  desktop-xl: 1440px,
+  desktop-xxl: 1700px,
+  fhd: 1920px,
+);
+
 $colors: (
   'white': #ffffff,
   'black': #000000,
@@ -21,6 +33,6 @@ $slow: 1s;
 
 $padding: 1rem;
 
-$nav-height: 75px;
+$header-height: 75px;
 
 $icon-size: 25px;

@@ -33,15 +33,6 @@ const WorldMap = () => {
     }
   }
 
-  // Setup geosearch autocomplete provider
-  const placesProvider = new OpenStreetMapProvider();
-  // Configure settings for the autocomplete
-  const searchControl = new GeoSearchControl({
-    provider: placesProvider,
-    style: 'bar',
-    showMarker: false,
-  });
-
   // Local state
   const [mapData, setMapData] = useState({
     lat: initialMapState.lat,
@@ -85,6 +76,14 @@ const WorldMap = () => {
             address: address,
           };
         });
+
+        // Write address in autocomplete input
+        const input: HTMLInputElement | null = document.querySelector(
+          '.world-map__autocomplete-input'
+        );
+        if (input !== null) {
+          input.value = address;
+        }
       });
 
     // Update lat and lng
@@ -170,6 +169,24 @@ const WorldMap = () => {
   }, [leaflet]);
 
   const mapCreated = (map: Map) => {
+    // Setup geosearch autocomplete provider
+    const placesProvider = new OpenStreetMapProvider();
+    // Configure settings for the autocomplete
+    const searchControl = new GeoSearchControl({
+      provider: placesProvider,
+      style: 'bar',
+      showMarker: false,
+      autoCompleteDelay: 150,
+      classNames: {
+        form: 'world-map__autocomplete-form',
+        input: 'world-map__autocomplete-input',
+        resetButton: 'world-map__autocomplete-reset reset',
+      },
+      searchLabel: 'Search',
+      notFoundMessage: "Sorry, we couldn't find that location.",
+      keepResult: true,
+    });
+
     map.addControl(searchControl);
     map.on('click', handleMapClick);
     map.on('zoomend', handleZoomEnd);
@@ -181,13 +198,18 @@ const WorldMap = () => {
   // react-leaflet is not compatible with SSR - render only in browser
   if (typeof window !== 'undefined') {
     return (
-      <div>
+      <div className="world-map">
         <MapContainer
           center={[initialMapState.lat, initialMapState.lng]}
           zoom={initialMapState.zoom}
-          style={{ height: '50vh' }}
           whenCreated={mapCreated}
           id="map"
+          zoomControl={false}
+          minZoom={2}
+          maxBounds={[
+            [-90, -18000],
+            [90, 18000],
+          ]}
         >
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -196,7 +218,12 @@ const WorldMap = () => {
 
           <Marker position={[mapData.lat, mapData.lng]}></Marker>
         </MapContainer>
-        <Link to="/" className="btn" onClick={getWeather}>
+
+        <Link
+          to="/"
+          className={`world-map__fetch-weather btn`}
+          onClick={getWeather}
+        >
           See weather
         </Link>
       </div>
