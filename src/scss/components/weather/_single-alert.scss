@@ -1,0 +1,105 @@
+.single-alert {
+  $size: 19px;
+
+  &__expand-button {
+    padding: $padding / 2 $padding;
+    border: 1px solid c('black');
+    border-top: 0;
+    background: c('warning');
+    @include fluid-type($size);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    transition: width $medium;
+    width: 100%;
+
+    // Remove button push effect
+    &:active,
+    &:focus,
+    &:hover {
+      padding: $padding / 2 $padding;
+      border: 1px solid c('black');
+      border-top: 0;
+    }
+  }
+
+  &__close-button {
+    svg {
+      width: $icon-size;
+      height: $icon-size;
+    }
+  }
+
+  &__modal-overlay {
+    background: rgba(c('black'), 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  &__modal {
+    $pos: $padding * 1.5;
+    position: absolute;
+    top: $pos;
+    left: $pos;
+    right: $pos;
+    bottom: $pos;
+    background: c('white');
+    @include t3d(0, -100%);
+    transition: transform 0.5s;
+  }
+
+  &__content {
+    padding: $padding;
+  }
+
+  &__header {
+    min-height: 10vh;
+    background: c('warning');
+  }
+
+  &__header-top {
+    display: flex;
+    align-items: center;
+  }
+
+  &__header-icon {
+    margin-right: auto;
+    width: $icon-size;
+    height: $icon-size;
+  }
+
+  &__title {
+    margin-bottom: 0;
+  }
+
+  &__start-time,
+  &__end-time {
+    display: block;
+    margin-bottom: $padding;
+    color: c('dark-grey');
+
+    time {
+      font-weight: 500;
+    }
+  }
+
+  &--overlay-after-open {
+    opacity: 1;
+  }
+
+  &--overlay-before-close {
+    opacity: 0;
+  }
+
+  &--modal-after-open {
+    @include t3d(0);
+  }
+  &--modal-before-close {
+    @include t3d(0, -100%);
+  }
+}

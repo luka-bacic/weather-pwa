@@ -1,44 +1,36 @@
 .alert {
+  $size: 19px;
+  $icon-size: $size * 1.2;
+
   margin-bottom: $padding;
 
-  &__preview-button,
-  &__single-open-button {
+  &__preview-button {
     padding: $padding / 2 $padding;
     border: 1px solid c('black');
     border-top: 0;
-    font-size: 35px;
+    border-top: 1px solid c('black');
+    @include fluid-type($size);
     line-height: 1;
     display: flex;
     align-items: center;
     transition: width $medium;
     width: 100%;
-    cursor: pointer;
+    background: c('warning');
 
     // Remove button push effect
     &:active,
     &:focus,
     &:hover {
       padding: $padding / 2 $padding;
-      border: 1px solid c('black');
-      border-top: 0;
-    }
-  }
-
-  &__preview-button {
-    border-top: 1px solid c('black');
-
-    &:active,
-    &:focus,
-    &:hover {
       border-top: 1px solid c('black');
+      background: scale-color(c('warning'), $lightness: 10%);
     }
   }
 
   &__preview-icon {
-    $size: 35px;
-    width: $size;
-    height: $size;
-    min-width: $size;
+    width: $icon-size;
+    height: $icon-size;
+    min-width: $icon-size;
     margin-right: $padding / 2;
   }
 
@@ -48,30 +40,7 @@
     white-space: nowrap;
   }
 
-  &__single {
-    // border: 10px solid rebeccapurple;
-  }
-
   &__single-open-button {
-  }
-
-  &__single-close-button {
-  }
-
-  &__single-content {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 100;
-    @include t3d(100%);
-    transition: transform $medium;
-    background: c('warning');
-  }
-
-  &__single-open-button,
-  &--has-warning {
     background: c('warning');
 
     &:hover,
@@ -87,9 +56,5 @@
     .alert__button {
       width: 100%;
     }
-  }
-
-  &--warning-shown {
-    @include t3d(0);
   }
 }

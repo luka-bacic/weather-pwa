@@ -6,3 +6,4 @@ export { placeLabel } from './placeLabel';
 export { round } from './round';
 export { shouldExtendCell } from './shouldExtendCell';
 export { uvScale } from './uvScale';
+export { formatAlertToHtml } from './formatAlertToHtml';

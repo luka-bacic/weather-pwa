@@ -1,13 +1,8 @@
 .star-location {
   &__button {
-    background: none;
-    border: none;
-    color: currentColor;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    padding: 0;
     margin-left: $padding / 2;
   }
 

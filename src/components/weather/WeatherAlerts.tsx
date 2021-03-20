@@ -14,7 +14,7 @@ const WeatherAlerts = ({ alerts, timezoneOffset }: Props) => {
   const previewRef = useRef<HTMLElement | null>(null);
   // State
   const [numOfAlerts, setNumOfAlerts] = useState(0);
-  const [peekMsg, setPeekMsg] = useState('No warning for this location');
+  const [peekMsg, setPeekMsg] = useState('No alerts for this location');
   const [showPreview, setShowPreview] = useState(false);
   const [renderedAlerts, setRenderedAlerts] = useState<ReactElement[]>([]);
 

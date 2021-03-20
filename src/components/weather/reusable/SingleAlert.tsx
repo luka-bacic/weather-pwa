@@ -1,8 +1,11 @@
-import React, { useRef, ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import { GrClose } from 'react-icons/gr';
+import Modal from 'react-modal';
+import { formatAlertToHtml } from 'functions';
+import { FiAlertTriangle } from 'react-icons/fi';
 
 type Props = {
   start: number;
@@ -15,8 +18,10 @@ type Props = {
 const SingleAlert = ({ start, end, title, content, timezoneOffset }: Props) => {
   dayjs.extend(utc);
   dayjs.extend(advancedFormat);
+  // Bind modal to root element (for accessibility)
+  Modal.setAppElement('#___gatsby');
 
-  const alertRef = useRef<HTMLElement | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dateFormat = 'Do MMMM [at] h:mma';
   const machineDateFormat = 'YYYY-DD-MM kk:mm:ss.SSS';
@@ -28,39 +33,7 @@ const SingleAlert = ({ start, end, title, content, timezoneOffset }: Props) => {
   let machineEndTime = '';
 
   if (typeof content !== 'undefined') {
-    // Split content into lines
-    const lines = content.split('\n');
-
-    // TODO: fix regex to cover all cases
-    formattedLines = lines.flatMap((line, i) => {
-      let editedLine = line;
-
-      const TOP_LEVEL_HEADING = /^(\.\.\.)(\w+\s\w+)(\.\.\.)$/gm;
-      const LOW_LEVEL_HEADING = /^\.(\w+\s*\w+)\.\.\./gm;
-
-      // Is it a top level heading?
-      if (line.match(TOP_LEVEL_HEADING)) {
-        editedLine = line.replace(TOP_LEVEL_HEADING, '$2');
-
-        return <h3 key={i}>{editedLine}</h3>;
-      }
-
-      // Is there a lower level heading and a paragraph?
-      if (line.match(LOW_LEVEL_HEADING)) {
-        let twoLines: string[];
-        twoLines = line.replace(LOW_LEVEL_HEADING, '$1___').split('___');
-
-        return [
-          <h4 key={i}>{twoLines[0]}</h4>,
-          <p key={i * i + 109}>{twoLines[1]}</p>,
-        ];
-      }
-
-      // Otherwise return a paragraph
-      return <p key={i}>{line}</p>;
-    });
-
-    // console.log(formattedLines);
+    formattedLines = formatAlertToHtml(content);
   }
 
   // Format start times for people and machines
@@ -89,40 +62,65 @@ const SingleAlert = ({ start, end, title, content, timezoneOffset }: Props) => {
       .format(machineDateFormat);
   }
 
-  const toggleShowAlert = () => {
-    if (alertRef.current !== null) {
-      alertRef.current.classList.toggle('alert--warning-shown');
-    }
-  };
-
   return (
-    <div className="alert__single">
-      <button className="alert__single-open-button" onClick={toggleShowAlert}>
+    <div className="single-alert">
+      <button
+        className="single-alert__expand-button"
+        onClick={() => setIsModalOpen(true)}
+      >
         {title ? title : 'See warning'}
       </button>
-      <article className="alert__single-content" ref={alertRef}>
-        {startTime && (
-          <h5>
-            Warning start: <time dateTime={machineStartTime}>{startTime}</time>
-          </h5>
-        )}
-        {endTime && (
-          <h5>
-            Warning end: <time dateTime={machineEndTime}>{endTime}</time>
-          </h5>
-        )}
-        <h2>{title ? title : 'Weather alert'}</h2>
 
-        {formattedLines.length > 0 && formattedLines}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Weather alert information"
+        overlayClassName={{
+          base: 'single-alert__modal-overlay',
+          afterOpen: 'single-alert--overlay-after-open',
+          beforeClose: 'single-alert--overlay-before-close',
+        }}
+        className={{
+          base: 'single-alert__modal',
+          afterOpen: 'single-alert--modal-after-open',
+          beforeClose: 'single-alert--modal-before-close',
+        }}
+        closeTimeoutMS={300}
+      >
+        <header className="single-alert__header">
+          <div className="single-alert__content">
+            <div className="single-alert__header-top">
+              <FiAlertTriangle className="single-alert__header-icon" />
+              <button
+                className="single-alert__close-button"
+                onClick={() => setIsModalOpen(false)}
+              >
+                <GrClose />
+                <span className="sr-only">Close weather warning</span>
+              </button>
+            </div>
+            <h2 className="single-alert__title">
+              {title ? title : 'Weather alert'}
+            </h2>
+          </div>
+        </header>
 
-        <button
-          className="alert__single-close-button"
-          onClick={toggleShowAlert}
-        >
-          <GrClose />
-          <span className="sr-only">Close weather warning</span>
-        </button>
-      </article>
+        <div className="single-alert__content">
+          {startTime && (
+            <small className="single-alert__start-time">
+              From: <time dateTime={machineStartTime}>{startTime}</time>
+            </small>
+          )}
+
+          {endTime && (
+            <small className="single-alert__end-time">
+              To: <time dateTime={machineEndTime}>{endTime}</time>
+            </small>
+          )}
+
+          {formattedLines.length > 0 && formattedLines}
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -22,15 +22,23 @@ h5,
 h6 {
   line-height: 1.2;
   margin: $padding 0;
+  font-weight: normal;
 }
 
 h1 {
   @include fluid-type(24px, 36px);
 }
 
+h2 {
+  @include fluid-type(22px);
+}
+
+h5,
 h6 {
   @include fluid-type(16px);
-  font-weight: normal;
+}
+h6 {
+  @include fluid-type(16px);
 }
 
 strong {
