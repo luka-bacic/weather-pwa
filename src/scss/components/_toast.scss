@@ -4,20 +4,69 @@
   left: $padding;
   right: $padding;
   z-index: 100;
-  padding: $padding 0;
+  padding: $padding;
   border-width: 1px;
   border-style: solid;
-  background: c('white');
-
-  &.closed {
-    display: none;
-  }
 
   &.error {
-    border-color: red;
+    background: c('red');
   }
 
   &.info {
-    border-color: teal;
+    background: c('teal');
+  }
+
+  &__message {
+    margin: 0 $padding 0 0;
+    line-height: 1.2;
+    font-size: 14px;
+  }
+
+  &__button {
+    position: absolute;
+    top: 0;
+    right: $padding;
+    bottom: 0;
+  }
+
+  &__icon {
+    width: $icon-size;
+    height: $icon-size;
+  }
+
+  $fromTop: calc(100% + #{$padding});
+
+  &--enter {
+    opacity: 0;
+    @include t3d(0, $fromTop);
+    display: block;
+  }
+
+  &--enter-active {
+    opacity: 1;
+    @include t3d();
+    transition: opacity $fast, transform $fast;
+  }
+
+  &--enter-done {
+    opacity: 1;
+    @include t3d();
+  }
+
+  &--exit {
+    opacity: 1;
+    @include t3d();
+  }
+
+  &--exit-active {
+    opacity: 0;
+    @include t3d(0, $fromTop);
+    transition: transform $fast, opacity $fast;
+  }
+
+  &--exit-done {
+    opacity: 0;
+    @include t3d(0, $fromTop);
+    display: none;
   }
 }

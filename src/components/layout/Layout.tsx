@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, ReactElement, useRef } from 'react';
 import Header from './Header';
-import Toast from 'components/Toast';
+import Toast from 'components/misc/Toast';
 import { GlobalDispatchContext, GlobalStateContext } from 'context';
 import {
   loadOldActiveWeather,
