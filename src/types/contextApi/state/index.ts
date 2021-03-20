@@ -79,4 +79,5 @@ export interface MessageState {
 
 export interface PageState {
   name: string;
+  width: number;
 }

@@ -4,7 +4,6 @@ import {
   PartialMapState,
   FilterData,
   MessageState,
-  LocationLatLngNewName,
 } from 'types';
 
 // Weather actions
@@ -59,4 +58,9 @@ export interface SetMessageAction {
 export interface SetPageNameAction {
   type: 'SET_PAGE_NAME';
   payload: string;
+}
+
+export interface SetPageWidthAction {
+  type: 'SET_PAGE_WIDTH';
+  payload: number;
 }

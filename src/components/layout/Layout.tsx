@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, ReactElement } from 'react';
+import React, { useEffect, useContext, ReactElement, useRef } from 'react';
 import Header from './Header';
 import Toast from 'components/Toast';
 import { GlobalDispatchContext, GlobalStateContext } from 'context';
@@ -6,7 +6,8 @@ import {
   loadOldActiveWeather,
   loadOldMapData,
   loadSavedLocations,
-} from '../../context/actions';
+  setPageWidth,
+} from 'context/actions';
 import 'scss/style.scss';
 import 'focus-visible';
 
@@ -23,6 +24,8 @@ const Layout = ({ children }: Props) => {
   const dispatch = useContext(GlobalDispatchContext);
   const { message } = useContext(GlobalStateContext);
 
+  const mainRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     // Load saved locations into state
     dispatch(loadSavedLocations());
@@ -34,10 +37,17 @@ const Layout = ({ children }: Props) => {
     dispatch(loadOldMapData());
   }, [dispatch]);
 
+  useEffect(() => {
+    // Get width of content
+    if (mainRef.current !== null) {
+      dispatch(setPageWidth(mainRef.current.offsetWidth));
+    }
+  }, [mainRef.current]);
+
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main ref={mainRef}>{children}</main>
       {message.type !== '' && <Toast message={message} />}
     </>
   );

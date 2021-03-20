@@ -66,6 +66,7 @@ export const initialMessageState: MessageState = {
 
 export const initialPageState: PageState = {
   name: '',
+  width: 0,
 };
 
 export const initialGlobalState: GlobalState = {

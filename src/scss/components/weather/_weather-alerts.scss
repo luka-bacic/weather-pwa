@@ -1,8 +1,10 @@
-.alert {
-  $size: 19px;
+.weather-alerts {
+  $size: 18px;
   $icon-size: $size * 1.2;
 
   margin-bottom: $padding;
+  transition: width $fast;
+  overflow: hidden;
 
   &__preview-button {
     padding: $padding / 2 $padding;
@@ -15,7 +17,7 @@
     align-items: center;
     transition: width $medium;
     width: 100%;
-    background: c('warning');
+    // background: c('warning');
 
     // Remove button push effect
     &:active,
@@ -23,7 +25,7 @@
     &:hover {
       padding: $padding / 2 $padding;
       border-top: 1px solid c('black');
-      background: scale-color(c('warning'), $lightness: 10%);
+      // background: scale-color(c('warning'), $lightness: 10%);
     }
   }
 
@@ -35,7 +37,6 @@
   }
 
   &__preview-text {
-    transition: opacity $medium;
     text-align: left;
     white-space: nowrap;
   }
@@ -49,12 +50,19 @@
     }
   }
 
-  &--preview-expanded {
-    width: 100% !important;
+  &__dummy-button {
+    visibility: hidden;
+    position: absolute;
+    width: auto;
+  }
 
-    .alert__open-alert,
-    .alert__button {
-      width: 100%;
+  &--has-warning {
+    background: c('warning');
+
+    &:active,
+    &:focus,
+    &:hover {
+      background: scale-color(c('warning'), $lightness: 10%);
     }
   }
 }

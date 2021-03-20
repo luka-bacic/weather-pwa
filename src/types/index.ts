@@ -44,4 +44,5 @@ export {
   SetPageNameAction,
   RenameLocationAction,
   DeleteLocationAction,
+  SetPageWidthAction,
 } from 'contextApi/actions';
