@@ -1,4 +1,21 @@
 .star-location {
+  &__button {
+    background: none;
+    border: none;
+    color: currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    margin-left: $padding / 2;
+  }
+
+  &__icon {
+    width: $icon-size * 0.75;
+    height: $icon-size * 0.75;
+  }
+
   &--hidden {
     display: none;
   }

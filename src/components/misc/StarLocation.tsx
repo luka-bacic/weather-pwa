@@ -25,8 +25,8 @@ const StarLocation = () => {
   ) {
     return (
       <div className="star-location" ref={wrapRef}>
-        <button onClick={onSaveButtonClick}>
-          <BsStar />
+        <button onClick={onSaveButtonClick} className="star-location__button">
+          <BsStar className="star-location__icon" />
         </button>
       </div>
     );

@@ -5,17 +5,17 @@
   margin-right: auto;
 
   &__temperature {
-    @include fluid-type(48px, 64px);
+    @include fluid-type(40px, 64px);
     margin-bottom: $padding / 2;
   }
 
   &__feels-like {
-    @include fluid-type();
+    @include fluid-type($min-font-size: 14px);
     margin-bottom: $padding;
   }
 
   &__icon {
-    // margin-top: -20px;
+    max-width: 75px;
   }
 
   &--is-expanded {
