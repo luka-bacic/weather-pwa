@@ -1,6 +1,11 @@
 // function to get color like c(white) will return #ffffff
 @function c($name) {
-  @return map-get($colors, $name);
+  @if (map-has-key($map: $colors, $key: $name)) {
+    @return map-get($colors, $name);
+  } @else {
+    @warn 'Invalid color name: `#{$name}` is passed to the `c()` function. Please check if this key is present in your `$colors` map.';
+    @return null;
+  }
 }
 
 @function strip-unit($value) {
