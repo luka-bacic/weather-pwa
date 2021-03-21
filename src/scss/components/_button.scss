@@ -1,24 +1,37 @@
 .btn {
   padding: 0.75em 1em;
-  border: 1px solid c('blue');
+  border-width: 2px;
+  border-style: solid;
   display: flex;
   text-decoration: none;
   user-select: none;
-  min-width: 100px;
-  background: c('blue');
-  color: c('white');
+  min-width: 50px;
   width: max-content;
   max-width: 100ch;
+  transition: background-color $fast, border-color $fast, color $fast;
+  @include button-colors-outline(c('blue'), c('white'));
 
-  transition: background-color $medium, border-color $medium;
+  &--red-outline {
+    @include button-colors-outline(c('error'), c('white'));
+  }
 
-  &:hover,
-  &:focus {
-    background: c('dark-blue');
-    border-color: c('dark-blue');
+  &--blue {
+    background: c('blue');
+    color: c('white');
+
+    &:hover,
+    &:focus {
+      background: c('white');
+      color: c('blue');
+    }
   }
 
   &--inline {
     display: inline-flex;
+  }
+
+  // Adjacent buttons
+  & + & {
+    margin-left: $padding / 2;
   }
 }

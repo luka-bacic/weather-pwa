@@ -2,6 +2,36 @@
   transform: translate3d($x, $y, $z);
 }
 
+@mixin s3d($x: 1, $y: 1, $z: 1) {
+  transform: scale3d($x, $y, $z);
+}
+
+@mixin button-colors-outline($color, $bgcolor) {
+  background: $bgcolor;
+  color: $color;
+  border-color: $color;
+
+  &:hover,
+  &:focus {
+    background: $color;
+    color: $bgcolor;
+    border-color: $color;
+  }
+}
+
+@mixin button-colors-fill($color, $bgcolor) {
+  background: $color;
+  color: $bgcolor;
+  border-color: $bgcolor;
+
+  &:hover,
+  &:focus {
+    background: $bgcolor;
+    color: $color;
+    border-color: $bgcolor;
+  }
+}
+
 // (min-width: $breakpoint)
 @mixin from($breakpoint) {
   // If the breakpoint exists in the map.

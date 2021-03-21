@@ -103,6 +103,17 @@ const SavedLocation = ({ location }: Props) => {
         onRequestClose={() => setRenameModalOpenState(false)}
         contentLabel="Rename location"
         onAfterOpen={afterRenameModalOpenHandler}
+        closeTimeoutMS={300}
+        className={{
+          base: 'saved-location__modal',
+          afterOpen: 'saved-location--modal-after-open',
+          beforeClose: 'saved-location--modal-before-close',
+        }}
+        overlayClassName={{
+          base: 'saved-location__modal-overlay',
+          afterOpen: 'saved-location--modal-overlay-after-open',
+          beforeClose: 'saved-location--modal-overlay-before-close',
+        }}
       >
         <label htmlFor="rename">
           <h6>
@@ -110,19 +121,29 @@ const SavedLocation = ({ location }: Props) => {
           </h6>
         </label>
 
-        <input
-          type="text"
-          name="rename"
-          id="rename"
-          className="saved-location__input"
-          onChange={handleInputChange}
-          ref={textInputRef}
-          value={newLocationName}
-        />
+        <label htmlFor="rename">
+          New name:
+          <input
+            type="text"
+            name="rename"
+            id="rename"
+            className="saved-location__input"
+            onChange={handleInputChange}
+            ref={textInputRef}
+            value={newLocationName}
+          />
+        </label>
 
-        <div className="">
-          <button onClick={onRenameButtonClick}>Rename</button>
-          <button onClick={() => setRenameModalOpenState(false)}>Cancel</button>
+        <div className="saved-location__button-wrap">
+          <button
+            className="btn btn--inline mr-auto"
+            onClick={() => setRenameModalOpenState(false)}
+          >
+            Cancel
+          </button>
+          <button className="btn btn--inline" onClick={onRenameButtonClick}>
+            Rename
+          </button>
         </div>
       </Modal>
 
@@ -141,13 +162,37 @@ const SavedLocation = ({ location }: Props) => {
         isOpen={deleteModalOpenState}
         onRequestClose={() => setDeleteModalOpenState(false)}
         contentLabel="Delete location"
+        closeTimeoutMS={300}
+        className={{
+          base: 'saved-location__modal',
+          afterOpen: 'saved-location--modal-after-open',
+          beforeClose: 'saved-location--modal-before-close',
+        }}
+        overlayClassName={{
+          base: 'saved-location__modal-overlay',
+          afterOpen: 'saved-location--modal-overlay-after-open',
+          beforeClose: 'saved-location--modal-overlay-before-close',
+        }}
       >
         <h6>
           Are you sure you want to delete <strong>{location.address}</strong>?
         </h6>
 
-        <button onClick={onDeleteButtonClick}>Delete</button>
-        <button onClick={() => setDeleteModalOpenState(false)}>Cancel</button>
+        <div className="saved-location__button-wrap">
+          <button
+            className="btn btn--inline mr-auto"
+            onClick={() => setDeleteModalOpenState(false)}
+          >
+            Cancel
+          </button>
+
+          <button
+            className="btn btn--red-outline btn--inline"
+            onClick={onDeleteButtonClick}
+          >
+            Delete
+          </button>
+        </div>
       </Modal>
     </div>
   );
