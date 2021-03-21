@@ -9,11 +9,11 @@
   border-style: solid;
 
   &.error {
-    background: c('red');
+    background: c('error');
   }
 
   &.info {
-    background: c('teal');
+    background: c('info');
   }
 
   &__message {
