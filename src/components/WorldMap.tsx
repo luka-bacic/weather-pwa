@@ -6,6 +6,7 @@ import { initialMapState } from 'context/initialState';
 import { Link } from 'gatsby';
 import { updateMapData, fetchWeather } from 'context/actions';
 import { LeafletEventHandlerFn, LeafletMouseEvent, Map } from 'leaflet';
+import { PartialMapState } from 'contextApi/state';
 
 const WorldMap = () => {
   // Update default data with localstorage data, if present
@@ -153,8 +154,13 @@ const WorldMap = () => {
       if (oldMapDataRaw !== null) {
         // console.log('old', leaflet);
 
-        const oldMapData = JSON.parse(oldMapDataRaw);
-        getGeolocation(oldMapData.lat, oldMapData.lng);
+        const oldMapData: PartialMapState = JSON.parse(oldMapDataRaw);
+        if (
+          typeof oldMapData.lat !== 'undefined' &&
+          typeof oldMapData.actualLng !== 'undefined'
+        ) {
+          getGeolocation(oldMapData.lat, oldMapData.actualLng);
+        }
       }
     }
 
@@ -182,7 +188,7 @@ const WorldMap = () => {
           // Error might happen if uBlock origin is used, among other reasons
           console.info(`Unable to get approximate location.\n${error}`);
 
-          getGeolocation(initialMapState.lat, initialMapState.lng);
+          getGeolocation(initialMapState.lat, initialMapState.actualLng);
         });
     }
   }, [leaflet]);
@@ -229,6 +235,7 @@ const WorldMap = () => {
             [-90, -18000],
             [90, 18000],
           ]}
+          maxBoundsViscosity={1}
         >
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
