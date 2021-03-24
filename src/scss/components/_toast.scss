@@ -5,15 +5,16 @@
   right: $padding;
   z-index: 100;
   padding: $padding;
-  border-width: 1px;
+  border-width: 2px;
   border-style: solid;
+  background: c('white');
 
   &.error {
-    background: c('error');
+    border-color: c('error');
   }
 
   &.info {
-    background: c('info');
+    border-color: c('info');
   }
 
   &__message {
@@ -25,7 +26,7 @@
   &__button {
     position: absolute;
     top: 0;
-    right: $padding;
+    right: 10px;
     bottom: 0;
   }
 
