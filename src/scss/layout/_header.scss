@@ -6,6 +6,12 @@
   height: $header-height;
   padding: $padding;
 
+  &__text {
+    margin: 0;
+    margin-right: 0.5ch;
+    line-height: 1;
+  }
+
   &__link {
     color: currentColor;
     text-decoration: none;

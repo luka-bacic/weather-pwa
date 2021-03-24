@@ -24,13 +24,22 @@ const Header = () => {
   useEffect(() => {
     if (currentPage === '/saved-locations/') {
       setHeaderLink(
-        <Link className="header__link" to="/">
-          Saved locations | Go back
+        <>
+          <p className="header__text">Saved locations |</p>
+          <Link className="header__link" to="/">
+            Go back
+          </Link>
+        </>
+      );
+    } else if (currentPage === '/') {
+      setHeaderLink(
+        <Link className="header__link" to="/saved-locations/">
+          {pageName}
         </Link>
       );
     } else {
       setHeaderLink(
-        <Link className="header__link" to="/saved-locations/">
+        <Link className="header__link" to="/">
           {pageName}
         </Link>
       );
