@@ -2,10 +2,12 @@
   flex: 1 0 auto;
   border-right: 1px solid c('grey');
   padding: $padding / 2;
+  min-width: 88px;
 
   &:last-of-type {
     border-right: none;
   }
+
   &__time {
     text-align: center;
   }
