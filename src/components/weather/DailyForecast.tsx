@@ -9,22 +9,27 @@ type Props = {
 
 const DailyForecast = ({ data, timezoneOffset, withoutFirst }: Props) => {
   const [days, setDays] = useState<ReactElement[]>([]);
-  // const daysRef = useRef(data);
-  // const allDays = daysRef.current;
-  // allDays.shift();
 
   useEffect(() => {
     if (data.length > 0) {
-      // console.log(allDays);
-      // if (withoutFirst) {
-      // }
-      setDays(
-        data.map((day, i) => {
-          return (
-            <DailyBlock data={day} timezoneOffset={timezoneOffset} key={i} />
-          );
-        })
-      );
+      if (withoutFirst) {
+        // Map without the first day
+        setDays(
+          data.slice(1).map((day, i) => {
+            return (
+              <DailyBlock data={day} timezoneOffset={timezoneOffset} key={i} />
+            );
+          })
+        );
+      } else {
+        setDays(
+          data.map((day, i) => {
+            return (
+              <DailyBlock data={day} timezoneOffset={timezoneOffset} key={i} />
+            );
+          })
+        );
+      }
     }
   }, [data, timezoneOffset]);
 
