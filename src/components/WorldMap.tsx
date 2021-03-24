@@ -51,40 +51,7 @@ const WorldMap = () => {
   const handleMapClick = (e: LeafletMouseEvent) => {
     const { lat, lng } = e.target.wrapLatLng([e.latlng.lat, e.latlng.lng]);
 
-    let geocodeUrl =
-      `${process.env.GATSBY_REVERSE_GEOLOC_API_URL}` +
-      `?lat=${lat}&lon=${lng}` +
-      `&appid=${process.env.GATSBY_OPEN_WEATHER_MAP_API_KEY}`;
-
-    // Reverse geocode to get name of place
-    fetch(geocodeUrl)
-      .then(response => response.json())
-      .then(results => {
-        let address = '';
-        if (results.length) {
-          // Get first result
-          address = results[0].name;
-        } else {
-          // Name the location by coordinates
-          address = `${lat.toFixed(2)} lat, ${lng.toFixed(2)} lon`;
-        }
-
-        // Update address
-        setMapData(prevState => {
-          return {
-            ...prevState,
-            address: address,
-          };
-        });
-
-        // Write address in autocomplete input
-        const input: HTMLInputElement | null = document.querySelector(
-          '.world-map__autocomplete-input'
-        );
-        if (input !== null) {
-          input.value = address;
-        }
-      });
+    getGeolocation(lat, lng);
 
     // Update lat and lng
     const newData = {
@@ -138,15 +105,65 @@ const WorldMap = () => {
     dispatch(updateMapData(mapData));
   };
 
+  const getGeolocation = (lat: number, lng: number) => {
+    const geocodeUrl =
+      `${process.env.GATSBY_REVERSE_GEOLOC_API_URL}` +
+      `?lat=${lat}&lon=${lng}` +
+      `&appid=${process.env.GATSBY_OPEN_WEATHER_MAP_API_KEY}`;
+
+    // Reverse geocode to get name of place
+    fetch(geocodeUrl)
+      .then(response => response.json())
+      .then(results => {
+        let address = '';
+        if (results.length) {
+          // Get first result
+          address = results[0].name;
+        } else {
+          // Name the location by coordinates
+          address = `${lat.toFixed(2)} lat, ${lng.toFixed(2)} lon`;
+        }
+
+        // Update address
+        setMapData(prevState => {
+          return {
+            ...prevState,
+            address: address,
+          };
+        });
+
+        dispatch(updateMapData({ address: address }));
+
+        // Write address in autocomplete input
+        const input: HTMLInputElement | null = document.querySelector(
+          '.world-map__autocomplete-input'
+        );
+        if (input !== null) {
+          input.value = address;
+        }
+      });
+  };
+
   useEffect(() => {
     if (!localStorage.getItem('lastMapData')) {
       getApproximateLocation();
+    } else {
+      const oldMapDataRaw = localStorage.getItem('lastMapData');
+
+      if (oldMapDataRaw !== null) {
+        // console.log('old', leaflet);
+
+        const oldMapData = JSON.parse(oldMapDataRaw);
+        getGeolocation(oldMapData.lat, oldMapData.lng);
+      }
     }
 
     function getApproximateLocation() {
       fetch('https://ipapi.co/json')
         .then(result => result.json())
         .then(data => {
+          getGeolocation(data?.latitude, data?.longitude);
+
           // Save to state
           setMapData(prevState => {
             return {
@@ -164,6 +181,8 @@ const WorldMap = () => {
         .catch(error => {
           // Error might happen if uBlock origin is used, among other reasons
           console.info(`Unable to get approximate location.\n${error}`);
+
+          getGeolocation(initialMapState.lat, initialMapState.lng);
         });
     }
   }, [leaflet]);

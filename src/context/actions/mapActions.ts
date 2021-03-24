@@ -17,11 +17,31 @@ export const loadOldMapData = () => {
 };
 
 export const updateMapData = (mapData: PartialMapState): MapAction => {
-  // Save for offline usage
-  localStorage.setItem('lastMapData', JSON.stringify(mapData));
+  // Get previous offline data
+  const oldMapDataRaw = localStorage.getItem('lastMapData');
 
-  return {
-    type: 'UPDATE_MAP_DATA',
-    payload: mapData,
-  };
+  if (oldMapDataRaw) {
+    const oldMapData = JSON.parse(oldMapDataRaw);
+
+    const newData = {
+      ...oldMapData,
+      ...mapData,
+    };
+
+    // Save for offline usage
+    localStorage.setItem('lastMapData', JSON.stringify(newData));
+
+    return {
+      type: 'UPDATE_MAP_DATA',
+      payload: newData,
+    };
+  } else {
+    // Save for offline usage
+    localStorage.setItem('lastMapData', JSON.stringify(mapData));
+
+    return {
+      type: 'UPDATE_MAP_DATA',
+      payload: mapData,
+    };
+  }
 };
