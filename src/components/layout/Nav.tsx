@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import { IoMdClose, IoMdMenu } from 'react-icons/io';
+import Modal from 'react-modal';
 
 const links = [
   {
@@ -22,13 +23,13 @@ const links = [
 ];
 
 const Nav = () => {
-  const wrapRef = useRef<HTMLDivElement>(null);
+  Modal.setAppElement('#___gatsby');
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Toggle open state
   const toggleNavVisibility = () => {
-    if (wrapRef.current !== null) {
-      wrapRef.current.classList.toggle('nav--wrap-open');
-      // innerRef.current.classList.toggle('nav--inner-open');
-    }
+    setIsOpen(prev => !prev);
   };
 
   return (
@@ -42,10 +43,24 @@ const Nav = () => {
         <span className="sr-only">Open menu</span>
       </button>
 
-      <div className="nav__wrap" ref={wrapRef}>
-        <div className="nav__spacer" onClick={toggleNavVisibility}></div>
-        <nav className="nav__inner">
-          <div className="nav__inner-head">
+      <Modal
+        isOpen={isOpen}
+        closeTimeoutMS={300}
+        overlayClassName={{
+          base: 'nav__overlay',
+          afterOpen: 'nav--overlay-after-open',
+          beforeClose: 'nav--overlay-before-close',
+        }}
+        className={{
+          base: 'nav__menu',
+          afterOpen: 'nav--menu-after-open',
+          beforeClose: 'nav--menu-before-close',
+        }}
+        onRequestClose={toggleNavVisibility}
+        preventScroll={true}
+      >
+        <nav className="nav__nav">
+          <div className="nav__menu-head">
             Weather
             <button
               onClick={toggleNavVisibility}
@@ -68,7 +83,7 @@ const Nav = () => {
             </Link>
           ))}
         </nav>
-      </div>
+      </Modal>
     </div>
   );
 };
