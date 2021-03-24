@@ -29,3 +29,13 @@ button {
     padding: 0;
   }
 }
+
+a {
+  &:not([class]) {
+    color: c('blue');
+
+    &:visited {
+      color: c('blue');
+    }
+  }
+}

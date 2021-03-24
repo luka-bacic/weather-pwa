@@ -1,0 +1,11 @@
+.not-found {
+  &__links {
+    padding-left: $padding;
+  }
+
+  &__back {
+    color: c('blue');
+    text-decoration: underline;
+    margin-bottom: $padding;
+  }
+}

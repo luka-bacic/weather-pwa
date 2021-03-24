@@ -10,9 +10,29 @@ const NotFoundPage = () => {
 
   return (
     <div className="not-found">
-      <p>The page you were looking for wasn't found.</p>
+      <p>Close, but no cigar.</p>
 
-      <Link to="/">Go to home page</Link>
+      <p>The page you wanted doesn't exist.</p>
+
+      <p>You could:</p>
+
+      <ul className="not-found__links">
+        <li>
+          {typeof window !== 'undefined' && (
+            <button
+              className="not-found__back"
+              onClick={() => {
+                window.history.back();
+              }}
+            >
+              Go back
+            </button>
+          )}
+        </li>
+        <li>
+          <Link to="/">Go to home page</Link>
+        </li>
+      </ul>
     </div>
   );
 };
