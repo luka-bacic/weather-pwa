@@ -2,8 +2,8 @@
   display: flex;
   overflow-x: auto;
   margin-bottom: $padding / 2;
-  position: relative;
-  z-index: 1;
+  // position: relative;
+  // z-index: 1;
 
   &__single {
     flex-shrink: 0;

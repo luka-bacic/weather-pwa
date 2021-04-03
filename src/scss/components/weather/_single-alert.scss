@@ -42,12 +42,7 @@
   }
 
   &__modal {
-    $pos: $padding * 1.5;
-    position: absolute;
-    top: $pos;
-    left: $pos;
-    right: $pos;
-    bottom: $pos;
+    @include center-modal;
     background: c('white');
     @include t3d(0, -100%);
     transition: transform 0.5s;

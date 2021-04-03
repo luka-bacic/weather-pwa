@@ -38,16 +38,13 @@
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 400;
     opacity: 0;
     transition: opacity 0.5s;
   }
 
   &__modal {
-    $pos: $padding * 1.5;
-    position: absolute;
-    top: $pos;
-    left: $pos;
-    right: $pos;
+    @include center-modal;
     background: c('white');
     padding: $padding;
     transition: transform $fast;
