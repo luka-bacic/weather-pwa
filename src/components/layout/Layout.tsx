@@ -47,7 +47,9 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <Header />
-      <main ref={mainRef}>{children}</main>
+      <main ref={mainRef} className="container">
+        {children}
+      </main>
       {message.type !== '' && <Toast message={message} />}
     </>
   );

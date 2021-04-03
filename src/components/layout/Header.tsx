@@ -48,9 +48,11 @@ const Header = () => {
 
   return (
     <header className="header">
-      {headerLink !== null && headerLink}
-      {currentPage === '/' && <StarLocation />}
-      <Nav />
+      <div className="container header__container">
+        {headerLink !== null && headerLink}
+        {currentPage === '/' && <StarLocation />}
+        <Nav />
+      </div>
     </header>
   );
 };
