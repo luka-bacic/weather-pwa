@@ -13,6 +13,10 @@ const Toast = ({ message }: Props) => {
 
   useEffect(() => {
     setIsClosed(false);
+
+    setTimeout(() => {
+      setIsClosed(true);
+    }, 4000);
   }, [message]);
 
   const closeToast = () => {
@@ -26,6 +30,7 @@ const Toast = ({ message }: Props) => {
           toast: true,
           [message.type]: true,
         })}
+        onMouseOver={handleMouseOver}
       >
         <p className="toast__message">{message.text}</p>
         <button onClick={closeToast} title="Close" className="toast__button">
