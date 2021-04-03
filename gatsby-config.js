@@ -26,14 +26,12 @@ module.exports = {
         icon: `src/images/icon.png`,
       },
     },
-    // {
-    //   resolve: 'gatsby-plugin-offline',
-    //   options: {
-    //     workboxConfig: {
-    //       globPatterns: ['**/icon-path*'],
-    //     },
-    //   },
-    // },
+    {
+      resolve: 'gatsby-plugin-offline',
+      options: {
+        precachePages: [`/`, `/map/`, `/saved-locations/`],
+      },
+    },
     'gatsby-transformer-sharp',
     {
       resolve: 'gatsby-source-filesystem',
