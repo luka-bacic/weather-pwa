@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { GlobalStateContext, GlobalDispatchContext } from 'context';
 import { setPageName } from 'context/actions';
 import SavedLocation from 'components/reusable/SavedLocation';
-import { Helmet } from 'react-helmet';
+import SEO from 'components/misc/SEO';
 
 const SavedLocations = () => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -25,13 +25,10 @@ const SavedLocations = () => {
         <p>Your saved locations will appear here.</p>
       )}
 
-      <Helmet>
-        <title>Saved locations | Weather</title>
-        <meta
-          name="description"
-          content="Your saved locations will appear here. You can choose a location on the map and save it."
-        />
-      </Helmet>
+      <SEO
+        title="Saved locations | Weather"
+        description="Your saved locations will appear here. You can choose a location on the map and save it."
+      />
     </div>
   );
 };

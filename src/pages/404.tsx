@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'gatsby';
 import { GlobalDispatchContext } from 'context';
 import { setPageName } from 'context/actions';
-import { Helmet } from 'react-helmet';
+import SEO from 'components/misc/SEO';
 
 const NotFoundPage = () => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -35,13 +35,10 @@ const NotFoundPage = () => {
         </li>
       </ul>
 
-      <Helmet>
-        <title>404 | Weather</title>
-        <meta
-          name="description"
-          content="A page you requested doesn't exist. Please check the URL or let the site admin know about it."
-        />
-      </Helmet>
+      <SEO
+        title="Page not found | Weather"
+        description="A page you requested doesn't exist. Please check the URL or let the site admin know about it."
+      />
     </div>
   );
 };

@@ -2,8 +2,11 @@ const siteUrl = 'https://gatsby-weather-pwa.netlify.app/';
 
 module.exports = {
   siteMetadata: {
-    title: 'weather-app',
+    title: 'Weather',
     siteUrl: siteUrl,
+    description:
+      'View weather forecasts for any location in the world. Install it on your phone and use it like a mobile app.',
+    author: 'Luka Bacic',
   },
   plugins: [
     'gatsby-plugin-sass',
@@ -15,12 +18,12 @@ module.exports = {
     },
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
-    {
-      resolve: `gatsby-plugin-react-helmet-canonical-urls`,
-      options: {
-        siteUrl: siteUrl,
-      },
-    },
+    // {
+    //   resolve: `gatsby-plugin-react-helmet-canonical-urls`,
+    //   options: {
+    //     siteUrl: siteUrl,
+    //   },
+    // },
     'gatsby-plugin-sitemap',
     {
       resolve: `gatsby-plugin-manifest`,
