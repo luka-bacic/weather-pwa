@@ -2,10 +2,7 @@
 
 summary {
   cursor: pointer;
-
-  &::-webkit-details-marker {
-    display: none;
-  }
+  list-style-type: none;
 }
 
 // https://gist.github.com/MoOx/9137295
