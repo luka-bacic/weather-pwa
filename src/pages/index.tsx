@@ -7,7 +7,7 @@ const Index = () => {
     <>
       <WeatherInfo />
 
-      <SEO />
+      <SEO pathname="/" />
     </>
   );
 };

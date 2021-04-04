@@ -28,6 +28,7 @@ const SavedLocations = () => {
       <SEO
         title="Saved locations | Weather"
         description="Your saved locations will appear here. You can choose a location on the map and save it."
+        pathname="saved-locations"
       />
     </div>
   );

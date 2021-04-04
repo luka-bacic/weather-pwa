@@ -64,12 +64,14 @@ function SEO({ description, lang, meta, image, title, pathname }: Props) {
     ? `${site.siteMetadata.siteUrl}${pathname}/`
     : null;
 
+  const titleTag = title ? title : site.siteMetadata.title;
+
   return (
     <Helmet
       htmlAttributes={{
         lang,
       }}
-      title={title}
+      title={titleTag}
       // titleTemplate={`%s | ${site.siteMetadata.title}`}
       link={
         canonical

@@ -23,6 +23,7 @@ const PickLocation = () => {
       <SEO
         title="Pick Location | Weather"
         description="Pick any location in the world to see a detailed weather forecast up to a week in advance."
+        pathname="map"
       />
     </div>
   );
