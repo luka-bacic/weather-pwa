@@ -1,7 +1,9 @@
+const siteUrl = 'https://gatsby-weather-pwa.netlify.app/';
+
 module.exports = {
   siteMetadata: {
     title: 'weather-app',
-    siteUrl: 'https://weather-jfsd3t5.netlify.app/',
+    siteUrl: siteUrl,
   },
   plugins: [
     'gatsby-plugin-sass',
@@ -13,6 +15,12 @@ module.exports = {
     },
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
+    {
+      resolve: `gatsby-plugin-react-helmet-canonical-urls`,
+      options: {
+        siteUrl: siteUrl,
+      },
+    },
     'gatsby-plugin-sitemap',
     {
       resolve: `gatsby-plugin-manifest`,

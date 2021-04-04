@@ -10,6 +10,7 @@ import {
 } from 'context/actions';
 import 'scss/style.scss';
 import 'focus-visible';
+import { Helmet } from 'react-helmet';
 
 // Fonts
 import '@fontsource/roboto/400.css';
@@ -51,6 +52,14 @@ const Layout = ({ children }: Props) => {
         {children}
       </main>
       {message.type !== '' && <Toast message={message} />}
+
+      <Helmet>
+        <title>Weather</title>
+        <meta
+          name="description"
+          content="View weather forecasts at any location in the world. Install it on your phone and use it like a mobile app"
+        />
+      </Helmet>
     </>
   );
 };

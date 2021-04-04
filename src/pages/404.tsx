@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'gatsby';
 import { GlobalDispatchContext } from 'context';
 import { setPageName } from 'context/actions';
+import { Helmet } from 'react-helmet';
 
 const NotFoundPage = () => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -33,6 +34,14 @@ const NotFoundPage = () => {
           <Link to="/">Go to home page</Link>
         </li>
       </ul>
+
+      <Helmet>
+        <title>404 | Weather</title>
+        <meta
+          name="description"
+          content="A page you requested doesn't exist. Please check the URL or let the site admin know about it."
+        />
+      </Helmet>
     </div>
   );
 };

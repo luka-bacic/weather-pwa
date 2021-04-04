@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import WorldMap from '../components/WorldMap';
 import { GlobalDispatchContext } from 'context';
 import { setPageName } from 'context/actions';
+import { Helmet } from 'react-helmet';
 
 const PickLocation = () => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -18,6 +19,14 @@ const PickLocation = () => {
       ) : (
         'Pick a location from the map to see the weather'
       )}
+
+      <Helmet>
+        <title>Pick location | Weather</title>
+        <meta
+          name="description"
+          content="Pick any location in the world to see a detailed weather forecast up to a week in advance."
+        />
+      </Helmet>
     </div>
   );
 };
