@@ -37,8 +37,9 @@ h5,
 h6 {
   @include fluid-type(16px);
 }
+
 h6 {
-  @include fluid-type(16px);
+  margin-top: 0;
 }
 
 strong {

@@ -24,7 +24,7 @@ export function uvScale(uv: number): UvInfo {
       description: 'Moderate',
       cssClass: 'moderate',
       longDescription:
-        'Protection needed. Seek shade during late morning through mid-afternoon. When outside, generously apply broad-spectrum SPF-15 or higher sunscreen on exposed skin, and wear protective clothing, a wide-brimmed hat, and sunglasses.',
+        'Protection needed. Seek shade during late morning through mid-afternoon. When outside, generously apply broad-spectrum SPF-15 or higher sunscreen on exposed skin. Wear protective clothing, a wide-brimmed hat, and sunglasses.',
     };
   } else if (roundedUv <= 7) {
     return {
@@ -32,7 +32,7 @@ export function uvScale(uv: number): UvInfo {
       description: 'High',
       cssClass: 'high',
       longDescription:
-        'Protection needed. Seek shade during late morning through mid-afternoon. When outside, generously apply broad-spectrum SPF-15 or higher sunscreen on exposed skin, and wear protective clothing, a wide-brimmed hat, and sunglasses.',
+        'Protection needed. Seek shade during late morning through mid-afternoon. When outside, generously apply broad-spectrum SPF-15 or higher sunscreen on exposed skin. Wear protective clothing, a wide-brimmed hat, and sunglasses.',
     };
   } else if (roundedUv <= 10) {
     return {
@@ -40,7 +40,7 @@ export function uvScale(uv: number): UvInfo {
       description: 'Very high',
       cssClass: 'very-high',
       longDescription:
-        'Extra protection needed. Be careful outside, especially during late morning through mid-afternoon. If your shadow is shorter than you, seek shade and wear protective clothing, a wide-brimmed hat, and sunglasses, and generously apply a minimum of  SPF-15, broad-spectrum sunscreen on exposed skin.',
+        'Extra protection needed. Be careful outside, especially during late morning through mid-afternoon. If your shadow is shorter than you, seek shade and wear protective clothing, a wide-brimmed hat, and sunglasses. Generously apply a minimum of SPF-15 broad-spectrum sunscreen on exposed skin.',
     };
   } else {
     return {
@@ -48,7 +48,7 @@ export function uvScale(uv: number): UvInfo {
       description: 'Extreme',
       cssClass: 'extreme',
       longDescription:
-        'Extra protection needed. Be careful outside, especially during late morning through mid-afternoon. If your shadow is shorter than you, seek shade and wear protective clothing, a wide-brimmed hat, and sunglasses, and generously apply a minimum of  SPF-15, broad-spectrum sunscreen on exposed skin.',
+        'Extra protection needed. Be careful outside, especially during late morning through mid-afternoon. If your shadow is shorter than you, seek shade and wear protective clothing, a wide-brimmed hat, and sunglasses. Generously apply a minimum of SPF-15 broad-spectrum sunscreen on exposed skin.',
     };
   }
 }

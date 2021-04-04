@@ -6,13 +6,6 @@
   user-select: none;
   padding: $padding / 4;
 
-  &:active,
-  &:focus,
-  &:hover {
-    border: none;
-    padding: $padding / 4;
-  }
-
   &__icon {
     $size: 20px;
     width: $size;
@@ -20,25 +13,59 @@
   }
 
   &__content {
-    padding: $padding / 2;
-    text-align: left;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 100%;
-    width: 300px;
-    border: 1px solid c('blue');
     user-select: none;
-    background: c('white');
-    cursor: default;
     font-size: 16px;
     line-height: 1.5;
   }
 
-  &.open,
-  &:hover {
-    .tooltip__content {
-      display: block;
+  &__content-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: $padding;
+  }
+
+  &__content-title {
+    margin-bottom: 0;
+  }
+
+  &__header-icon {
+    width: $icon-size;
+    height: $icon-size;
+    margin-right: $padding / 2;
+  }
+
+  &__close-btn {
+    margin-left: auto;
+
+    svg {
+      width: $icon-size * 0.8;
+      height: $icon-size * 0.8;
     }
+  }
+
+  &__modal-overlay {
+    @include modal-overlay;
+  }
+
+  &__modal {
+    @include modal;
+    padding: $padding;
+    @include s3d(0.9, 0.9);
+  }
+
+  &--modal-overlay-after-open {
+    opacity: 1;
+  }
+
+  &--modal-overlay-before-close {
+    opacity: 0;
+  }
+
+  &--modal-after-open {
+    @include s3d();
+  }
+
+  &--modal-before-close {
+    @include s3d(0.9, 0.9);
   }
 }
