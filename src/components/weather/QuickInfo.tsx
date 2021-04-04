@@ -103,7 +103,7 @@ const QuickInfo = ({ data }: Props) => {
 
           {snow !== null && (
             <div className="quick-info__snow">
-              <strong>{snow}mm</strong> of rain
+              <strong>{snow}mm</strong> of snow
             </div>
           )}
         </div>
