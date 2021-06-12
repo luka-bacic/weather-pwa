@@ -11,19 +11,22 @@ module.exports = {
   plugins: [
     'gatsby-plugin-sass',
     {
-      resolve: 'gatsby-plugin-google-analytics',
+      resolve: `gatsby-plugin-google-gtag`,
       options: {
-        trackingId: process.env.GOOGLE_TRACKING_ID,
+        trackingIds: [process.env.GATSBY_GOOGLE_TRACKING_ID],
+        gtagConfig: {
+          optimize_id: 'OPT_CONTAINER_ID',
+          anonymize_ip: true,
+          cookie_expires: 0,
+        },
+        pluginConfig: {
+          head: true,
+          respectDNT: true,
+        },
       },
     },
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
-    // {
-    //   resolve: `gatsby-plugin-react-helmet-canonical-urls`,
-    //   options: {
-    //     siteUrl: siteUrl,
-    //   },
-    // },
     'gatsby-plugin-sitemap',
     {
       resolve: `gatsby-plugin-manifest`,
