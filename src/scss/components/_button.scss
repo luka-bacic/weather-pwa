@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .btn {
   padding: 0.75em 1em;
   border-width: 2px;
@@ -32,6 +34,6 @@
 
   // Adjacent buttons
   & + & {
-    margin-left: $padding / 2;
+    margin-left: math.div($padding, 2);
   }
 }

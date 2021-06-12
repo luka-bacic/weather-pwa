@@ -1,8 +1,10 @@
+@use 'sass:math';
+
 .single-alert {
   $size: 19px;
 
   &__expand-button {
-    padding: $padding / 2 $padding;
+    padding: math.div($padding, 2) $padding;
     border: 1px solid c('black');
     border-top: 0;
     background: c('warning');
@@ -17,7 +19,7 @@
     &:active,
     &:focus,
     &:hover {
-      padding: $padding / 2 $padding;
+      padding: math.div($padding, 2) $padding;
       border: 1px solid c('black');
       border-top: 0;
     }

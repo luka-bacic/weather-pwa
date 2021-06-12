@@ -1,13 +1,13 @@
+@use 'sass:math';
+
 .filters {
   display: flex;
   overflow-x: auto;
-  margin-bottom: $padding / 2;
-  // position: relative;
-  // z-index: 1;
+  margin-bottom: math.div($padding, 2);
 
   &__single {
     flex-shrink: 0;
-    margin-right: $padding / 2;
+    margin-right: math.div($padding, 2);
 
     &:last-of-type {
       margin-right: 0;
@@ -21,7 +21,7 @@
         align-items: center;
         border: 2px solid c('blue');
         color: c('blue');
-        padding: $padding / 4 $padding / 2;
+        padding: math.div($padding, 4) math.div($padding, 2);
         user-select: none;
         cursor: pointer;
       }

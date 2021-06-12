@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .hourly-forecast {
   overflow: hidden;
 
@@ -17,7 +19,7 @@
     border-right: 1px solid c('black');
 
     h4 {
-      margin-right: $padding / 2;
+      margin-right: math.div($padding, 2);
       display: inline-block;
       position: sticky;
       top: 0;
@@ -27,7 +29,7 @@
     // All but first element
     &:nth-child(n + 2) {
       h4 {
-        margin-left: $padding / 2;
+        margin-left: math.div($padding, 2);
       }
     }
   }

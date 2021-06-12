@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .wind-info {
   display: inline-flex;
   align-items: center;
@@ -5,7 +7,7 @@
   &__icon {
     $size: 25px;
 
-    margin-left: $padding / 4;
+    margin-left: math.div($padding, 4);
     width: $size;
     height: $size;
   }

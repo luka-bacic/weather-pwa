@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .weather-alerts {
   $size: 18px;
   $icon-size: $size * 1.2;
@@ -7,7 +9,7 @@
   overflow: hidden;
 
   &__preview-button {
-    padding: $padding / 2 $padding;
+    padding: math.div($padding, 2) $padding;
     border: 1px solid c('black');
     border-top: 0;
     border-top: 1px solid c('black');
@@ -23,7 +25,7 @@
     &:active,
     &:focus,
     &:hover {
-      padding: $padding / 2 $padding;
+      padding: math.div($padding, 2) $padding;
       border-top: 1px solid c('black');
       // background: scale-color(c('warning'), $lightness: 10%);
     }
@@ -33,7 +35,7 @@
     width: $icon-size;
     height: $icon-size;
     min-width: $icon-size;
-    margin-right: $padding / 2;
+    margin-right: math.div($padding, 2);
   }
 
   &__preview-text {

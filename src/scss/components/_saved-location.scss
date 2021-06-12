@@ -1,6 +1,8 @@
+@use 'sass:math';
+
 .saved-location {
-  margin-bottom: $padding / 2;
-  padding: $padding / 2 0 $padding;
+  margin-bottom: math.div($padding, 2);
+  padding: math.div($padding, 2) 0 $padding;
   border-bottom: 1px solid c('grey');
   display: flex;
   align-items: center;
@@ -17,7 +19,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    margin-left: $padding / 2;
+    margin-left: math.div($padding, 2);
     padding: 0;
 
     svg {
@@ -28,7 +30,7 @@
 
   &__input {
     margin-bottom: $padding;
-    margin-left: $padding / 2;
+    margin-left: math.div($padding, 2);
   }
 
   &__modal-overlay {

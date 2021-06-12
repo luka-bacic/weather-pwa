@@ -1,9 +1,11 @@
+@use 'sass:math';
+
 .star-location {
   &__button {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: $padding / 2;
+    margin-left: math.div($padding, 2);
   }
 
   &__icon {

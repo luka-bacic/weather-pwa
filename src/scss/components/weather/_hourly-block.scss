@@ -1,7 +1,9 @@
+@use 'sass:math';
+
 .hourly-block {
   flex: 1 0 auto;
   border-right: 1px solid c('grey');
-  padding: $padding / 2;
+  padding: math.div($padding, 2);
   min-width: 88px;
 
   &:last-of-type {
@@ -37,7 +39,7 @@
   }
 
   &__label {
-    padding-left: $padding / 2;
+    padding-left: math.div($padding, 2);
     position: absolute;
     left: 0;
     right: 0;
@@ -60,8 +62,8 @@
       content: '';
       position: absolute;
       left: calc(-1px - #{$padding} / 2);
-      right: -$padding / 2;
-      top: -$padding / 2;
+      right: math.div(-$padding, 2);
+      top: math.div(-$padding, 2);
       bottom: calc(-#{$padding} / 2 + 2px);
       z-index: 1;
       background: rgba(c('white'), 0.8);
@@ -77,7 +79,7 @@
   > div:last-of-type {
     &.hourly-block--extend {
       &::before {
-        bottom: -$padding / 2;
+        bottom: math.div(-$padding, 2);
       }
     }
   }

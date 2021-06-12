@@ -1,10 +1,12 @@
+@use 'sass:math';
+
 .tooltip {
   background: transparent;
   border: none;
   cursor: pointer;
   position: relative;
   user-select: none;
-  padding: $padding / 4;
+  padding: math.div($padding, 4);
 
   &__icon {
     $size: 20px;
@@ -31,7 +33,7 @@
   &__header-icon {
     width: $icon-size;
     height: $icon-size;
-    margin-right: $padding / 2;
+    margin-right: math.div($padding, 2);
   }
 
   &__close-btn {

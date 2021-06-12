@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .current {
   display: flex;
   align-items: flex-end;
@@ -6,7 +8,7 @@
 
   &__temperature {
     @include fluid-type(40px, 64px);
-    margin-bottom: $padding / 2;
+    margin-bottom: math.div($padding, 2);
   }
 
   &__feels-like {
